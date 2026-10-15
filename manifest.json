@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Reel Quality for Facebook",
+  "short_name": "Reel Quality",
+  "version": "1.0.0",
+  "minimum_chrome_version": "111",
+  "description": "Adds a quality menu to Facebook Reels so you can pick any resolution the video offers (1080p, 720p...). By Louis.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.facebook.com/*", "https://web.facebook.com/*"],
+      "js": ["src/mpd.js", "src/hooks.js", "src/player.js", "src/ui.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ]
+}
