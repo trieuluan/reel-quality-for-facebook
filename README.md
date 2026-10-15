@@ -21,7 +21,7 @@ Facebook Reels has no quality setting. It picks a resolution for you and often s
 
 ### From source (developer mode)
 
-1. Download or clone this repository.
+1. [Download the latest code](https://github.com/trieuluan/reel-quality-for-facebook/archive/refs/heads/main.zip) and unzip it, or clone this repository.
 2. Open `chrome://extensions` and turn on **Developer mode** (top right).
 3. Click **Load unpacked** and select the project folder.
 4. Open any `facebook.com/reel/...` page.
@@ -48,7 +48,7 @@ The script writes `dist/reel-quality-<version>.zip`, ready to upload in the [Chr
 ## Limitations
 
 - While a fixed quality is selected, Facebook still streams its own copy underneath, so bandwidth use is higher.
-- Facebook changes its internal data often, which can break the extension. If the button doesn't appear, open DevTools on the Facebook tab and run `__FBQ.manifests` to see which manifests were captured, then open an issue.
+- Facebook changes its internal data often, which can break the extension. If the button doesn't appear, open DevTools on the Facebook tab and run `__FBQ.manifests` to see which manifests were captured, then [open an issue](https://github.com/trieuluan/reel-quality-for-facebook/issues).
 - Only MP4 streams indexed with `SegmentBase`/`sidx` are supported. This is the format Facebook currently uses for Reels.
 
 ## Debugging

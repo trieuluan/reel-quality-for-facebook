@@ -10,4 +10,4 @@ Reel Quality for Facebook does not collect, store, sell or share any personal da
 - **Local storage.** Two settings are saved in your browser's local storage for facebook.com: the quality you chose and the button position. They never leave your device. Clearing site data for facebook.com removes them.
 - **Permissions.** The extension requests no extra browser permissions. It only runs on `www.facebook.com` and `web.facebook.com`.
 
-Questions: please open an issue in the project repository.
+Questions: please [open an issue](https://github.com/trieuluan/reel-quality-for-facebook/issues).
