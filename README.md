@@ -36,16 +36,6 @@ Use this to try unreleased changes. Manual installs do not update automatically.
 3. Click **Load unpacked** and select the project folder.
 4. Open any `facebook.com/reel/...` page.
 
-## Development
-
-### Build a zip for the Chrome Web Store
-
-```bash
-./scripts/package.sh
-```
-
-The script writes `dist/reel-quality-<version>.zip`, ready to upload in the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
-
 ## How it works
 
 | File | Role |
