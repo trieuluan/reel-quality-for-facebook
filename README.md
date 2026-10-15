@@ -6,6 +6,8 @@
 
 ---
 
+![Quality menu on a reel](store/shot-1-1280x800.png)
+
 Facebook Reels has no quality setting. It picks a resolution for you and often settles on a blurry one. This extension adds a small **⚙ Auto** button to the reel you are watching. Open it to choose any resolution the video actually offers, such as 1080p, 720p or 540p.
 
 ## Features

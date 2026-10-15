@@ -1,0 +1,179 @@
+<!doctype html>
+<!-- Source for the Chrome Web Store images. Rendered to PNG by store/render.js in a browser. -->
+<html>
+<head>
+<meta charset="utf-8">
+<title>Store mockups</title>
+<style id="mock-css">
+  * { box-sizing: border-box; margin: 0; }
+  .canvas { position: relative; overflow: hidden; color: #fff; font-family: -apple-system, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+    background: radial-gradient(900px 600px at 85% 20%, rgba(124,58,237,.45), transparent 60%),
+                radial-gradient(700px 500px at 10% 100%, rgba(59,130,246,.35), transparent 60%), #0b1022; }
+  .shot { width: 1280px; height: 800px; }
+  .tile { width: 440px; height: 280px; }
+
+  /* reel frame */
+  .reel { position: absolute; overflow: hidden; border-radius: 26px; background: #000;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08); }
+  .reel svg.scene { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .reel .shade { position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(transparent, rgba(0,0,0,.6)); }
+  .reel .meta { position: absolute; left: 22px; right: 70px; bottom: 30px; }
+  .reel .who { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; }
+  .reel .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #f472b6, #fbbf24); border: 2px solid #fff; }
+  .reel .line { height: 9px; border-radius: 5px; background: rgba(255,255,255,.55); margin-top: 12px; }
+  .reel .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255,255,255,.25); }
+  .reel .progress i { display: block; height: 100%; width: 38%; background: #fff; }
+  .reel .actions { position: absolute; right: 16px; bottom: 40px; display: grid; gap: 18px; }
+  .reel .actions span { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.18); }
+  .tag { position: absolute; bottom: 22px; left: 18px; z-index: 1; padding: 6px 12px; border-radius: 99px; font-weight: 700; font-size: 15px;
+    background: rgba(0,0,0,.6); }
+
+  /* extension UI, mirrors src/ui.js */
+  .ext { position: absolute; font: 13px/1.3 -apple-system, "Segoe UI", system-ui, sans-serif; transform-origin: top center; }
+  .btn { display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 10px 0 7px; border-radius: 15px;
+    background: rgba(0,0,0,.6); color: #fff; font-weight: 600; }
+  .btn svg { width: 18px; height: 18px; fill: currentColor; }
+  .menu { position: absolute; top: 36px; left: 50%; transform: translateX(-50%); min-width: 190px; padding: 6px; border-radius: 10px;
+    background: rgba(28,28,30,.97); color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+  .sep { height: 1px; margin: 6px 4px; background: rgba(255,255,255,.12); }
+  .grid { display: grid; grid-template-columns: repeat(3, 26px); gap: 4px; padding: 2px 10px 6px; }
+  .cell { height: 18px; border-radius: 4px; background: rgba(255,255,255,.15); }
+  .cell.empty { background: none; }
+  .cell.active { background: #2d88ff; }
+  .hint { padding: 0 10px 4px; font-size: 11px; opacity: .5; }
+  .credit { padding: 0 10px 2px; font-size: 10px; opacity: .4; }
+  .title { padding: 4px 10px 6px; font-size: 12px; opacity: .6; }
+  .item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 6px; white-space: nowrap; }
+  .item.hover { background: rgba(255,255,255,.1); }
+  .check { width: 14px; }
+  .sub { margin-left: auto; padding-left: 12px; font-size: 11px; opacity: .55; }
+  .hd { font-size: 9px; font-weight: 700; padding: 1px 3px; border-radius: 3px; background: #e41e3f; margin-left: 4px; }
+  .cursor { position: absolute; width: 22px; height: 22px; }
+
+  /* copy */
+  .brand { display: flex; align-items: center; gap: 14px; font-size: 20px; font-weight: 600; opacity: .9; }
+  .brand img { width: 52px; height: 52px; }
+  h1 { font-size: 54px; line-height: 1.08; font-weight: 800; letter-spacing: -1px; }
+  h1 em { font-style: normal; background: linear-gradient(90deg, #60a5fa, #c084fc); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { font-size: 21px; line-height: 1.45; opacity: .75; }
+  ul.points { list-style: none; padding: 0; display: grid; gap: 14px; font-size: 19px; }
+  ul.points li { display: flex; align-items: center; gap: 12px; }
+  ul.points b { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: rgba(96,165,250,.2); color: #93c5fd; font-size: 15px; }
+  .label { position: absolute; text-align: center; font-weight: 700; font-size: 22px; }
+  .label small { display: block; font-weight: 500; font-size: 15px; opacity: .6; margin-top: 4px; }
+</style>
+</head>
+<body style="background:#444; display:grid; gap:24px; padding:24px; justify-content:start">
+
+<!-- 1. Hero -->
+<div id="shot-1" class="canvas shot">
+  <div style="position:absolute; left:80px; top:110px; width:600px; display:grid; gap:28px">
+    <div class="brand"><img data-icon alt="">Reel Quality for Facebook</div>
+    <h1>Watch Reels in the <em>quality you choose</em></h1>
+    <p class="lead">Pick 1080p, 720p or any resolution a reel offers, right from a button on the video.</p>
+    <ul class="points">
+      <li><b>✓</b>Lists only the qualities each reel really has</li>
+      <li><b>✓</b>Remembers your choice for the next reels</li>
+      <li><b>✓</b>Drag the button anywhere on the video</li>
+      <li><b>✓</b>No data collected, no extra permissions</li>
+    </ul>
+  </div>
+  <div class="reel" data-scene style="left:800px; top:56px; width:390px; height:690px">
+    <div class="shade"></div>
+    <div class="actions"><span></span><span></span><span></span></div>
+    <div class="meta"><div class="who"><div class="avatar"></div>travel.diaries</div><div class="line" style="width:90%"></div><div class="line" style="width:60%"></div></div>
+    <div class="progress"><i></i></div>
+    <div class="ext" style="left:50%; top:16px; transform: translateX(-50%) scale(1.3)">
+      <div class="btn" data-gear>1080p</div>
+      <div class="menu">
+        <div class="title">Quality</div>
+        <div class="item"><span class="check"></span>Auto<span class="sub">540p</span></div>
+        <div class="item hover"><span class="check">✓</span>1080p<span class="hd">HD</span><span class="sub">3200 kbps</span></div>
+        <div class="item"><span class="check"></span>720p<span class="hd">HD</span><span class="sub">1600 kbps</span></div>
+        <div class="item"><span class="check"></span>540p<span class="sub">900 kbps</span></div>
+        <div class="item"><span class="check"></span>360p<span class="sub">450 kbps</span></div>
+        <div class="sep"></div>
+        <div class="title">Button position</div>
+        <div class="grid"><i class="cell"></i><i class="cell active"></i><i class="cell"></i><i class="cell"></i><i class="cell empty"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i></div>
+        <div class="hint">Or drag the button</div>
+        <div class="sep"></div>
+        <div class="credit">Reel Quality · by Louis</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Before / after -->
+<div id="shot-2" class="canvas shot">
+  <div style="position:absolute; left:0; right:0; top:58px; text-align:center; display:grid; gap:12px">
+    <h1 style="font-size:46px">Stop settling for <em>blurry Reels</em></h1>
+    <p class="lead">Facebook often picks a low resolution. One click switches to the sharpest one available.</p>
+  </div>
+  <div class="reel" data-scene="blur" style="left:250px; top:225px; width:310px; height:550px">
+    <div class="tag">Auto · 360p</div>
+    <div class="shade"></div><div class="progress"><i></i></div>
+  </div>
+  <div style="position:absolute; left:604px; top:470px; width:72px; height:72px; border-radius:50%; display:grid; place-items:center;
+    background:linear-gradient(135deg,#3b82f6,#7c3aed); font-size:34px; font-weight:800; box-shadow:0 10px 30px rgba(0,0,0,.4)">→</div>
+  <div class="reel" data-scene style="left:720px; top:225px; width:310px; height:550px">
+    <div class="tag" style="background:#2d88ff">1080p HD</div>
+    <div class="shade"></div><div class="progress"><i></i></div>
+    <div class="ext" style="left:50%; top:16px; transform: translateX(-50%) scale(1.15)"><div class="btn" data-gear>1080p</div></div>
+  </div>
+</div>
+
+<!-- 3. Small promo tile -->
+<div id="tile" class="canvas tile">
+  <div style="position:absolute; left:34px; top:50px; display:grid; gap:14px; width:250px">
+    <img data-icon alt="" style="width:64px; height:64px">
+    <div style="font-size:30px; font-weight:800; line-height:1.1">Reel Quality</div>
+    <div style="font-size:15px; opacity:.75; line-height:1.4">Choose the video quality of Facebook Reels</div>
+  </div>
+  <div class="reel" data-scene style="left:300px; top:28px; width:126px; height:224px; border-radius:14px">
+    <div class="ext" style="left:50%; top:10px; transform: translateX(-50%) scale(.85)"><div class="btn" data-gear>1080p</div></div>
+  </div>
+</div>
+
+<script>
+  const GEAR = 'M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.5.5 0 0 0 .12-.61l-1.92-3.32a.5.5 0 0 0-.59-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.47.47 0 0 0-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.47.47 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.5.5 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.48.48 0 0 0-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z';
+
+  // Sunset over mountains and a lake: lots of edges, so sharp vs. blurry is obvious.
+  function scene(id, blur) {
+    const trees = Array.from({ length: 14 }, (_, i) => {
+      const x = i * 30 - 10 + (i % 3) * 7, h = 70 + ((i * 37) % 50);
+      return `<path d="M${x} 600 L${x + 16} ${600 - h} L${x + 32} 600 Z" fill="#0b0a24"/>`;
+    }).join('');
+    return `<svg class="scene" viewBox="0 0 390 690" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky${id}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1e1b4b"/><stop offset=".45" stop-color="#9d4edd"/><stop offset=".7" stop-color="#f472b6"/><stop offset=".85" stop-color="#fbbf24"/>
+        </linearGradient>
+        <linearGradient id="lake${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#312e81"/></linearGradient>
+        ${blur ? `<filter id="b${id}"><feGaussianBlur stdDeviation="5"/></filter>` : ''}
+      </defs>
+      <g ${blur ? `filter="url(#b${id})"` : ''}>
+        <rect width="390" height="690" fill="url(#sky${id})"/>
+        ${Array.from({ length: 26 }, (_, i) => `<circle cx="${(i * 71) % 390}" cy="${(i * 43) % 220 + 10}" r="${i % 4 ? 1.1 : 1.8}" fill="#fff" opacity=".8"/>`).join('')}
+        <circle cx="250" cy="420" r="58" fill="#fde68a"/>
+        <path d="M0 470 L60 380 L110 430 L170 330 L230 420 L290 350 L390 450 L390 520 L0 520 Z" fill="#6d28d9"/>
+        <path d="M0 500 L50 440 L120 490 L190 410 L260 480 L330 430 L390 480 L390 540 L0 540 Z" fill="#4c1d95"/>
+        <rect y="540" width="390" height="150" fill="url(#lake${id})"/>
+        ${Array.from({ length: 9 }, (_, i) => `<rect x="${200 + (i % 3) * 14 - i * 3}" y="${552 + i * 13}" width="${110 - i * 9}" height="3" rx="1.5" fill="#fde68a" opacity="${0.8 - i * 0.07}"/>`).join('')}
+        ${trees}
+        <rect y="598" width="390" height="4" fill="#0b0a24"/>
+      </g>
+    </svg>`;
+  }
+
+  window.mockupsReady = (async () => {
+    const blob = await (await fetch('../icons/icon-128.png')).blob();
+    const iconUrl = await new Promise((r) => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(blob); });
+    document.querySelectorAll('[data-icon]').forEach((img) => (img.src = iconUrl));
+    document.querySelectorAll('[data-gear]').forEach((b) => b.insertAdjacentHTML('afterbegin', `<svg viewBox="0 0 24 24"><path d="${GEAR}"/></svg>`));
+    let n = 0;
+    document.querySelectorAll('[data-scene]').forEach((r) => r.insertAdjacentHTML('afterbegin', scene(n++, r.dataset.scene === 'blur')));
+  })();
+</script>
+<script src="render.js"></script>
+</body>
+</html>
