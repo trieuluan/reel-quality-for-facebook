@@ -41,7 +41,10 @@
   .cell.empty { background: none; }
   .cell.active { background: #2d88ff; }
   .hint { padding: 0 10px 4px; font-size: 11px; opacity: .5; }
-  .credit { padding: 0 10px 2px; font-size: 10px; opacity: .4; }
+  .footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px 0 10px; }
+  .credit { font-size: 10px; opacity: .4; white-space: nowrap; }
+  .support { white-space: nowrap; padding: 3px 6px; border-radius: 5px; color: #fbbf24; font-size: 11px; font-weight: 600;
+    background: rgba(251,191,36,.12); }
   .title { padding: 4px 10px 6px; font-size: 12px; opacity: .6; }
   .item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 6px; white-space: nowrap; }
   .item.hover { background: rgba(255,255,255,.1); }
@@ -97,7 +100,7 @@
         <div class="grid"><i class="cell"></i><i class="cell active"></i><i class="cell"></i><i class="cell"></i><i class="cell empty"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i></div>
         <div class="hint">Or drag the button</div>
         <div class="sep"></div>
-        <div class="credit">Reel Quality · by Louis</div>
+        <div class="footer"><span class="credit">Reel Quality · by Louis</span><span class="support">☕ Support</span></div>
       </div>
     </div>
   </div>
