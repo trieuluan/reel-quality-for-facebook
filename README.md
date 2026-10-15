@@ -62,6 +62,18 @@ __FBQ.manifests   // video id -> { reps }
 __FBQ.ui.state    // targeted video, available qualities, active player, button position
 ```
 
+## Support
+
+Reel Quality is free and open source. If it makes your Reels nicer to watch, you can buy me a coffee:
+
+<a href="https://ko-fi.com/luantruong19136"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi" height="36"></a>
+
+**From Vietnam:** scan with MoMo or any banking app (VietQR / Napas 247).
+
+<img src="docs/momo-qr.png" width="180" alt="MoMo / VietQR donation code">
+
+You can also find the ☕ Support link at the bottom of the quality menu.
+
 ## Disclaimer
 
 This project is not affiliated with, endorsed by or sponsored by Meta Platforms, Inc. "Facebook" is a trademark of Meta Platforms, Inc.

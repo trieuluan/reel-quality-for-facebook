@@ -12,17 +12,31 @@
     ['bottomLeft', 0, 1], ['bottomCenter', 0.5, 1], ['bottomRight', 1, 1],
   ];
   const AUTHOR = 'Louis';
+  const KOFI_URL = 'https://ko-fi.com/luantruong19136';
+  // MoMo / VietQR (Napas 247) payment code, 45x45 modules, one row per 12 hex digits (45 bits + 3 padding).
+  // Drawn as SVG rather than loaded as an image so Facebook's img-src CSP can't block it.
+  const DONATE_QR = [
+    'fe2051af8bf8', '8280a8541208', 'ba175513d2e8', 'bac1b4f51ae8', 'ba796fcb7ae8', '82d4b8b14208',
+    'feaaaaaaabf8', '0049589a4800', 'fb917fe42d50', '198d40cbc8a0', 'e3a0b0705340', '91bf5507c878',
+    'f2b13cffa660', '7c13018e0ab0', 'caf8e0b51140', '083f0f124920', '5340b8f43730', 'b9f3600fc8a0',
+    '76d8a0141540', '801f401b4938', '9ff10015afc0', 'e899000a58a0', '0aac80055ad0', '38f9000248b0',
+    '9fcdc0143f90', 'edf0000bde30', '7b00a01248d0', '419750cbd130', '16e32d35a028', '3de924c81f20',
+    '73acf17708d0', 'ac1908921530', '07dc25745930', 'e0eb7d8bc720', '0a1d28b608d0', '798c50934b28',
+    '9a192ff5bfc8', '00a5388858a8', 'fe88fa931ad0', '8259388a48a0', 'ba89bff42ff0', 'baf1014bc130',
+    'baa4b2d45f40', '82944dcb58f8', 'fec122453f50',
+  ];
 
   const STRINGS = {
     en: {
       buttonTitle: 'Video quality', quality: 'Quality', auto: 'Auto', position: 'Button position',
-      dragHint: 'Or drag the button', credit: `Reel Quality · by ${AUTHOR}`,
+      dragHint: 'Or drag the button', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Support',
       topLeft: 'Top left', topCenter: 'Top center', topRight: 'Top right', middleLeft: 'Middle left',
       middleRight: 'Middle right', bottomLeft: 'Bottom left', bottomCenter: 'Bottom center', bottomRight: 'Bottom right',
     },
     vi: {
       buttonTitle: 'Chất lượng video', quality: 'Chất lượng', auto: 'Tự động', position: 'Vị trí nút',
-      dragHint: 'Hoặc giữ chuột và kéo nút', credit: `Reel Quality · by ${AUTHOR}`,
+      dragHint: 'Hoặc giữ chuột và kéo nút', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Ủng hộ',
+      scanToDonate: 'Quét bằng MoMo hoặc app ngân hàng', orKofi: 'Hoặc ủng hộ qua Ko-fi',
       topLeft: 'Trên - Trái', topCenter: 'Trên - Giữa', topRight: 'Trên - Phải', middleLeft: 'Giữa - Trái',
       middleRight: 'Giữa - Phải', bottomLeft: 'Dưới - Trái', bottomCenter: 'Dưới - Giữa', bottomRight: 'Dưới - Phải',
     },
@@ -51,7 +65,16 @@
     .cell:hover { background: rgba(255,255,255,.3); }
     .cell.active { background: #2d88ff; }
     .hint { padding: 0 10px 4px; font-size: 11px; opacity: .5; }
-    .credit { padding: 0 10px 2px; font-size: 10px; opacity: .4; }
+    .footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px 0 10px; }
+    .credit { font-size: 10px; opacity: .4; white-space: nowrap; }
+    .support { white-space: nowrap; padding: 3px 6px; border: 0; border-radius: 5px; background: none; color: #fbbf24; font: inherit; font-size: 11px;
+      font-weight: 600; cursor: pointer; opacity: .85; }
+    .support:hover { background: rgba(251,191,36,.12); opacity: 1; }
+    .donate { display: grid; justify-items: center; gap: 6px; margin: 6px 4px 2px; padding: 10px; border-radius: 8px; background: #fff; color: #1c1c1e; }
+    .donate svg { width: 150px; height: 150px; display: block; }
+    .donate span { font-size: 11px; text-align: center; }
+    .donate a { font-size: 11px; color: #2d6ff7; text-decoration: none; }
+    .donate a:hover { text-decoration: underline; }
     .title { padding: 4px 10px 6px; font-size: 12px; opacity: .6; }
     .item { display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 10px; border: 0; border-radius: 6px;
       background: none; color: inherit; font: inherit; text-align: left; white-space: nowrap; cursor: pointer; }
@@ -68,6 +91,7 @@
     failed: new Set(), // rep URLs that failed, so we don't retry them in a loop
     pref: readPref(),
     pos: readPos(),
+    donateOpen: false,
   };
 
   function readPref() {
@@ -103,6 +127,23 @@
     for (const c of children) node.append(c);
     return node;
   }
+  function qrIcon() {
+    const ns = 'http://www.w3.org/2000/svg';
+    const size = DONATE_QR.length;
+    let d = '';
+    DONATE_QR.forEach((hex, y) => {
+      const bits = parseInt(hex, 16).toString(2).padStart(48, '0');
+      for (let x = 0; x < size; x++) if (bits[x] === '1') d += `M${x + 4} ${y + 4}h1v1h-1z`;
+    });
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${size + 8} ${size + 8}`);
+    svg.setAttribute('shape-rendering', 'crispEdges');
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', '#000');
+    svg.append(path);
+    return svg;
+  }
   function gearIcon() {
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
@@ -129,7 +170,7 @@
   }
   btn.addEventListener('click', () => {
     if (suppressClick) return (suppressClick = false);
-    menu.classList.toggle('open');
+    if (menu.classList.toggle('open')) state.donateOpen = false; // start collapsed each time
     renderMenu();
   });
 
@@ -185,7 +226,7 @@
     if (!menu.classList.contains('open')) return (menuSignature = '');
     const active = current();
     // Rebuild only on change: replacing the buttons mid-click would swallow the click.
-    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, ...state.qualities.map((r) => r.url)].join('|');
+    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, lang(), ...state.qualities.map((r) => r.url)].join('|');
     if (signature === menuSignature) return;
     menuSignature = signature;
     const item = (label, checked, sub, onPick) =>
@@ -209,8 +250,23 @@
       return el('button', { className: `cell${active ? ' active' : ''}`, title: t(name), onclick: () => movePreset(x, y) });
     });
     rows.push(el('div', { className: 'grid' }, cells), el('div', { className: 'hint', textContent: t('dragHint') }));
-    rows.push(el('div', { className: 'sep' }), el('div', { className: 'credit', textContent: t('credit') }));
+    const support = el('button', { className: 'support', textContent: t('support'), onclick: openSupport });
+    rows.push(el('div', { className: 'sep' }), el('div', { className: 'footer' }, [el('span', { className: 'credit', textContent: t('credit') }), support]));
+    if (state.donateOpen) {
+      const kofi = el('a', { href: KOFI_URL, target: '_blank', rel: 'noopener', textContent: t('orKofi') });
+      rows.push(el('div', { className: 'donate' }, [qrIcon(), el('span', { textContent: t('scanToDonate') }), kofi]));
+    }
     menu.replaceChildren(...rows);
+  }
+
+  // Vietnamese users get a MoMo/bank QR right in the menu; everyone else goes to Ko-fi.
+  function openSupport() {
+    if (lang() === 'vi') {
+      state.donateOpen = !state.donateOpen;
+      renderMenu();
+    } else {
+      window.open(KOFI_URL, '_blank', 'noopener');
+    }
   }
 
   function movePreset(x, y) {
