@@ -19,14 +19,24 @@ Facebook Reels has no quality setting. It picks a resolution for you and often s
 
 ## Install
 
-### From source (developer mode)
+### Chrome Web Store (recommended)
+
+> **Coming soon.** The extension is under review. The install link will appear here once it is published.
+
+Installing from the store gives you automatic updates, which matter here because Facebook changes often.
+
+The extension works in Chrome, Edge, Brave, Opera and other Chromium browsers, version 111 or later.
+
+### Manual install (developer mode)
+
+Use this to try unreleased changes. Manual installs do not update automatically.
 
 1. [Download the latest code](https://github.com/trieuluan/reel-quality-for-facebook/archive/refs/heads/main.zip) and unzip it, or clone this repository.
 2. Open `chrome://extensions` and turn on **Developer mode** (top right).
 3. Click **Load unpacked** and select the project folder.
 4. Open any `facebook.com/reel/...` page.
 
-The extension works in Chrome, Edge, Brave, Opera and other Chromium browsers, version 111 or later.
+## Development
 
 ### Build a zip for the Chrome Web Store
 
