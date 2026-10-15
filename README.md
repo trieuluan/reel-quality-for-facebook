@@ -4,6 +4,12 @@
 
 <p align="center">A Chrome extension that adds a quality menu to Facebook Reels.<br>Made by <b>Louis</b>.</p>
 
+<p align="center">
+  <a href="https://chromewebstore.google.com/detail/nbgnfkagjipmlfhlpilandmenjmilmcc"><img src="https://img.shields.io/chrome-web-store/v/nbgnfkagjipmlfhlpilandmenjmilmcc?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white" alt="Chrome Web Store version"></a>
+  <a href="https://chromewebstore.google.com/detail/nbgnfkagjipmlfhlpilandmenjmilmcc"><img src="https://img.shields.io/chrome-web-store/users/nbgnfkagjipmlfhlpilandmenjmilmcc?label=users" alt="Chrome Web Store users"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
+</p>
+
 ---
 
 ![Quality menu on a reel](store/shot-1-1280x800.png)
@@ -23,7 +29,9 @@ Facebook Reels has no quality setting. It picks a resolution for you and often s
 
 ### Chrome Web Store (recommended)
 
-> **Coming soon.** The extension is under review. The install link will appear here once it is published.
+**[➜ Add to Chrome from the Chrome Web Store](https://chromewebstore.google.com/detail/nbgnfkagjipmlfhlpilandmenjmilmcc)**
+
+> The store page goes live once Google approves the extension. Until then, use the manual install below.
 
 Installing from the store gives you automatic updates, which matter here because Facebook changes often.
 
