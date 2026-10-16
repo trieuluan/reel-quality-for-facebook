@@ -20,6 +20,7 @@ Facebook Reels has no quality setting. It picks a resolution for you and often s
 
 - **Real qualities only.** The menu lists only the resolutions that exist for the current reel and that your browser can play. If a reel has a single quality, the button stays hidden.
 - **Remembers your choice.** The quality you pick is applied to the next reels too. If a reel doesn't have that exact quality, the closest lower one is used.
+- **Expand landscape clips.** Many reels are a horizontal clip pasted into a vertical frame with black bars and captions. The extension spots the clip and adds **⤢ Expand landscape clip** to the menu, which shows it large in the middle of the screen at the best available quality. Click the clip to pause, press Esc to close.
 - **Movable button.** Drag the button anywhere on the video, or pick one of 8 preset positions from the menu. The position is saved relative to the video, so it stays in place across reels, window sizes and fullscreen.
 - **Seamless.** Facebook's player keeps handling sound, controls, looping and seeking. Until the chosen quality is ready, Facebook's own picture keeps showing, so you never see a black frame.
 - **English and Vietnamese UI.** The menu follows Facebook's language setting.
@@ -53,6 +54,7 @@ Use this to try unreleased changes. Manual installs do not update automatically.
 | `src/hooks.js` | Reads the DASH manifests (`dash_manifest`) embedded in Facebook's GraphQL responses and page data. It hooks `MediaSource`/`SourceBuffer` to match each manifest to its `<video>`, falling back to the `/reel/<id>` URL. |
 | `src/mpd.js` | Parses the manifest and keeps the qualities the browser can play. It uses regex instead of `DOMParser`, which Facebook's Trusted Types policy blocks. |
 | `src/player.js` | A small video-only DASH player. It reads the `sidx` index, plays the chosen quality through Media Source Extensions in a `<video>` laid over Facebook's, and follows Facebook's clock for play, pause, seek and loop. |
+| `src/expand.js` | Finds a landscape clip inside a vertical reel by watching a few frames (bars stay black, the clip moves), snaps it to common aspect ratios and draws it large in a viewer. |
 | `src/ui.js` | The button and menu, inside a closed Shadow DOM so Facebook's styles can't affect it. Also handles dragging, preset positions and localization. |
 
 ## Limitations
