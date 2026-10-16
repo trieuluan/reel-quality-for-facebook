@@ -343,10 +343,23 @@
     return !facebookOnly && layer?.readyState >= 2 ? layer : state.video;
   }
 
+  // On Auto, switch this reel to its best quality while the viewer is open, without touching the
+  // saved preference; the boost ends with the viewer unless the user picked a quality meanwhile.
   function openViewer() {
     menu.classList.remove('open');
     if (!state.clip || state.viewer) return;
-    state.viewer = new FBQ.ClipViewer(root, viewerSource, () => state.clip, t('viewerTip'), () => (state.viewer = null));
+    let boost = null;
+    const best = state.qualities.find((r) => !state.failed.has(r.url));
+    if (!current() && best) {
+      startPlayer(best);
+      boost = state.player;
+    }
+    state.viewer = new FBQ.ClipViewer(root, viewerSource, () => state.clip, t('viewerTip'), () => {
+      state.viewer = null;
+      if (boost && state.player === boost) stopPlayer();
+      renderButton();
+    });
+    renderButton();
   }
 
   let lastDetect = 0;
@@ -400,7 +413,7 @@
     menu.classList.toggle('al-center', x >= 0.34 && x <= 0.66);
   }
 
-  FBQ.ui = { state, menu, choose }; // for debugging from the console
+  FBQ.ui = { state, menu, choose, openViewer }; // for debugging from the console
 
   function boot() {
     document.body.append(host);
