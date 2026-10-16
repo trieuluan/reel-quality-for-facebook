@@ -346,14 +346,15 @@
   function openViewer() {
     menu.classList.remove('open');
     if (!state.clip || state.viewer) return;
-    state.viewer = new FBQ.ClipViewer(root, viewerSource, state.clip, t('viewerTip'), () => (state.viewer = null));
+    state.viewer = new FBQ.ClipViewer(root, viewerSource, () => state.clip, t('viewerTip'), () => (state.viewer = null));
   }
 
   let lastDetect = 0;
   function detectClip() {
-    if (!state.video || state.viewer || Date.now() - lastDetect < 1500) return;
+    if (!state.video || Date.now() - lastDetect < 1000) return;
     lastDetect = Date.now();
-    const rect = FBQ.detectLandscapeClip(viewerSource());
+    // Always sample Facebook's own video: evidence is gathered per element over many frames.
+    const rect = FBQ.detectLandscapeClip(state.video);
     if (rect) state.clip = rect;
   }
 

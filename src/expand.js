@@ -3,11 +3,42 @@
 // in a viewer over the page, drawn live from the video. Facebook's player keeps running underneath.
 (() => {
   const FBQ = (window.__FBQ ||= {});
-  const SAMPLE_W = 64; // detection works on a tiny copy of the frame
+  const SAMPLE_W = 96; // detection works on a small copy of the frame
   const MIN_ASPECT = 1.2; // only offer it when the clip inside is clearly landscape
+  // Common shapes for clips pasted into reels. A measured band that is shorter than any of these
+  // usually means dark footage blended into the black bars, so we fall back to 16:9.
+  const ASPECTS = [16 / 9, 1.85, 2, 2.35, 2.39, 4 / 3, 3 / 2];
+  const LIT = 18; // luma above which a pixel is not "bar black"
+  const CHANGED = 12; // luma change that counts as motion between two samples
 
   const probe = document.createElement('canvas');
   const probeCtx = probe.getContext('2d', { willReadFrequently: true });
+  const memory = new WeakMap(); // video -> evidence gathered over several frames
+
+  // Per-pixel evidence over time: was it ever bright, and how often did it change.
+  // Bars stay black and captions in them rarely change; the clip moves almost all the time.
+  function sample(video, w, h) {
+    probe.width = w;
+    probe.height = h;
+    probeCtx.drawImage(video, 0, 0, w, h);
+    const px = probeCtx.getImageData(0, 0, w, h).data;
+    let m = memory.get(video);
+    if (!m || m.w !== w || m.h !== h || m.src !== video.currentSrc) {
+      m = { w, h, src: video.currentSrc, maxL: new Uint8Array(w * h), changes: new Uint16Array(w * h), prev: null, compares: 0, time: -1 };
+      memory.set(video, m);
+    }
+    if (video.currentTime === m.time) return m; // same frame as last time, nothing new
+    m.time = video.currentTime;
+    const luma = new Uint8Array(w * h);
+    for (let i = 0; i < w * h; i++) {
+      luma[i] = px[i * 4] * 0.3 + px[i * 4 + 1] * 0.59 + px[i * 4 + 2] * 0.11;
+      if (luma[i] > m.maxL[i]) m.maxL[i] = luma[i];
+      if (m.prev && Math.abs(luma[i] - m.prev[i]) > CHANGED) m.changes[i]++;
+    }
+    if (m.prev) m.compares++;
+    m.prev = luma;
+    return m;
+  }
 
   // Returns the clip rectangle as fractions of the video frame ({ x, y, w, h }), or null.
   FBQ.detectLandscapeClip = function detectLandscapeClip(video) {
@@ -16,25 +47,28 @@
     if (!vw || !vh || video.readyState < 2 || vh <= vw) return null;
     const w = SAMPLE_W;
     const h = Math.round((SAMPLE_W * vh) / vw);
-    probe.width = w;
-    probe.height = h;
-    let data;
+    let m;
     try {
-      probeCtx.drawImage(video, 0, 0, w, h);
-      data = probeCtx.getImageData(0, 0, w, h).data;
+      m = sample(video, w, h);
     } catch {
       return null; // cross-origin frame: canvas is tainted
     }
-    const lit = (i) => data[i] * 0.3 + data[i + 1] * 0.59 + data[i + 2] * 0.11 > 14;
+    const moving = m.compares >= 3 ? (i) => m.changes[i] / m.compares >= 0.25 : () => false;
 
-    // A clip row is mostly non-black; caption rows in the bars are mostly black with some text.
-    const rowFill = [];
+    // Clip rows: mostly moving, or bright nearly edge to edge (a caption box is not that wide).
+    const clipRow = [];
+    const barRow = []; // black apart from the odd caption
     for (let y = 0; y < h; y++) {
-      let n = 0;
-      for (let x = 0; x < w; x++) if (lit((y * w + x) * 4)) n++;
-      rowFill.push(n / w);
+      let mov = 0;
+      let lit = 0;
+      for (let x = 0; x < w; x++) {
+        if (moving(y * w + x)) mov++;
+        if (m.maxL[y * w + x] > LIT) lit++;
+      }
+      clipRow.push(mov / w > 0.2 || lit / w > 0.85);
+      barRow.push(mov / w < 0.2 && lit / w < 0.5);
     }
-    // Longest run of filled rows, tolerating a couple of dark rows inside the clip.
+    // Longest run of clip rows, tolerating short dark stretches inside the clip.
     let best = null;
     let start = -1;
     let last = -1;
@@ -42,31 +76,56 @@
       if (start >= 0 && (!best || last + 1 - start > best.end - best.start)) best = { start, end: last + 1 };
     };
     for (let y = 0; y < h; y++) {
-      if (rowFill[y] <= 0.5) continue;
-      if (start < 0 || y - last > 3) {
+      if (!clipRow[y]) continue;
+      if (start < 0 || y - last > 4) {
         commit();
         start = y;
       }
       last = y;
     }
     commit();
-    if (!best) return null;
-    const top = best.start + 1; // step inside by one sample row to avoid the bar edge
-    const bottom = best.end - 1;
-    if (bottom - top < h * 0.15 || bottom - top > h * 0.85) return null;
+    if (!best || best.end - best.start < h * 0.08) return null;
 
-    let left = w;
-    let right = 0;
-    for (let x = 0; x < w; x++) {
-      let n = 0;
-      for (let y = top; y < bottom; y++) if (lit((y * w + x) * 4)) n++;
-      if (n / (bottom - top) > 0.3) {
-        left = Math.min(left, x);
-        right = Math.max(right, x + 1);
-      }
+    // A landscape clip in a vertical frame spans the full width (it is the narrow side), so only the
+    // vertical extent is measured. Dark footage would make any side-bar guess unreliable anyway.
+    const left = 0;
+    const right = w;
+
+    // Measured band in frame pixels. Sharp, bright edges usually land on a standard shape; if the
+    // band is shorter than 16:9, dark parts of the clip were taken for bars, so use a 16:9 window.
+    const clipW = ((right - left) / w) * vw;
+    let top = (best.start / h) * vh;
+    let height = ((best.end - best.start) / h) * vh;
+    const measured = clipW / height;
+    const standard = ASPECTS.find((a) => Math.abs(measured - a) / a < 0.05);
+    if (standard) {
+      const exact = clipW / standard;
+      top += (height - exact) / 2;
+      height = exact;
+    } else if (measured > 16 / 9) {
+      const want = clipW / (16 / 9);
+      // Most edits center the clip; keep that if it still covers what we saw, else just cover it.
+      const centered = (vh - want) / 2;
+      top = centered <= top && centered + want >= top + height ? centered : Math.min(top, Math.max(0, top + height - want));
+      height = want;
     }
-    if (right - left < w * 0.5) return null;
-    const rect = { x: left / w, y: top / h, w: (right - left) / w, h: (bottom - top) / h };
+    top = Math.max(0, Math.min(vh - height, top));
+
+    // Everything outside the clip must look like bars, otherwise this is just a normal vertical reel.
+    const clipFirst = Math.floor((top / vh) * h);
+    const clipLast = Math.ceil(((top + height) / vh) * h);
+    let outside = 0;
+    let bars = 0;
+    for (let y = 0; y < h; y++) {
+      if (y >= clipFirst && y < clipLast) continue;
+      outside++;
+      if (barRow[y]) bars++;
+    }
+    if (!outside || bars / outside < 0.7) return null;
+    // Trim a hair off the edges so no bar line shows when scaled up.
+    const trim = vh * 0.004;
+    const rect = { x: left / w, y: (top + trim) / vh, w: (right - left) / w, h: (height - 2 * trim) / vh };
+    if (rect.h > 0.85) return null;
     return (rect.w * vw) / (rect.h * vh) >= MIN_ASPECT ? rect : null;
   };
 
@@ -114,7 +173,9 @@
       this.raf = requestAnimationFrame(this.draw);
       const src = this.getSource();
       if (!src?.videoWidth) return;
-      const { x, y, w, h } = this.rect;
+      const rect = typeof this.rect === 'function' ? this.rect() : this.rect; // may keep refining while open
+      if (!rect) return;
+      const { x, y, w, h } = rect;
       const sw = src.videoWidth * w;
       const sh = src.videoHeight * h;
       const scale = Math.min((innerWidth * 0.92) / sw, (innerHeight * 0.85) / sh);
