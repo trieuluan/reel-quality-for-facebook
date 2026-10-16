@@ -47,6 +47,8 @@ Use this to try unreleased changes. Manual installs do not update automatically.
 
 ## How it works
 
+The full story, with code walkthroughs, is on dev.to: [I couldn't change the quality of Facebook Reels, so I built a Chrome extension that can](https://dev.to/louis_truong/i-couldnt-change-the-quality-of-facebook-reels-so-i-built-a-chrome-extension-that-can-3nb8).
+
 | File | Role |
 | --- | --- |
 | `src/hooks.js` | Reads the DASH manifests (`dash_manifest`) embedded in Facebook's GraphQL responses and page data. It hooks `MediaSource`/`SourceBuffer` to match each manifest to its `<video>`, falling back to the `/reel/<id>` URL. |

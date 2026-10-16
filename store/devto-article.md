@@ -1,6 +1,6 @@
 ---
 title: I couldn't change the quality of Facebook Reels, so I built a Chrome extension that can
-published: false
+published: true
 tags: showdev, javascript, webdev, opensource
 cover_image: https://raw.githubusercontent.com/trieuluan/reel-quality-for-facebook/main/store/shot-1-1280x800.png
 ---
