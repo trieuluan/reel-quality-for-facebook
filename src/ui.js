@@ -30,6 +30,7 @@
     en: {
       buttonTitle: 'Video quality', quality: 'Quality', auto: 'Auto', position: 'Button position',
       dragHint: 'Or drag the button', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Support',
+      expand: '⤢ Expand landscape clip', viewerTip: 'Click the video to pause · click outside or press Esc to close',
       topLeft: 'Top left', topCenter: 'Top center', topRight: 'Top right', middleLeft: 'Middle left',
       middleRight: 'Middle right', bottomLeft: 'Bottom left', bottomCenter: 'Bottom center', bottomRight: 'Bottom right',
     },
@@ -37,6 +38,7 @@
       buttonTitle: 'Chất lượng video', quality: 'Chất lượng', auto: 'Tự động', position: 'Vị trí nút',
       dragHint: 'Hoặc giữ chuột và kéo nút', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Ủng hộ',
       scanToDonate: 'Quét bằng MoMo hoặc app ngân hàng', orKofi: 'Hoặc ủng hộ qua Ko-fi',
+      expand: '⤢ Phóng to clip ngang', viewerTip: 'Bấm vào video để dừng · bấm ra ngoài hoặc Esc để đóng',
       topLeft: 'Trên - Trái', topCenter: 'Trên - Giữa', topRight: 'Trên - Phải', middleLeft: 'Giữa - Trái',
       middleRight: 'Giữa - Phải', bottomLeft: 'Dưới - Trái', bottomCenter: 'Dưới - Giữa', bottomRight: 'Dưới - Phải',
     },
@@ -92,6 +94,8 @@
     pref: readPref(),
     pos: readPos(),
     donateOpen: false,
+    clip: null, // landscape clip found inside a vertical reel, see expand.js
+    viewer: null,
   };
 
   function readPref() {
@@ -226,7 +230,7 @@
     if (!menu.classList.contains('open')) return (menuSignature = '');
     const active = current();
     // Rebuild only on change: replacing the buttons mid-click would swallow the click.
-    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, lang(), ...state.qualities.map((r) => r.url)].join('|');
+    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, lang(), ...state.qualities.map((r) => r.url)].join('|');
     if (signature === menuSignature) return;
     menuSignature = signature;
     const item = (label, checked, sub, onPick) =>
@@ -235,12 +239,19 @@
         label,
         el('span', { className: 'sub', textContent: sub }),
       ]);
-    const rows = [el('div', { className: 'title', textContent: t('quality') })];
-    rows.push(item(t('auto'), !active, fbPlayingLabel(state.video), () => choose(null)));
-    for (const rep of state.qualities) {
-      const label = el('span', {}, [rep.label]);
-      if (FBQ.qualityHeight(rep) >= 720) label.append(' ', el('span', { className: 'hd', textContent: 'HD' }));
-      rows.push(item(label, active === rep, `${Math.round(rep.bandwidth / 1000)} kbps`, () => choose(rep)));
+    const rows = [];
+    if (state.qualities.length >= 2) {
+      rows.push(el('div', { className: 'title', textContent: t('quality') }));
+      rows.push(item(t('auto'), !active, fbPlayingLabel(state.video), () => choose(null)));
+      for (const rep of state.qualities) {
+        const label = el('span', {}, [rep.label]);
+        if (FBQ.qualityHeight(rep) >= 720) label.append(' ', el('span', { className: 'hd', textContent: 'HD' }));
+        rows.push(item(label, active === rep, `${Math.round(rep.bandwidth / 1000)} kbps`, () => choose(rep)));
+      }
+    }
+    if (state.clip) {
+      if (rows.length) rows.push(el('div', { className: 'sep' }));
+      rows.push(el('button', { className: 'item', textContent: t('expand'), onclick: openViewer }));
     }
     rows.push(el('div', { className: 'sep' }), el('div', { className: 'title', textContent: t('position') }));
     const cells = PRESETS.map((p) => {
@@ -326,18 +337,42 @@
     return best;
   }
 
+  // Draw from our HD layer when it is showing, otherwise from Facebook's video.
+  function viewerSource(facebookOnly) {
+    const layer = state.player && !state.player.dead && state.player.video;
+    return !facebookOnly && layer?.readyState >= 2 ? layer : state.video;
+  }
+
+  function openViewer() {
+    menu.classList.remove('open');
+    if (!state.clip || state.viewer) return;
+    state.viewer = new FBQ.ClipViewer(root, viewerSource, state.clip, t('viewerTip'), () => (state.viewer = null));
+  }
+
+  let lastDetect = 0;
+  function detectClip() {
+    if (!state.video || state.viewer || Date.now() - lastDetect < 1500) return;
+    lastDetect = Date.now();
+    const rect = FBQ.detectLandscapeClip(viewerSource());
+    if (rect) state.clip = rect;
+  }
+
   function update() {
     const video = pickVideo();
     if (video !== state.video) {
       stopPlayer();
+      state.viewer?.close();
       state.video = video;
+      state.clip = null;
+      lastDetect = 0;
       menu.classList.remove('open');
     }
     const entry = video && FBQ.entryForVideo(video);
     state.qualities = entry ? FBQ.playableQualities(entry.reps) : [];
-    const visible = state.qualities.length >= 2;
+    detectClip();
+    const visible = state.qualities.length >= 2 || !!state.clip;
     host.style.display = visible ? 'block' : 'none';
-    if (visible) applyPref();
+    if (state.qualities.length >= 2) applyPref();
     else stopPlayer();
     renderButton();
     renderMenu();
