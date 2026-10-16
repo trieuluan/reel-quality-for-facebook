@@ -62,6 +62,17 @@
   ul.points { list-style: none; padding: 0; display: grid; gap: 14px; font-size: 19px; }
   ul.points li { display: flex; align-items: center; gap: 12px; }
   ul.points b { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: rgba(96,165,250,.2); color: #93c5fd; font-size: 15px; }
+  /* shot 3: letterboxed reel and the expanded viewer */
+  .lbreel { position: absolute; overflow: hidden; border-radius: 22px; background: #000;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08); }
+  .lbreel .caption { position: absolute; left: 50%; transform: translateX(-50%); padding: 6px 12px; border-radius: 8px;
+    background: rgba(255,255,255,.85); color: #111; font-weight: 600; font-size: 17px; text-align: center; line-height: 1.25; white-space: nowrap; }
+  .wide { position: absolute; overflow: hidden; }
+  .wide svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .viewermock { position: absolute; border-radius: 22px; background: rgba(0,0,0,.92);
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08); }
+  .viewermock .tip { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; font-size: 13px; opacity: .6; }
+  .item.hl { background: rgba(255,255,255,.14); }
   .label { position: absolute; text-align: center; font-weight: 700; font-size: 22px; }
   .label small { display: block; font-weight: 500; font-size: 15px; opacity: .6; margin-top: 4px; }
 </style>
@@ -125,6 +136,37 @@
   </div>
 </div>
 
+<!-- 3. Expand landscape clip -->
+<div id="shot-3" class="canvas shot">
+  <div style="position:absolute; left:0; right:0; top:52px; text-align:center; display:grid; gap:12px">
+    <h1 style="font-size:46px">Expand <em>landscape clips</em></h1>
+    <p class="lead">Horizontal clips squeezed into vertical reels? Open them big, in the best quality available.</p>
+  </div>
+  <div class="lbreel" style="left:84px; top:214px; width:300px; height:533px">
+    <div class="caption" style="top:212px">Meanwhile, in a<br>parallel universe…</div>
+    <div class="wide" data-wide style="left:0; top:276px; width:300px; height:169px"></div>
+    <div class="caption" style="top:466px; font-size:14px">Wait for the ending 😲</div>
+    <div class="progress" style="position:absolute; left:0; right:0; bottom:0; height:4px; background:rgba(255,255,255,.25)"><i style="display:block; height:100%; width:30%; background:#fff"></i></div>
+    <div class="ext" style="left:50%; top:14px; transform: translateX(-50%)">
+      <div class="btn" data-gear>Auto</div>
+      <div class="menu" style="min-width:214px">
+        <div class="title">Quality</div>
+        <div class="item"><span class="check">✓</span>Auto<span class="sub">540p</span></div>
+        <div class="item"><span class="check"></span>1080p<span class="hd">HD</span><span class="sub">3200 kbps</span></div>
+        <div class="sep"></div>
+        <div class="item hl"><span style="font-size:16px; width:14px">⤢</span>Expand landscape clip</div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute; left:410px; top:444px; width:64px; height:64px; border-radius:50%; display:grid; place-items:center;
+    background:linear-gradient(135deg,#3b82f6,#7c3aed); font-size:30px; font-weight:800; box-shadow:0 10px 30px rgba(0,0,0,.4)">→</div>
+  <div class="viewermock" style="left:500px; top:214px; width:700px; height:533px">
+    <div class="wide" data-wide style="left:30px; top:70px; width:640px; height:360px; border-radius:10px; box-shadow:0 20px 60px rgba(0,0,0,.6)"></div>
+    <div class="tag" style="top:446px; bottom:auto; left:50%; transform:translateX(-50%); background:#2d88ff">1080p HD · expanded</div>
+    <div class="tip">Click the video to pause · click outside or press Esc to close</div>
+  </div>
+</div>
+
 <!-- 3. Small promo tile -->
 <div id="tile" class="canvas tile">
   <div style="position:absolute; left:34px; top:50px; display:grid; gap:14px; width:250px">
@@ -168,6 +210,31 @@
     </svg>`;
   }
 
+  // Landscape version of the same scene, for the clip inside a vertical reel.
+  function sceneWide(id) {
+    const trees = Array.from({ length: 30 }, (_, i) => {
+      const x = i * 56 - 20 + (i % 3) * 12, h = 120 + ((i * 37) % 90);
+      return `<path d="M${x} 690 L${x + 28} ${690 - h} L${x + 56} 690 Z" fill="#0b0a24"/>`;
+    }).join('');
+    return `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wsky${id}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1e1b4b"/><stop offset=".45" stop-color="#9d4edd"/><stop offset=".72" stop-color="#f472b6"/><stop offset=".86" stop-color="#fbbf24"/>
+        </linearGradient>
+        <linearGradient id="wlake${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#312e81"/></linearGradient>
+      </defs>
+      <rect width="1600" height="900" fill="url(#wsky${id})"/>
+      ${Array.from({ length: 40 }, (_, i) => `<circle cx="${(i * 131) % 1600}" cy="${(i * 47) % 300 + 10}" r="${i % 4 ? 2 : 3.2}" fill="#fff" opacity=".8"/>`).join('')}
+      <circle cx="1060" cy="520" r="95" fill="#fde68a"/>
+      <path d="M0 560 L180 400 L330 480 L520 330 L700 470 L880 360 L1050 470 L1250 340 L1420 450 L1600 380 L1600 640 L0 640 Z" fill="#6d28d9"/>
+      <path d="M0 600 L160 520 L360 590 L560 480 L760 570 L960 500 L1160 580 L1380 500 L1600 560 L1600 660 L0 660 Z" fill="#4c1d95"/>
+      <rect y="660" width="1600" height="240" fill="url(#wlake${id})"/>
+      ${Array.from({ length: 10 }, (_, i) => `<rect x="${900 + (i % 3) * 30 - i * 6}" y="${680 + i * 20}" width="${300 - i * 24}" height="5" rx="2.5" fill="#fde68a" opacity="${0.8 - i * 0.06}"/>`).join('')}
+      ${trees}
+      <rect y="688" width="1600" height="6" fill="#0b0a24"/>
+    </svg>`;
+  }
+
   window.mockupsReady = (async () => {
     const blob = await (await fetch('../icons/icon-128.png')).blob();
     const iconUrl = await new Promise((r) => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(blob); });
@@ -175,6 +242,7 @@
     document.querySelectorAll('[data-gear]').forEach((b) => b.insertAdjacentHTML('afterbegin', `<svg viewBox="0 0 24 24"><path d="${GEAR}"/></svg>`));
     let n = 0;
     document.querySelectorAll('[data-scene]').forEach((r) => r.insertAdjacentHTML('afterbegin', scene(n++, r.dataset.scene === 'blur')));
+    document.querySelectorAll('[data-wide]').forEach((r) => r.insertAdjacentHTML('afterbegin', sceneWide(n++)));
   })();
 </script>
 <script src="render.js"></script>
