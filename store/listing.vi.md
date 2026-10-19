@@ -5,34 +5,31 @@ Bản tiếng Việt cho trang cửa hàng. Trên Developer Dashboard, ở **Tra
 ## Mô tả
 
 ```text
-Facebook Reels không có chỗ chỉnh chất lượng video. Facebook tự chọn độ phân giải cho bạn, và nhiều khi mạng vẫn mạnh mà video vẫn tụt xuống 540p, 360p, mờ căm. Reel Quality thêm một nút chỉnh chất lượng nhỏ lên reel bạn đang xem, để bạn tự quyết định.
+Facebook Reels không có tùy chọn chỉnh chất lượng video. Facebook sẽ tự chọn độ phân giải cho bạn. Nhiều khi đường truyền mạng vẫn rất mạnh nhưng video vẫn tự động tụt xuống chất lượng thấp 540p, 360p khiến hình ảnh mờ căm. Reel Quality sẽ thêm một nút chỉnh chất lượng nhỏ trực tiếp lên video Reel bạn đang xem, giúp bạn toàn quyền quyết định độ phân giải theo ý muốn.
 
-CÁCH DÙNG
-Mở một reel bất kỳ trên facebook.com và bấm nút ⚙ trên video. Menu hiện đúng các mức chất lượng mà reel đó có (ví dụ 1080p, 720p, 540p, 360p). Chọn một mức là reel chuyển sang ngay. Chọn "Tự động" để quay về như mặc định của Facebook.
+🛠️ CÁCH SỬ DỤNG
+Mở một video Reel bất kỳ trên facebook.com và bấm vào nút cài đặt (hình bánh răng ⚙) trên video. Menu sẽ hiển thị chính xác các mức chất lượng thực tế mà video đó hỗ trợ (ví dụ: 1080p, 720p, 540p, 360p). Bạn chỉ cần chọn một mức mong muốn là video sẽ lập tức chuyển sang độ phân giải đó. Chọn chế độ "Tự động" để quay về thiết lập mặc định của Facebook.
 
-TÍNH NĂNG
-• Chỉ hiện mức thật: menu chỉ liệt kê các độ phân giải reel thật sự có và trình duyệt phát được. Không phóng to giả, không bịa thêm.
-• Ghi nhớ lựa chọn: mức bạn chọn được dùng tiếp cho các reel sau. Reel nào không có mức đó thì tự lấy mức thấp hơn gần nhất.
-• Phóng to clip ngang: nhiều reel là clip ngang dán vào khung dọc có viền đen. Reel Quality tự nhận ra clip và có thể phóng to ra giữa màn hình với chất lượng cao nhất hiện có.
-• Biết mình đang xem gì: ở chế độ Tự động, nút hiện độ phân giải Facebook đang phát thật (ví dụ "Auto · 540p"), tụt chất lượng là thấy ngay.
-• Không vướng mắt: nút tự ẩn khi bạn xem và hiện lại khi di chuột. Có thể tắt trong menu.
-• Phím tắt: Q mở menu, Shift+↑ / Shift+↓ đổi chất lượng, A về Tự động, E phóng to clip ngang.
-• Nút di chuyển được: kéo nút đi bất kỳ đâu trên video, hoặc chọn 1 trong 8 vị trí có sẵn trong menu. Vị trí được giữ nguyên khi qua reel khác, đổi cỡ cửa sổ hay xem toàn màn hình.
-• Phát mượt: âm thanh, nút điều khiển, lặp lại và tua vẫn do trình phát của Facebook xử lý. Không bị màn hình đen khi đang tải chất lượng mới.
-• Giao diện tiếng Việt và tiếng Anh, tự đổi theo ngôn ngữ Facebook của bạn.
-• Gọn nhẹ: không popup, không tài khoản, không trang cài đặt.
+✨ TÍNH NĂNG NỔI BẬT
+• Chỉ hiện mức thật: Menu chỉ liệt kê các độ phân giải thực tế mà video Reel đó có và trình duyệt của bạn có thể phát được. Không sử dụng kỹ thuật phóng to giả lập (upscale), không bịa thêm thông số.
+• Ghi nhớ lựa chọn: Độ phân giải bạn đã chọn sẽ tự động áp dụng cho các video Reels tiếp theo. Nếu video sau không hỗ trợ mức đó, tiện ích sẽ tự động chọn mức thấp hơn gần nhất.
+• Phóng to clip màn hình ngang: Nhiều video Reels thực chất là clip ngang được dán vào khung dọc có hai viền đen kèm phụ đề. Reel Quality sẽ tự động nhận diện phần clip này và phóng lớn ra giữa màn hình với chất lượng cao nhất hiện có.
+• Nút bấm di chuyển linh hoạt: Bạn có thể kéo thả nút cài đặt đến bất kỳ vị trí nào trên video, hoặc chọn 1 trong 8 vị trí cố định có sẵn trong menu. Vị trí này được giữ nguyên khi bạn chuyển qua Reel khác, thay đổi kích thước cửa sổ hay xem toàn màn hình.
+• Phát video mượt mà: Hệ thống âm thanh, các nút điều khiển, tính năng lặp lại và tua video vẫn do trình phát gốc của Facebook xử lý. Bạn sẽ không bao giờ bị hiện tượng màn hình đen khi đang tải chất lượng mới.
+• Hỗ trợ đa ngôn ngữ: Giao diện hiển thị cả Tiếng Việt và Tiếng Anh, tự động thay đổi đồng bộ theo ngôn ngữ tài khoản Facebook của bạn.
+• Gọn nhẹ & An toàn: Không cửa sổ bật lên (popup), không yêu cầu đăng ký tài khoản, không có trang cài đặt rườm rà.
 
-QUYỀN RIÊNG TƯ
-Reel Quality không thu thập dữ liệu. Không có công cụ phân tích hay theo dõi, không có máy chủ riêng. Extension không xin thêm quyền nào, chỉ chạy trên facebook.com và chỉ tải video từ máy chủ video của chính Facebook. Mức chất lượng bạn chọn và vị trí nút chỉ lưu trong trình duyệt của bạn.
+🔒 QUYỀN RIÊNG TƯ & BẢO MẬT
+Reel Quality cam kết không thu thập bất kỳ dữ liệu nào của người dùng. Tiện ích không tích hợp công cụ phân tích hay trình theo dõi, không có hệ thống máy chủ riêng. Extension không xin thêm bất kỳ quyền nhạy cảm nào, chỉ hoạt động trên tên miền facebook.com và chỉ tải dữ liệu video từ chính máy chủ video của Facebook. Lựa chọn chất lượng video và vị trí nút bấm của bạn chỉ được lưu cục bộ bên trong trình duyệt.
 
-MÃ NGUỒN MỞ
-Toàn bộ mã nguồn trên GitHub: https://github.com/trieuluan/reel-quality-for-facebook
-Gặp reel nào không chạy? Hãy mở issue trên GitHub để mình sửa.
+💻 MÃ NGUỒN MỞ (OPEN SOURCE)
+Xem toàn bộ mã nguồn công khai của dự án tại GitHub: https://github.com/trieuluan/reel-quality-for-facebook
+Nếu bạn gặp bất kỳ video Reel nào không hoạt động hoặc bị lỗi tính năng, hãy mở một mục báo lỗi (issue) trên trang GitHub để mình kiểm tra và khắc phục nhé.
 
-ỦNG HỘ
-Reel Quality miễn phí. Nếu thấy hữu ích, bạn có thể ủng hộ qua https://ko-fi.com/luantruong19136 hoặc nút ☕ Ủng hộ trong menu (có mã MoMo/VietQR).
+☕ ỦNG HỘ DỰ ÁN
+Tiện ích Reel Quality hoàn toàn miễn phí. Nếu bạn thấy công cụ này hữu ích và giúp trải nghiệm xem video của bạn tốt hơn, bạn có thể mời mình một ly cà phê qua trang: https://ko-fi.com/luantruong19136 hoặc sử dụng nút ☕ Ủng hộ trực tiếp trong menu (có hỗ trợ quét mã MoMo / VietQR).
 
-Làm bởi Louis.
+Phát triển bởi Louis.
 
-Reel Quality là dự án độc lập, không liên kết, không được bảo trợ hay tài trợ bởi Meta Platforms, Inc. Facebook là nhãn hiệu của Meta Platforms, Inc.
+Tuyên bố miễn trừ trách nhiệm: Reel Quality là một dự án độc lập, không liên kết, không được bảo trợ hoặc tài trợ bởi Meta Platforms, Inc. Facebook là nhãn hiệu đã được đăng ký của Meta Platforms, Inc.
 ```
