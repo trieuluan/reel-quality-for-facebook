@@ -4,6 +4,8 @@
   const FBQ = (window.__FBQ ||= {});
   const PREF_KEY = 'fbq-quality';
   const POS_KEY = 'fbq-button-pos';
+  const AUTOHIDE_KEY = 'fbq-autohide';
+  const HIDE_AFTER = 2500; // ms without mouse movement over the video before the button fades out
   const MARGIN = 12; // px between the button and the video edge
   const DEFAULT_POS = { x: 0.5, y: 0 }; // fractions of the free space inside the video: 0 = left/top, 1 = right/bottom
   const PRESETS = [
@@ -38,6 +40,7 @@
   const STRINGS = {
     en: {
       buttonTitle: 'Video quality', quality: 'Quality', auto: 'Auto', position: 'Button position',
+      autoHide: 'Hide button until the mouse moves', shortcuts: 'Keys: Q menu · Shift+↑/↓ quality · E expand',
       dragHint: 'Or drag the button', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Support',
       reviewAsk: '⭐ Finding Reel Quality useful?', reviewRate: 'Rate it', reviewIssue: 'Report a problem', reviewLater: 'Not now',
       expand: '⤢ Expand landscape clip', viewerTip: 'Click the video to pause · click outside or press Esc to close',
@@ -46,6 +49,7 @@
     },
     vi: {
       buttonTitle: 'Chất lượng video', quality: 'Chất lượng', auto: 'Tự động', position: 'Vị trí nút',
+      autoHide: 'Ẩn nút khi không di chuột', shortcuts: 'Phím tắt: Q menu · Shift+↑/↓ chất lượng · E phóng to',
       dragHint: 'Hoặc giữ chuột và kéo nút', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Ủng hộ',
       reviewAsk: '⭐ Thấy Reel Quality hữu ích?', reviewRate: 'Đánh giá', reviewIssue: 'Báo lỗi', reviewLater: 'Để sau',
       scanToDonate: 'Quét bằng MoMo hoặc app ngân hàng', orKofi: 'Hoặc ủng hộ qua Ko-fi',
@@ -61,7 +65,7 @@
     'M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.5.5 0 0 0 .12-.61l-1.92-3.32a.5.5 0 0 0-.59-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.47.47 0 0 0-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.47.47 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.5.5 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.48.48 0 0 0-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z';
 
   const CSS = `
-    :host { all: initial; position: fixed; z-index: 2147483000; display: none; font: 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    :host { all: initial; position: fixed; z-index: 2147483000; display: none; transition: opacity .25s; font: 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; }
     .btn { display: flex; align-items: center; gap: 5px; height: 30px; padding: 0 10px 0 7px; border: 0; border-radius: 15px;
       background: rgba(0,0,0,.55); color: #fff; cursor: pointer; font: inherit; font-weight: 600; backdrop-filter: blur(4px); }
     .btn:hover { background: rgba(0,0,0,.75); }
@@ -113,6 +117,9 @@
     failed: new Set(), // rep URLs that failed, so we don't retry them in a loop
     pref: readPref(),
     pos: readPos(),
+    autoHide: readAutoHide(),
+    lastActive: Date.now(), // last mouse movement over the video, or a shortcut
+    hovering: false,
     donateOpen: false,
     review: readReview(),
     clip: null, // landscape clip found inside a vertical reel, see expand.js
@@ -126,6 +133,20 @@
       return null;
     }
   }
+  function readAutoHide() {
+    try {
+      return localStorage.getItem(AUTOHIDE_KEY) !== '0'; // on unless turned off
+    } catch {
+      return true;
+    }
+  }
+  function writeAutoHide(on) {
+    state.autoHide = on;
+    try {
+      localStorage.setItem(AUTOHIDE_KEY, on ? '1' : '0');
+    } catch {}
+  }
+
   function readPos() {
     try {
       const { x, y } = JSON.parse(localStorage.getItem(POS_KEY));
@@ -280,8 +301,10 @@
   const current = () => (state.player && !state.player.dead ? state.player.rep : null);
   const fbPlayingLabel = (v) => (v?.videoHeight ? `${Math.min(v.videoWidth, v.videoHeight)}p` : '');
 
+  // On Auto, show what Facebook is actually playing, so a drop to 360p is visible at a glance.
   function renderButton() {
-    btnLabel.textContent = current()?.label || 'Auto';
+    const playing = fbPlayingLabel(state.video);
+    btnLabel.textContent = current()?.label || (playing ? `Auto · ${playing}` : 'Auto');
   }
 
   let menuSignature = '';
@@ -289,7 +312,7 @@
     if (!menu.classList.contains('open')) return (menuSignature = '');
     const active = current();
     // Rebuild only on change: replacing the buttons mid-click would swallow the click.
-    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, shouldAskReview(), lang(), ...state.qualities.map((r) => r.url)].join('|');
+    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, shouldAskReview(), state.autoHide, lang(), ...state.qualities.map((r) => r.url)].join('|');
     if (signature === menuSignature) return;
     menuSignature = signature;
     const item = (label, checked, sub, onPick) =>
@@ -320,6 +343,11 @@
       return el('button', { className: `cell${active ? ' active' : ''}`, title: t(name), onclick: () => movePreset(x, y) });
     });
     rows.push(el('div', { className: 'grid' }, cells), el('div', { className: 'hint', textContent: t('dragHint') }));
+    rows.push(item(t('autoHide'), state.autoHide, '', () => {
+      writeAutoHide(!state.autoHide);
+      renderMenu();
+    }));
+    rows.push(el('div', { className: 'hint', textContent: t('shortcuts') }));
     if (shouldAskReview()) {
       // Rate and Report always appear together, so unhappy users get a place to go too.
       const act = (key, cls, action) => el('button', { className: cls, textContent: t(key), onclick: () => answerReview(action) });
@@ -479,6 +507,14 @@
     const top = r.top + MARGIN + y * Math.max(0, r.height - h - 2 * MARGIN);
     host.style.left = `${Math.min(innerWidth - w - 8, Math.max(8, left))}px`;
     host.style.top = `${Math.min(innerHeight - h - 8, Math.max(8, top))}px`;
+    const show =
+      !state.autoHide ||
+      menu.classList.contains('open') ||
+      drag ||
+      state.hovering ||
+      state.video.paused ||
+      Date.now() - state.lastActive < HIDE_AFTER;
+    host.style.opacity = show ? '1' : '0';
     // Open the menu towards the inside of the video.
     menu.classList.toggle('down', y < 0.5);
     menu.classList.toggle('up', y >= 0.5);
@@ -488,6 +524,70 @@
   }
 
   FBQ.ui = { state, menu, choose, openViewer }; // for debugging from the console
+
+  // --- auto-hide and keyboard shortcuts ------------------------------------------
+
+  const reveal = () => (state.lastActive = Date.now());
+  host.addEventListener('pointerenter', () => (state.hovering = true));
+  host.addEventListener('pointerleave', () => {
+    state.hovering = false;
+    reveal();
+  });
+  document.addEventListener(
+    'mousemove',
+    (e) => {
+      if (!state.video) return;
+      const r = state.video.getBoundingClientRect();
+      if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) reveal();
+    },
+    { passive: true }
+  );
+
+  // Shift+Up / Shift+Down: one step up or down from the current quality. On Auto, step from
+  // what Facebook is playing right now.
+  function stepQuality(up) {
+    const list = state.qualities; // best first
+    if (list.length < 2) return;
+    const active = current();
+    let target;
+    if (active) {
+      const i = list.indexOf(active);
+      target = up ? list[i - 1] : list[i + 1];
+    } else {
+      const playing = parseInt(fbPlayingLabel(state.video), 10) || 0;
+      target = up
+        ? list.filter((r) => FBQ.qualityHeight(r) > playing).at(-1) || list[0]
+        : list.find((r) => FBQ.qualityHeight(r) < playing) || list.at(-1);
+    }
+    if (target && target !== active) choose(target);
+  }
+
+  window.addEventListener(
+    'keydown',
+    (e) => {
+      if (!state.video || host.style.display === 'none' || e.metaKey || e.ctrlKey || e.altKey) return;
+      const target = e.composedPath()[0];
+      if (target?.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target?.tagName)) return; // typing a comment
+      let handled = true;
+      if (e.code === 'KeyQ' && !e.shiftKey) {
+        if (menu.classList.toggle('open')) state.donateOpen = false;
+        renderMenu();
+      } else if (e.shiftKey && (e.code === 'ArrowUp' || e.code === 'ArrowDown')) {
+        stepQuality(e.code === 'ArrowUp');
+      } else if (e.code === 'KeyE' && !e.shiftKey && (state.clip || state.viewer)) {
+        state.viewer ? state.viewer.close() : openViewer();
+      } else if (e.code === 'Escape' && menu.classList.contains('open')) {
+        menu.classList.remove('open');
+      } else {
+        handled = false;
+      }
+      if (!handled) return;
+      e.preventDefault();
+      e.stopPropagation();
+      reveal();
+    },
+    true
+  );
 
   function boot() {
     document.body.append(host);
