@@ -8,6 +8,6 @@ out="dist/reel-quality-${version}.zip"
 
 mkdir -p dist
 rm -f "$out"
-zip -qr "$out" manifest.json src icons/*.png LICENSE -x '.*'
+zip -qr "$out" manifest.json _locales src icons/*.png LICENSE -x '.*' '*/.*'
 echo "Built $out"
 unzip -l "$out"

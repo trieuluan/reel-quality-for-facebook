@@ -1,10 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Reel Quality for Facebook",
-  "short_name": "Reel Quality",
-  "version": "1.1.0",
+  "name": "__MSG_extName__",
+  "short_name": "__MSG_extShortName__",
+  "version": "1.1.1",
   "minimum_chrome_version": "111",
-  "description": "Adds a quality menu to Facebook Reels so you can pick any resolution the video offers (1080p, 720p...). By Louis.",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "homepage_url": "https://github.com/trieuluan/reel-quality-for-facebook",
   "icons": {
     "16": "icons/icon-16.png",

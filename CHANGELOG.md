@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 (2026-10-19)
+
+- Store name and description are now localized (English and Vietnamese) through `_locales`, so the Chrome Web Store can show a Vietnamese listing.
+
 ## 1.1.0 (2026-10-16)
 
 - **New: expand landscape clips.** When a reel is a horizontal clip inside a vertical frame with black bars, the menu offers **⤢ Expand landscape clip** to show it large in the middle of the screen. On Auto it switches to the reel's best quality while the viewer is open. Click the clip to pause, press Esc or click outside to close.
