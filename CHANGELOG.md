@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (1.2)
+## 1.2.0 (2026-10-19)
 
 - **Real resolution on the button.** On Auto, the button shows what Facebook is actually playing (for example `Auto · 540p`), so a quality drop is visible at a glance.
 - **Auto-hide button.** The button fades out after a few seconds without mouse movement over the video and comes back as soon as you move the mouse. Can be turned off in the menu.

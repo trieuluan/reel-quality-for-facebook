@@ -14,6 +14,9 @@ TÍNH NĂNG
 • Chỉ hiện mức thật: menu chỉ liệt kê các độ phân giải reel thật sự có và trình duyệt phát được. Không phóng to giả, không bịa thêm.
 • Ghi nhớ lựa chọn: mức bạn chọn được dùng tiếp cho các reel sau. Reel nào không có mức đó thì tự lấy mức thấp hơn gần nhất.
 • Phóng to clip ngang: nhiều reel là clip ngang dán vào khung dọc có viền đen. Reel Quality tự nhận ra clip và có thể phóng to ra giữa màn hình với chất lượng cao nhất hiện có.
+• Biết mình đang xem gì: ở chế độ Tự động, nút hiện độ phân giải Facebook đang phát thật (ví dụ "Auto · 540p"), tụt chất lượng là thấy ngay.
+• Không vướng mắt: nút tự ẩn khi bạn xem và hiện lại khi di chuột. Có thể tắt trong menu.
+• Phím tắt: Q mở menu, Shift+↑ / Shift+↓ đổi chất lượng, A về Tự động, E phóng to clip ngang.
 • Nút di chuyển được: kéo nút đi bất kỳ đâu trên video, hoặc chọn 1 trong 8 vị trí có sẵn trong menu. Vị trí được giữ nguyên khi qua reel khác, đổi cỡ cửa sổ hay xem toàn màn hình.
 • Phát mượt: âm thanh, nút điều khiển, lặp lại và tua vẫn do trình phát của Facebook xử lý. Không bị màn hình đen khi đang tải chất lượng mới.
 • Giao diện tiếng Việt và tiếng Anh, tự đổi theo ngôn ngữ Facebook của bạn.

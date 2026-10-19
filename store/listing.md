@@ -18,6 +18,9 @@ FEATURES
 • Real qualities only: the menu shows just the resolutions each reel offers and your browser can play. Nothing is upscaled or faked.
 • Remembers your choice: the quality you pick is used for the next reels too. If a reel doesn't have it, the closest lower quality is used.
 • Expand landscape clips: many reels are a horizontal clip pasted into a vertical frame with black bars. Reel Quality spots the clip and can show it large in the middle of your screen, at the best quality available.
+• See what you're getting: on Auto, the button shows the resolution Facebook is actually playing (for example "Auto · 540p"), so you notice a drop right away.
+• Stays out of the way: the button fades out while you watch and comes back when you move the mouse. Can be turned off.
+• Keyboard shortcuts: Q opens the menu, Shift+↑ / Shift+↓ change the quality, A goes back to Auto, E expands a landscape clip.
 • Movable button: drag it anywhere on the video, or pick one of 8 preset positions from the menu. The position is kept across reels, window sizes and fullscreen.
 • Seamless playback: Facebook's own player still handles sound, controls, looping and seeking. You never get a black screen while the new quality loads.
 • English and Vietnamese interface, following your Facebook language.
