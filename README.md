@@ -22,7 +22,7 @@ Facebook Reels has no quality setting. It picks a resolution for you and often s
 - **Remembers your choice.** The quality you pick is applied to the next reels too. If a reel doesn't have that exact quality, the closest lower one is used.
 - **Expand landscape clips.** Many reels are a horizontal clip pasted into a vertical frame with black bars and captions. The extension spots the clip and adds **⤢ Expand landscape clip** to the menu, which shows it large in the middle of the screen at the best available quality. Click the clip to pause, press Esc to close.
 - **See what you're getting.** On Auto, the button shows the resolution Facebook is actually playing, like `Auto · 540p`. The button fades out while you watch and comes back when you move the mouse (can be turned off).
-- **Keyboard shortcuts.** `Q` opens the menu, `Shift+↑` / `Shift+↓` step the quality, `E` expands a landscape clip.
+- **Keyboard shortcuts.** `Q` opens the menu, `Shift+↑` / `Shift+↓` step the quality, `A` goes back to Auto, `E` expands a landscape clip.
 - **Movable button.** Drag the button anywhere on the video, or pick one of 8 preset positions from the menu. The position is saved relative to the video, so it stays in place across reels, window sizes and fullscreen.
 - **Seamless.** Facebook's player keeps handling sound, controls, looping and seeking. Until the chosen quality is ready, Facebook's own picture keeps showing, so you never see a black frame.
 - **English and Vietnamese UI.** The menu follows Facebook's language setting.

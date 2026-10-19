@@ -40,7 +40,7 @@
   const STRINGS = {
     en: {
       buttonTitle: 'Video quality', quality: 'Quality', auto: 'Auto', position: 'Button position',
-      autoHide: 'Hide button until the mouse moves', shortcuts: 'Keys: Q menu · Shift+↑/↓ quality · E expand',
+      autoHide: 'Hide button until the mouse moves', shortcuts: 'Keys: Q menu · Shift+↑/↓ quality · A auto · E expand',
       dragHint: 'Or drag the button', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Support',
       reviewAsk: '⭐ Finding Reel Quality useful?', reviewRate: 'Rate it', reviewIssue: 'Report a problem', reviewLater: 'Not now',
       expand: '⤢ Expand landscape clip', viewerTip: 'Click the video to pause · click outside or press Esc to close',
@@ -49,7 +49,7 @@
     },
     vi: {
       buttonTitle: 'Chất lượng video', quality: 'Chất lượng', auto: 'Tự động', position: 'Vị trí nút',
-      autoHide: 'Ẩn nút khi không di chuột', shortcuts: 'Phím tắt: Q menu · Shift+↑/↓ chất lượng · E phóng to',
+      autoHide: 'Ẩn nút khi không di chuột', shortcuts: 'Phím tắt: Q menu · Shift+↑/↓ chất lượng · A tự động · E phóng to',
       dragHint: 'Hoặc giữ chuột và kéo nút', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Ủng hộ',
       reviewAsk: '⭐ Thấy Reel Quality hữu ích?', reviewRate: 'Đánh giá', reviewIssue: 'Báo lỗi', reviewLater: 'Để sau',
       scanToDonate: 'Quét bằng MoMo hoặc app ngân hàng', orKofi: 'Hoặc ủng hộ qua Ko-fi',
@@ -572,6 +572,8 @@
       if (e.code === 'KeyQ' && !e.shiftKey) {
         if (menu.classList.toggle('open')) state.donateOpen = false;
         renderMenu();
+      } else if (e.code === 'KeyA' && !e.shiftKey) {
+        if (current() || state.pref) choose(null); // back to Auto, and forget the saved quality
       } else if (e.shiftKey && (e.code === 'ArrowUp' || e.code === 'ArrowDown')) {
         stepQuality(e.code === 'ArrowUp');
       } else if (e.code === 'KeyE' && !e.shiftKey && (state.clip || state.viewer)) {

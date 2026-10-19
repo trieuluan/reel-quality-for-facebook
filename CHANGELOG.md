@@ -4,7 +4,7 @@
 
 - **Real resolution on the button.** On Auto, the button shows what Facebook is actually playing (for example `Auto · 540p`), so a quality drop is visible at a glance.
 - **Auto-hide button.** The button fades out after a few seconds without mouse movement over the video and comes back as soon as you move the mouse. Can be turned off in the menu.
-- **Keyboard shortcuts.** `Q` opens the menu, `Shift+↑` / `Shift+↓` step the quality up or down, `E` expands a landscape clip. Ignored while typing.
+- **Keyboard shortcuts.** `Q` opens the menu, `Shift+↑` / `Shift+↓` step the quality up or down, `A` goes back to Auto, `E` expands a landscape clip. Ignored while typing.
 - **Review reminder.** After a few days of use, the menu shows a one-time "Rate it / Report a problem / Not now" line.
 
 ## 1.1.1 (2026-10-19)
