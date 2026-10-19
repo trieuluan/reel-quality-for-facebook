@@ -89,6 +89,7 @@
       <li><b>✓</b>Lists only the qualities each reel really has</li>
       <li><b>✓</b>Remembers your choice for the next reels</li>
       <li><b>✓</b>Drag the button anywhere on the video</li>
+      <li><b>✓</b>Shows the real resolution, with keyboard shortcuts</li>
       <li><b>✓</b>No data collected, no extra permissions</li>
     </ul>
   </div>
@@ -110,6 +111,8 @@
         <div class="title">Button position</div>
         <div class="grid"><i class="cell"></i><i class="cell active"></i><i class="cell"></i><i class="cell"></i><i class="cell empty"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i></div>
         <div class="hint">Or drag the button</div>
+        <div class="item"><span class="check">✓</span>Hide button until the mouse moves</div>
+        <div class="hint">Keys: Q menu · Shift+↑/↓ quality · A auto · E expand</div>
         <div class="sep"></div>
         <div class="footer"><span class="credit">Reel Quality · by Louis</span><span class="support">☕ Support</span></div>
       </div>
@@ -124,13 +127,14 @@
     <p class="lead">Facebook often picks a low resolution. One click switches to the sharpest one available.</p>
   </div>
   <div class="reel" data-scene="blur" style="left:250px; top:225px; width:310px; height:550px">
-    <div class="tag">Auto · 360p</div>
+    <div class="tag">Before</div>
+    <div class="ext" style="left:50%; top:16px; transform: translateX(-50%) scale(1.15)"><div class="btn" data-gear>Auto · 360p</div></div>
     <div class="shade"></div><div class="progress"><i></i></div>
   </div>
   <div style="position:absolute; left:604px; top:470px; width:72px; height:72px; border-radius:50%; display:grid; place-items:center;
     background:linear-gradient(135deg,#3b82f6,#7c3aed); font-size:34px; font-weight:800; box-shadow:0 10px 30px rgba(0,0,0,.4)">→</div>
   <div class="reel" data-scene style="left:720px; top:225px; width:310px; height:550px">
-    <div class="tag" style="background:#2d88ff">1080p HD</div>
+    <div class="tag" style="background:#2d88ff">After · 1080p HD</div>
     <div class="shade"></div><div class="progress"><i></i></div>
     <div class="ext" style="left:50%; top:16px; transform: translateX(-50%) scale(1.15)"><div class="btn" data-gear>1080p</div></div>
   </div>
@@ -148,7 +152,7 @@
     <div class="caption" style="top:466px; font-size:14px">Wait for the ending 😲</div>
     <div class="progress" style="position:absolute; left:0; right:0; bottom:0; height:4px; background:rgba(255,255,255,.25)"><i style="display:block; height:100%; width:30%; background:#fff"></i></div>
     <div class="ext" style="left:50%; top:14px; transform: translateX(-50%)">
-      <div class="btn" data-gear>Auto</div>
+      <div class="btn" data-gear>Auto · 540p</div>
       <div class="menu" style="min-width:214px">
         <div class="title">Quality</div>
         <div class="item"><span class="check">✓</span>Auto<span class="sub">540p</span></div>
