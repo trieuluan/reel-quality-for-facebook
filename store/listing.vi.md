@@ -14,6 +14,9 @@ Mở một video Reel bất kỳ trên facebook.com và bấm vào nút cài đ�
 • Chỉ hiện mức thật: Menu chỉ liệt kê các độ phân giải thực tế mà video Reel đó có và trình duyệt của bạn có thể phát được. Không sử dụng kỹ thuật phóng to giả lập (upscale), không bịa thêm thông số.
 • Ghi nhớ lựa chọn: Độ phân giải bạn đã chọn sẽ tự động áp dụng cho các video Reels tiếp theo. Nếu video sau không hỗ trợ mức đó, tiện ích sẽ tự động chọn mức thấp hơn gần nhất.
 • Phóng to clip màn hình ngang: Nhiều video Reels thực chất là clip ngang được dán vào khung dọc có hai viền đen kèm phụ đề. Reel Quality sẽ tự động nhận diện phần clip này và phóng lớn ra giữa màn hình với chất lượng cao nhất hiện có.
+• Hiển thị độ phân giải thực tế: Ở chế độ "Tự động", nút cài đặt sẽ hiển thị chính xác độ phân giải mà Facebook đang phát (ví dụ: "Auto · 540p"), giúp bạn nhận biết ngay khi video bị tụt chất lượng.
+• Tự động ẩn nút khi xem: Nút cài đặt sẽ tự mờ đi sau vài giây để không che khuất video và hiện lại ngay khi bạn di chuột. Bạn có thể tắt tính năng này trong menu.
+• Phím tắt tiện lợi: Nhấn Q để mở menu, Shift + ↑ / Shift + ↓ để tăng hoặc giảm chất lượng, A để quay về chế độ Tự động và E để phóng to clip ngang. Phím tắt sẽ không hoạt động khi bạn đang gõ bình luận hay tìm kiếm.
 • Nút bấm di chuyển linh hoạt: Bạn có thể kéo thả nút cài đặt đến bất kỳ vị trí nào trên video, hoặc chọn 1 trong 8 vị trí cố định có sẵn trong menu. Vị trí này được giữ nguyên khi bạn chuyển qua Reel khác, thay đổi kích thước cửa sổ hay xem toàn màn hình.
 • Phát video mượt mà: Hệ thống âm thanh, các nút điều khiển, tính năng lặp lại và tua video vẫn do trình phát gốc của Facebook xử lý. Bạn sẽ không bao giờ bị hiện tượng màn hình đen khi đang tải chất lượng mới.
 • Hỗ trợ đa ngôn ngữ: Giao diện hiển thị cả Tiếng Việt và Tiếng Anh, tự động thay đổi đồng bộ theo ngôn ngữ tài khoản Facebook của bạn.
