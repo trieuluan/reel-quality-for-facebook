@@ -13,6 +13,15 @@
   ];
   const AUTHOR = 'Louis';
   const KOFI_URL = 'https://ko-fi.com/luantruong19136';
+  const REVIEW_URL = 'https://chromewebstore.google.com/detail/nbgnfkagjipmlfhlpilandmenjmilmcc/reviews';
+  const ISSUES_URL = 'https://github.com/trieuluan/reel-quality-for-facebook/issues/new';
+  const REVIEW_KEY = 'fbq-review';
+  const DAY = 24 * 60 * 60 * 1000;
+  // Ask for a review only once the extension has proven useful, and at most twice in total.
+  const REVIEW_AFTER_SWITCHES = 5;
+  const REVIEW_AFTER_DAYS = 3;
+  const REVIEW_SNOOZE_DAYS = 21;
+  const REVIEW_MAX_ASKS = 2;
   // MoMo / VietQR (Napas 247) payment code, 45x45 modules, one row per 12 hex digits (45 bits + 3 padding).
   // Drawn as SVG rather than loaded as an image so Facebook's img-src CSP can't block it.
   const DONATE_QR = [
@@ -30,6 +39,7 @@
     en: {
       buttonTitle: 'Video quality', quality: 'Quality', auto: 'Auto', position: 'Button position',
       dragHint: 'Or drag the button', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Support',
+      reviewAsk: '⭐ Finding Reel Quality useful?', reviewRate: 'Rate it', reviewIssue: 'Report a problem', reviewLater: 'Not now',
       expand: '⤢ Expand landscape clip', viewerTip: 'Click the video to pause · click outside or press Esc to close',
       topLeft: 'Top left', topCenter: 'Top center', topRight: 'Top right', middleLeft: 'Middle left',
       middleRight: 'Middle right', bottomLeft: 'Bottom left', bottomCenter: 'Bottom center', bottomRight: 'Bottom right',
@@ -37,6 +47,7 @@
     vi: {
       buttonTitle: 'Chất lượng video', quality: 'Chất lượng', auto: 'Tự động', position: 'Vị trí nút',
       dragHint: 'Hoặc giữ chuột và kéo nút', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Ủng hộ',
+      reviewAsk: '⭐ Thấy Reel Quality hữu ích?', reviewRate: 'Đánh giá', reviewIssue: 'Báo lỗi', reviewLater: 'Để sau',
       scanToDonate: 'Quét bằng MoMo hoặc app ngân hàng', orKofi: 'Hoặc ủng hộ qua Ko-fi',
       expand: '⤢ Phóng to clip ngang', viewerTip: 'Bấm vào video để dừng · bấm ra ngoài hoặc Esc để đóng',
       topLeft: 'Trên - Trái', topCenter: 'Trên - Giữa', topRight: 'Trên - Phải', middleLeft: 'Giữa - Trái',
@@ -77,6 +88,15 @@
     .donate span { font-size: 11px; text-align: center; }
     .donate a { font-size: 11px; color: #2d6ff7; text-decoration: none; }
     .donate a:hover { text-decoration: underline; }
+    .review { margin: 2px 0; padding: 8px 10px; border-radius: 8px; background: rgba(251,191,36,.08); }
+    .review .ask { font-size: 12px; margin-bottom: 6px; }
+    .review .acts { display: flex; gap: 4px; }
+    .review button { padding: 4px 8px; border: 0; border-radius: 5px; background: rgba(255,255,255,.1); color: inherit; font: inherit;
+      font-size: 11px; cursor: pointer; white-space: nowrap; }
+    .review button:hover { background: rgba(255,255,255,.2); }
+    .review button.primary { background: #fbbf24; color: #1c1c1e; font-weight: 600; }
+    .review button.primary:hover { background: #fcd34d; }
+    .review button.quiet { margin-left: auto; background: none; opacity: .6; }
     .title { padding: 4px 10px 6px; font-size: 12px; opacity: .6; }
     .item { display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 10px; border: 0; border-radius: 6px;
       background: none; color: inherit; font: inherit; text-align: left; white-space: nowrap; cursor: pointer; }
@@ -94,6 +114,7 @@
     pref: readPref(),
     pos: readPos(),
     donateOpen: false,
+    review: readReview(),
     clip: null, // landscape clip found inside a vertical reel, see expand.js
     viewer: null,
   };
@@ -112,6 +133,44 @@
     } catch {}
     return { ...DEFAULT_POS };
   }
+  // { firstSeen, switches, asks, snoozedUntil, done }: kept only in this browser's localStorage.
+  function readReview() {
+    let r = null;
+    try {
+      r = JSON.parse(localStorage.getItem(REVIEW_KEY));
+    } catch {}
+    r = { firstSeen: Date.now(), switches: 0, asks: 0, snoozedUntil: 0, done: false, ...(r || {}) };
+    saveReview(r);
+    return r;
+  }
+  function saveReview(r) {
+    try {
+      localStorage.setItem(REVIEW_KEY, JSON.stringify(r));
+    } catch {}
+  }
+  function shouldAskReview() {
+    const r = state.review;
+    return (
+      !r.done &&
+      r.switches >= REVIEW_AFTER_SWITCHES &&
+      Date.now() - r.firstSeen >= REVIEW_AFTER_DAYS * DAY &&
+      Date.now() >= r.snoozedUntil
+    );
+  }
+  function answerReview(action) {
+    const r = state.review;
+    if (action === 'later') {
+      r.asks++;
+      r.snoozedUntil = Date.now() + REVIEW_SNOOZE_DAYS * DAY;
+      if (r.asks >= REVIEW_MAX_ASKS) r.done = true;
+    } else {
+      r.done = true;
+      window.open(action === 'rate' ? REVIEW_URL : ISSUES_URL, '_blank', 'noopener');
+    }
+    saveReview(r);
+    renderMenu();
+  }
+
   function writePos(pos) {
     state.pos = pos;
     try {
@@ -230,7 +289,7 @@
     if (!menu.classList.contains('open')) return (menuSignature = '');
     const active = current();
     // Rebuild only on change: replacing the buttons mid-click would swallow the click.
-    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, lang(), ...state.qualities.map((r) => r.url)].join('|');
+    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, shouldAskReview(), lang(), ...state.qualities.map((r) => r.url)].join('|');
     if (signature === menuSignature) return;
     menuSignature = signature;
     const item = (label, checked, sub, onPick) =>
@@ -261,6 +320,17 @@
       return el('button', { className: `cell${active ? ' active' : ''}`, title: t(name), onclick: () => movePreset(x, y) });
     });
     rows.push(el('div', { className: 'grid' }, cells), el('div', { className: 'hint', textContent: t('dragHint') }));
+    if (shouldAskReview()) {
+      // Rate and Report always appear together, so unhappy users get a place to go too.
+      const act = (key, cls, action) => el('button', { className: cls, textContent: t(key), onclick: () => answerReview(action) });
+      rows.push(
+        el('div', { className: 'sep' }),
+        el('div', { className: 'review' }, [
+          el('div', { className: 'ask', textContent: t('reviewAsk') }),
+          el('div', { className: 'acts' }, [act('reviewRate', 'primary', 'rate'), act('reviewIssue', '', 'issue'), act('reviewLater', 'quiet', 'later')]),
+        ])
+      );
+    }
     const support = el('button', { className: 'support', textContent: t('support'), onclick: openSupport });
     rows.push(el('div', { className: 'sep' }), el('div', { className: 'footer' }, [el('span', { className: 'credit', textContent: t('credit') }), support]));
     if (state.donateOpen) {
@@ -306,6 +376,10 @@
 
   function choose(rep) {
     writePref(rep?.label || null);
+    if (rep) {
+      state.review.switches++; // a picked quality is the moment the extension is useful
+      saveReview(state.review);
+    }
     rep ? startPlayer(rep) : stopPlayer();
     menu.classList.remove('open');
     renderButton();
