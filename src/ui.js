@@ -25,6 +25,9 @@
   // Ask for a review only once the extension has proven useful, and at most twice in total.
   const REVIEW_AFTER_SWITCHES = 5;
   const REVIEW_AFTER_DAYS = 3;
+  // A saved reel is the clearest moment of value, so downloads alone are enough, without the waiting period.
+  const REVIEW_AFTER_DOWNLOADS = 2;
+  const REVIEW_CARD_FOR = 30_000; // ms the card beside the download button stays up if ignored
   const REVIEW_SNOOZE_DAYS = 21;
   const REVIEW_MAX_ASKS = 2;
   // MoMo / VietQR (Napas 247) payment code, 45x45 modules, one row per 12 hex digits (45 bits + 3 padding).
@@ -99,6 +102,8 @@
     .dl svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
       filter: drop-shadow(0 1px 1px rgba(0,0,0,.4)); }
     .dl-menu { top: 0; right: calc(100% + 8px); }
+    .review-card { width: 260px; padding: 4px; }
+    .review-card .review { margin: 0; }
   `;
 
   const state = {
@@ -155,7 +160,7 @@
     try {
       r = JSON.parse(localStorage.getItem(REVIEW_KEY));
     } catch {}
-    r = { firstSeen: Date.now(), switches: 0, asks: 0, snoozedUntil: 0, done: false, ...(r || {}) };
+    r = { firstSeen: Date.now(), switches: 0, downloads: 0, asks: 0, snoozedUntil: 0, cardShownAt: 0, done: false, ...(r || {}) };
     saveReview(r);
     return r;
   }
@@ -166,12 +171,9 @@
   }
   function shouldAskReview() {
     const r = state.review;
-    return (
-      !r.done &&
-      r.switches >= REVIEW_AFTER_SWITCHES &&
-      Date.now() - r.firstSeen >= REVIEW_AFTER_DAYS * DAY &&
-      Date.now() >= r.snoozedUntil
-    );
+    const earned =
+      (r.switches >= REVIEW_AFTER_SWITCHES && Date.now() - r.firstSeen >= REVIEW_AFTER_DAYS * DAY) || r.downloads >= REVIEW_AFTER_DOWNLOADS;
+    return !r.done && earned && Date.now() >= r.snoozedUntil;
   }
   function answerReview(action) {
     const r = state.review;
@@ -184,7 +186,17 @@
       window.open(action === 'rate' ? REVIEW_URL : ISSUES_URL, '_blank', 'noopener');
     }
     saveReview(r);
+    hideReviewCard();
     renderMenu();
+  }
+
+  // Rate and Report always appear together, so unhappy users get a place to go too.
+  function reviewBlock() {
+    const act = (key, cls, action) => el('button', { className: cls, textContent: t(key), onclick: () => answerReview(action) });
+    return el('div', { className: 'review' }, [
+      el('div', { className: 'ask', textContent: t('reviewAsk') }),
+      el('div', { className: 'acts' }, [act('reviewRate', 'primary', 'rate'), act('reviewIssue', '', 'issue'), act('reviewLater', 'quiet', 'later')]),
+    ]);
   }
 
   function writePos(pos) {
@@ -305,12 +317,14 @@
   const dlLabel = el('span');
   const dlBtn = el('button', { className: 'dl' }, [el('span', { className: 'icon' }, [downloadIcon()]), dlLabel]);
   const dlMenu = el('div', { className: 'menu dl-menu' });
-  dlRoot.append(dlBtn, dlMenu);
+  const reviewCard = el('div', { className: 'menu dl-menu review-card' }); // review ask after a successful download
+  dlRoot.append(dlBtn, dlMenu, reviewCard);
   for (const type of ['click', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'dblclick']) {
     dlHost.addEventListener(type, (e) => e.stopPropagation());
   }
   dlBtn.addEventListener('click', () => {
     if (state.download?.status === 'running' && state.download.video === state.video) return state.download.ctrl.abort();
+    hideReviewCard();
     dlMenu.classList.toggle('open');
     renderDownload();
   });
@@ -318,7 +332,10 @@
   document.addEventListener('pointerdown', (e) => {
     const path = e.composedPath();
     if (!path.includes(host)) menu.classList.remove('open');
-    if (!path.includes(dlHost)) dlMenu.classList.remove('open');
+    if (!path.includes(dlHost)) {
+      dlMenu.classList.remove('open');
+      hideReviewCard(); // dismissing it this way doesn't count as an answer
+    }
   });
 
   const current = () => (state.player && !state.player.dead ? state.player.rep : null);
@@ -375,17 +392,7 @@
       renderMenu();
     }));
     rows.push(el('div', { className: 'hint', textContent: t('shortcuts') }));
-    if (shouldAskReview()) {
-      // Rate and Report always appear together, so unhappy users get a place to go too.
-      const act = (key, cls, action) => el('button', { className: cls, textContent: t(key), onclick: () => answerReview(action) });
-      rows.push(
-        el('div', { className: 'sep' }),
-        el('div', { className: 'review' }, [
-          el('div', { className: 'ask', textContent: t('reviewAsk') }),
-          el('div', { className: 'acts' }, [act('reviewRate', 'primary', 'rate'), act('reviewIssue', '', 'issue'), act('reviewLater', 'quiet', 'later')]),
-        ])
-      );
-    }
+    if (shouldAskReview()) rows.push(el('div', { className: 'sep' }), reviewBlock());
     const support = el('button', { className: `support${state.donateOpen ? ' active' : ''}`, textContent: t('support'), onclick: openSupport });
     rows.push(el('div', { className: 'sep' }), el('div', { className: 'footer' }, [el('span', { className: 'credit', textContent: `Reel Quality · by ${AUTHOR}` }), support]));
     menu.dir = rtl() ? 'rtl' : 'ltr';
@@ -443,6 +450,22 @@
     return rows;
   }
 
+  let reviewTimer = 0;
+  function showReviewCard() {
+    dlMenu.classList.remove('open');
+    reviewCard.dir = rtl() ? 'rtl' : 'ltr';
+    reviewCard.replaceChildren(reviewBlock());
+    reviewCard.classList.add('open');
+    state.review.cardShownAt = Date.now();
+    saveReview(state.review);
+    clearTimeout(reviewTimer);
+    reviewTimer = setTimeout(hideReviewCard, REVIEW_CARD_FOR);
+  }
+  function hideReviewCard() {
+    clearTimeout(reviewTimer);
+    reviewCard.classList.remove('open');
+  }
+
   let dlSignature = '';
   function renderDownload() {
     const dl = mine();
@@ -492,6 +515,10 @@
       });
       FBQ.saveBlob(blob, name);
       dl.status = 'done';
+      state.review.downloads++;
+      saveReview(state.review);
+      // Brushing the card away isn't an answer, so it may come back, but at most once a day.
+      if (shouldAskReview() && state.rail && state.video === dl.video && Date.now() - state.review.cardShownAt >= DAY) showReviewCard();
     } catch (e) {
       dl.status = dl.ctrl.signal.aborted ? 'cancelled' : 'error';
       if (dl.status === 'error') console.warn('[FBQ] download failed:', e);
@@ -660,6 +687,7 @@
       lastDetect = 0;
       menu.classList.remove('open');
       dlMenu.classList.remove('open');
+      hideReviewCard();
     }
     const entry = video && FBQ.entryForVideo(video);
     state.entry = entry;
