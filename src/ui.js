@@ -66,8 +66,10 @@
     .credit { font-size: 10px; opacity: .4; white-space: nowrap; }
     .support { white-space: nowrap; padding: 3px 6px; border: 0; border-radius: 5px; background: none; color: #fbbf24; font: inherit; font-size: 11px;
       font-weight: 600; cursor: pointer; opacity: .85; }
-    .support:hover { background: rgba(251,191,36,.12); opacity: 1; }
-    .donate { display: grid; justify-items: center; gap: 6px; margin: 6px 4px 2px; padding: 10px; border-radius: 8px; background: #fff; color: #1c1c1e; }
+    .support:hover, .support.active { background: rgba(251,191,36,.12); opacity: 1; }
+    .donate { position: absolute; display: none; width: 190px; box-sizing: border-box; justify-items: center; gap: 6px; padding: 12px;
+      border-radius: 10px; background: #fff; color: #1c1c1e; box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+    .donate.open { display: grid; }
     .donate svg { width: 150px; height: 150px; display: block; }
     .donate span { font-size: 11px; text-align: center; }
     .donate a { font-size: 11px; color: #2d6ff7; text-decoration: none; }
@@ -250,7 +252,8 @@
   const btnLabel = el('span');
   const btn = el('button', { className: 'btn', title: t('buttonTitle') }, [gearIcon(), btnLabel]);
   const menu = el('div', { className: 'menu' });
-  root.append(btn, menu);
+  const donate = el('div', { className: 'donate' }); // MoMo/VietQR card that opens beside the menu
+  root.append(btn, menu, donate);
   for (const type of ['click', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'dblclick']) {
     host.addEventListener(type, (e) => e.stopPropagation());
   }
@@ -383,20 +386,20 @@
         ])
       );
     }
-    const support = el('button', { className: 'support', textContent: t('support'), onclick: openSupport });
+    const support = el('button', { className: `support${state.donateOpen ? ' active' : ''}`, textContent: t('support'), onclick: openSupport });
     rows.push(el('div', { className: 'sep' }), el('div', { className: 'footer' }, [el('span', { className: 'credit', textContent: `Reel Quality · by ${AUTHOR}` }), support]));
-    if (state.donateOpen) {
-      const kofi = el('a', { href: KOFI_URL, target: '_blank', rel: 'noopener', textContent: t('orKofi') });
-      rows.push(el('div', { className: 'donate' }, [qrIcon(), el('span', { textContent: t('scanToDonate') }), kofi]));
-    }
     menu.dir = rtl() ? 'rtl' : 'ltr';
     menu.replaceChildren(...rows);
   }
 
-  // Vietnamese users get a MoMo/bank QR right in the menu; everyone else goes to Ko-fi.
+  // Vietnamese users get a MoMo/bank QR in a card beside the menu; everyone else goes to Ko-fi.
   function openSupport() {
     if (lang() === 'vi') {
       state.donateOpen = !state.donateOpen;
+      if (state.donateOpen) {
+        const kofi = el('a', { href: KOFI_URL, target: '_blank', rel: 'noopener', textContent: t('orKofi') });
+        donate.replaceChildren(qrIcon(), el('span', { textContent: t('scanToDonate') }), kofi);
+      }
       renderMenu();
     } else {
       window.open(KOFI_URL, '_blank', 'noopener');
@@ -695,15 +698,40 @@
       state.video.paused ||
       Date.now() - state.lastActive < HIDE_AFTER;
     host.style.opacity = show ? '1' : '0';
+    // An open menu (and the support card beside it) may reach over the download button: keep it on top.
+    host.style.zIndex = menu.classList.contains('open') ? '2147483001' : '';
     // Open the menu towards the inside of the video.
     menu.classList.toggle('down', y < 0.5);
     menu.classList.toggle('up', y >= 0.5);
     menu.classList.toggle('al-left', x < 0.34);
     menu.classList.toggle('al-right', x > 0.66);
     menu.classList.toggle('al-center', x >= 0.34 && x <= 0.66);
+    positionDonate();
   }
 
-  FBQ.ui = { state, menu, choose, openViewer, startDownload }; // for debugging from the console
+  // Beside the menu on whichever side has room (the reading side first), bottom-aligned with its ☕ row.
+  // Closes along with the menu.
+  function positionDonate() {
+    const open = state.donateOpen && menu.classList.contains('open');
+    donate.classList.toggle('open', open);
+    if (!open) return;
+    const GAP = 8;
+    const FOOTER = 40; // height of the menu's credit / ☕ row
+    const m = menu.getBoundingClientRect();
+    const box = host.getBoundingClientRect(); // the card is positioned inside the fixed host
+    const w = donate.offsetWidth;
+    const h = donate.offsetHeight;
+    const right = m.right + GAP + w <= innerWidth - 8 ? m.right + GAP : null;
+    const left = m.left - GAP - w >= 8 ? m.left - GAP - w : null;
+    const side = rtl() ? left ?? right : right ?? left;
+    // No room on either side (very narrow window): lay the card over the menu, above its ☕ row so that stays clickable.
+    const x = side ?? Math.min(innerWidth - w - 8, Math.max(8, m.left));
+    const y = Math.min(innerHeight - h - 8, Math.max(8, m.bottom - h - (side === null ? FOOTER : 0)));
+    donate.style.left = `${x - box.left}px`;
+    donate.style.top = `${y - box.top}px`;
+  }
+
+  FBQ.ui = { state, menu, choose, openViewer, startDownload, openSupport }; // for debugging from the console
 
   // --- auto-hide and keyboard shortcuts ------------------------------------------
 
