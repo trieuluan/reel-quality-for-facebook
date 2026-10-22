@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Reel Quality – ปรับคุณภาพ HD ให้ Facebook Reels",
+    "description": "Extension name shown in Chrome and on the Chrome Web Store (max 75 characters)."
+  },
+  "extShortName": {
+    "message": "Reel Quality",
+    "description": "Short name used where space is limited (max 12 characters recommended)."
+  },
+  "extDescription": {
+    "message": "เลือก 1080p, 720p… ให้ Facebook Reels แทน 360p ที่เบลอ และบันทึก Reels พร้อมเสียงได้ ขยายคลิปแนวนอนได้ โดย Louis",
+    "description": "Summary shown in Chrome and on the Chrome Web Store (max 132 characters)."
+  }
+}

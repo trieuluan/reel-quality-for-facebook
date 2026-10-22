@@ -2,7 +2,7 @@
 
 <h1 align="center">Reel Quality for Facebook</h1>
 
-<p align="center">A Chrome extension that adds a quality menu to Facebook Reels.<br>Made by <b>Louis</b>.</p>
+<p align="center">A Chrome extension that adds a quality menu and a download button to Facebook Reels.<br>Made by <b>Louis</b>.</p>
 
 <p align="center">
   <a href="https://chromewebstore.google.com/detail/nbgnfkagjipmlfhlpilandmenjmilmcc"><img src="https://img.shields.io/chrome-web-store/v/nbgnfkagjipmlfhlpilandmenjmilmcc?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white" alt="Chrome Web Store version"></a>
@@ -21,12 +21,13 @@ Facebook Reels has no quality setting. It picks a resolution for you and often s
 - **Real qualities only.** The menu lists only the resolutions that exist for the current reel and that your browser can play. If a reel has a single quality, the button stays hidden.
 - **Remembers your choice.** The quality you pick is applied to the next reels too. If a reel doesn't have that exact quality, the closest lower one is used.
 - **Expand landscape clips.** Many reels are a horizontal clip pasted into a vertical frame with black bars and captions. The extension spots the clip and adds **⤢ Expand landscape clip** to the menu, which shows it large in the middle of the screen at the best available quality. Click the clip to pause, press Esc to close.
+- **Download reels with sound.** A **Download** button sits right above Facebook's Like button. Pick a quality from its menu (each shows an estimated file size) and the reel is saved as a single MP4 with sound. Facebook serves picture and sound as separate streams; the extension joins them inside your browser, so nothing is uploaded anywhere. The button shows the progress; click it again to cancel. If the Like column can't be found, the download options appear in the quality menu instead.
 - **See what you're getting.** On Auto, the button shows the resolution Facebook is actually playing, like `Auto · 540p`. The button fades out while you watch and comes back when you move the mouse (can be turned off).
-- **Keyboard shortcuts.** `Q` opens the menu, `Shift+↑` / `Shift+↓` step the quality, `A` goes back to Auto, `E` expands a landscape clip.
+- **Keyboard shortcuts.** `Q` opens the menu, `Shift+↑` / `Shift+↓` step the quality, `A` goes back to Auto, `E` expands a landscape clip, `D` opens the download menu.
 - **Movable button.** Drag the button anywhere on the video, or pick one of 8 preset positions from the menu. The position is saved relative to the video, so it stays in place across reels, window sizes and fullscreen.
 - **Seamless.** Facebook's player keeps handling sound, controls, looping and seeking. Until the chosen quality is ready, Facebook's own picture keeps showing, so you never see a black frame.
-- **English and Vietnamese UI.** The menu follows Facebook's language setting.
-- **Private.** No data collection, no network requests other than the video files Facebook already serves, and no extra permissions. See [PRIVACY.md](PRIVACY.md).
+- **20 languages.** English, Vietnamese, Spanish, Portuguese, French, German, Italian, Polish, Russian, Turkish, Arabic, Hindi, Indonesian, Malay, Filipino, Thai, Japanese, Korean and Chinese (Simplified and Traditional). The menu follows Facebook's language setting.
+- **Private.** No data collection, no network requests other than the video files Facebook already serves, and no extra permissions. Downloads are put together in your browser and saved straight to your computer. See [PRIVACY.md](PRIVACY.md).
 
 ## Install
 

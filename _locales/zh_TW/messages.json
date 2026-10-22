@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Reel Quality – Facebook Reels 高畫質",
+    "description": "Extension name shown in Chrome and on the Chrome Web Store (max 75 characters)."
+  },
+  "extShortName": {
+    "message": "Reel Quality",
+    "description": "Short name used where space is limited (max 12 characters recommended)."
+  },
+  "extDescription": {
+    "message": "在影片上直接為 Facebook Reels 選擇 1080p、720p… 畫質，不再自動降到 360p。可連聲音一起儲存 Reels，可放大橫向片段。作者：Louis",
+    "description": "Summary shown in Chrome and on the Chrome Web Store (max 132 characters)."
+  }
+}

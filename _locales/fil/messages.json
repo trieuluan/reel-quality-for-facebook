@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Reel Quality – HD na kalidad sa Facebook Reels",
+    "description": "Extension name shown in Chrome and on the Chrome Web Store (max 75 characters)."
+  },
+  "extShortName": {
+    "message": "Reel Quality",
+    "description": "Short name used where space is limited (max 12 characters recommended)."
+  },
+  "extDescription": {
+    "message": "Piliin ang 1080p, 720p… sa Facebook Reels sa halip na malabong 360p, at i-save ang Reels nang may tunog. Gawa ni Louis.",
+    "description": "Summary shown in Chrome and on the Chrome Web Store (max 132 characters)."
+  }
+}

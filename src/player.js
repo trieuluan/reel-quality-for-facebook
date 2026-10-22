@@ -9,7 +9,7 @@
   const BEHIND = 20; // seconds kept behind it
   const MAX_DRIFT = 0.6; // hard re-sync above this, otherwise nudge playbackRate
 
-  async function fetchRange(url, { start, end }) {
+  async function fetchRange(url, { start, end }, signal) {
     const want = end - start + 1;
     const attempts = [
       () => [url, { headers: { Range: `bytes=${start}-${end}` } }],
@@ -21,8 +21,11 @@
       },
     ];
     for (const make of attempts) {
+      signal?.throwIfAborted();
       const [u, opts] = make();
       const ctrl = new AbortController();
+      const cancel = () => ctrl.abort();
+      signal?.addEventListener('abort', cancel);
       try {
         const res = await FBQ.fetch(u, { ...opts, signal: ctrl.signal });
         const len = +res.headers.get('content-length');
@@ -32,8 +35,12 @@
         }
         const buf = await res.arrayBuffer();
         if (buf.byteLength === want) return buf;
-      } catch {}
+      } catch {
+      } finally {
+        signal?.removeEventListener('abort', cancel);
+      }
     }
+    signal?.throwIfAborted();
     throw new Error(`[FBQ] could not fetch bytes ${start}-${end}`);
   }
 
@@ -219,4 +226,5 @@
 
   FBQ.OverlayPlayer = OverlayPlayer;
   FBQ.parseSidx = parseSidx;
+  FBQ.fetchRange = fetchRange;
 })();

@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Reel Quality – Facebook リールを高画質で",
+    "description": "Extension name shown in Chrome and on the Chrome Web Store (max 75 characters)."
+  },
+  "extShortName": {
+    "message": "Reel Quality",
+    "description": "Short name used where space is limited (max 12 characters recommended)."
+  },
+  "extDescription": {
+    "message": "Facebook リールの画質 (1080p, 720p…) を動画上で選べて、360p に勝手に下がりません。音声付きで保存も。横長クリップの拡大も。作者: Louis",
+    "description": "Summary shown in Chrome and on the Chrome Web Store (max 132 characters)."
+  }
+}

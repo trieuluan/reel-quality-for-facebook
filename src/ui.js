@@ -1,10 +1,13 @@
 // Quality button + menu pinned to the reel that is currently on screen.
 // Only shown when the video's manifest offers at least two qualities this browser can play.
+// Download button stacked above Facebook's Like button; if that column can't be found, downloads
+// move into the quality menu instead.
 (() => {
   const FBQ = (window.__FBQ ||= {});
   const PREF_KEY = 'fbq-quality';
   const POS_KEY = 'fbq-button-pos';
   const AUTOHIDE_KEY = 'fbq-autohide';
+  const DL_ICON = 40; // px, round hit area around the download arrow
   const HIDE_AFTER = 2500; // ms without mouse movement over the video before the button fades out
   const MARGIN = 12; // px between the button and the video edge
   const DEFAULT_POS = { x: 0.5, y: 0 }; // fractions of the free space inside the video: 0 = left/top, 1 = right/bottom
@@ -37,30 +40,7 @@
     'baa4b2d45f40', '82944dcb58f8', 'fec122453f50',
   ];
 
-  const STRINGS = {
-    en: {
-      buttonTitle: 'Video quality', quality: 'Quality', auto: 'Auto', position: 'Button position',
-      autoHide: 'Hide button until the mouse moves', shortcuts: 'Keys: Q menu · Shift+↑/↓ quality · A auto · E expand',
-      dragHint: 'Or drag the button', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Support',
-      reviewAsk: '⭐ Finding Reel Quality useful?', reviewRate: 'Rate it', reviewIssue: 'Report a problem', reviewLater: 'Not now',
-      expand: '⤢ Expand landscape clip', viewerTip: 'Click the video to pause · click outside or press Esc to close',
-      topLeft: 'Top left', topCenter: 'Top center', topRight: 'Top right', middleLeft: 'Middle left',
-      middleRight: 'Middle right', bottomLeft: 'Bottom left', bottomCenter: 'Bottom center', bottomRight: 'Bottom right',
-    },
-    vi: {
-      buttonTitle: 'Chất lượng video', quality: 'Chất lượng', auto: 'Tự động', position: 'Vị trí nút',
-      autoHide: 'Ẩn nút khi không di chuột', shortcuts: 'Phím tắt: Q menu · Shift+↑/↓ chất lượng · A tự động · E phóng to',
-      dragHint: 'Hoặc giữ chuột và kéo nút', credit: `Reel Quality · by ${AUTHOR}`, support: '☕ Ủng hộ',
-      reviewAsk: '⭐ Thấy Reel Quality hữu ích?', reviewRate: 'Đánh giá', reviewIssue: 'Báo lỗi', reviewLater: 'Để sau',
-      scanToDonate: 'Quét bằng MoMo hoặc app ngân hàng', orKofi: 'Hoặc ủng hộ qua Ko-fi',
-      expand: '⤢ Phóng to clip ngang', viewerTip: 'Bấm vào video để dừng · bấm ra ngoài hoặc Esc để đóng',
-      topLeft: 'Trên - Trái', topCenter: 'Trên - Giữa', topRight: 'Trên - Phải', middleLeft: 'Giữa - Trái',
-      middleRight: 'Giữa - Phải', bottomLeft: 'Dưới - Trái', bottomCenter: 'Dưới - Giữa', bottomRight: 'Dưới - Phải',
-    },
-  };
-  // Follow Facebook's own UI language, falling back to the browser's.
-  const lang = () => ((document.documentElement.lang || navigator.language || 'en').toLowerCase().startsWith('vi') ? 'vi' : 'en');
-  const t = (key) => STRINGS[lang()][key];
+  const { lang, t, rtl } = FBQ.i18n; // strings live in i18n.js
   const GEAR =
     'M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.5.5 0 0 0 .12-.61l-1.92-3.32a.5.5 0 0 0-.59-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.47.47 0 0 0-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.47.47 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.5.5 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.48.48 0 0 0-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z';
 
@@ -82,7 +62,7 @@
     .cell:hover { background: rgba(255,255,255,.3); }
     .cell.active { background: #2d88ff; }
     .hint { padding: 0 10px 4px; font-size: 11px; opacity: .5; }
-    .footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px 0 10px; }
+    .footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 0; padding-inline: 10px 4px; }
     .credit { font-size: 10px; opacity: .4; white-space: nowrap; }
     .support { white-space: nowrap; padding: 3px 6px; border: 0; border-radius: 5px; background: none; color: #fbbf24; font: inherit; font-size: 11px;
       font-weight: 600; cursor: pointer; opacity: .85; }
@@ -100,14 +80,23 @@
     .review button:hover { background: rgba(255,255,255,.2); }
     .review button.primary { background: #fbbf24; color: #1c1c1e; font-weight: 600; }
     .review button.primary:hover { background: #fcd34d; }
-    .review button.quiet { margin-left: auto; background: none; opacity: .6; }
+    .review button.quiet { margin-inline-start: auto; background: none; opacity: .6; }
     .title { padding: 4px 10px 6px; font-size: 12px; opacity: .6; }
     .item { display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 10px; border: 0; border-radius: 6px;
-      background: none; color: inherit; font: inherit; text-align: left; white-space: nowrap; cursor: pointer; }
+      background: none; color: inherit; font: inherit; text-align: start; white-space: nowrap; cursor: pointer; }
     .item:hover { background: rgba(255,255,255,.1); }
     .check { width: 14px; }
-    .sub { margin-left: auto; padding-left: 12px; font-size: 11px; opacity: .55; }
+    .sub { margin-inline-start: auto; padding-inline-start: 12px; direction: ltr; unicode-bidi: isolate; font-size: 11px; opacity: .55; }
     .hd { font-size: 9px; font-weight: 700; padding: 1px 3px; border-radius: 3px; background: #e41e3f; }
+    .dl { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 56px; max-width: 96px; text-align: center; padding: 0; border: 0; background: none;
+      color: #fff; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600; line-height: 1.2; text-shadow: 0 1px 2px rgba(0,0,0,.45); }
+    .dl .icon { display: grid; place-items: center; width: ${DL_ICON}px; height: ${DL_ICON}px; border-radius: 50%; transition: background .15s; }
+    .dl:hover .icon { background: rgba(255,255,255,.12); }
+    .dl:focus { outline: none; } .dl:focus-visible .icon { outline: 2px solid #2d88ff; }
+    .dl.running .icon { background: conic-gradient(rgba(255,255,255,.35) var(--p), transparent 0); }
+    .dl svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,.4)); }
+    .dl-menu { top: 0; right: calc(100% + 8px); }
   `;
 
   const state = {
@@ -124,6 +113,10 @@
     review: readReview(),
     clip: null, // landscape clip found inside a vertical reel, see expand.js
     viewer: null,
+    entry: null, // manifest entry of state.video
+    downloads: [], // downloadable video reps for it, best first
+    rail: null, // { like, item, next }: Facebook's Like button, its block (icon + count) and the Comment button below
+    download: null, // { video, rep, progress, status: 'running'|'done'|'error', ctrl }
   };
 
   function readPref() {
@@ -228,6 +221,15 @@
     svg.append(path);
     return svg;
   }
+  function downloadIcon() {
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', 'M12 3.5v12M6.5 10.5 12 16l5.5-5.5M4.5 20.5h15');
+    svg.append(path);
+    return svg;
+  }
   function gearIcon() {
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
@@ -294,8 +296,26 @@
   };
   btn.addEventListener('pointerup', endDrag);
   btn.addEventListener('pointercancel', endDrag);
+  const dlHost = el('div');
+  const dlRoot = dlHost.attachShadow({ mode: 'closed' });
+  dlRoot.adoptedStyleSheets = [sheet];
+  const dlLabel = el('span');
+  const dlBtn = el('button', { className: 'dl' }, [el('span', { className: 'icon' }, [downloadIcon()]), dlLabel]);
+  const dlMenu = el('div', { className: 'menu dl-menu' });
+  dlRoot.append(dlBtn, dlMenu);
+  for (const type of ['click', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'dblclick']) {
+    dlHost.addEventListener(type, (e) => e.stopPropagation());
+  }
+  dlBtn.addEventListener('click', () => {
+    if (state.download?.status === 'running' && state.download.video === state.video) return state.download.ctrl.abort();
+    dlMenu.classList.toggle('open');
+    renderDownload();
+  });
+
   document.addEventListener('pointerdown', (e) => {
-    if (!e.composedPath().includes(host)) menu.classList.remove('open');
+    const path = e.composedPath();
+    if (!path.includes(host)) menu.classList.remove('open');
+    if (!path.includes(dlHost)) dlMenu.classList.remove('open');
   });
 
   const current = () => (state.player && !state.player.dead ? state.player.rep : null);
@@ -312,7 +332,7 @@
     if (!menu.classList.contains('open')) return (menuSignature = '');
     const active = current();
     // Rebuild only on change: replacing the buttons mid-click would swallow the click.
-    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, shouldAskReview(), state.autoHide, lang(), ...state.qualities.map((r) => r.url)].join('|');
+    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, shouldAskReview(), state.autoHide, lang(), ...state.qualities.map((r) => r.url), state.rail ? '' : downloadSignature()].join('|');
     if (signature === menuSignature) return;
     menuSignature = signature;
     const item = (label, checked, sub, onPick) =>
@@ -334,6 +354,10 @@
     if (state.clip) {
       if (rows.length) rows.push(el('div', { className: 'sep' }));
       rows.push(el('button', { className: 'item', textContent: t('expand'), onclick: openViewer }));
+    }
+    if (!state.rail && state.downloads.length) {
+      if (rows.length) rows.push(el('div', { className: 'sep' }));
+      rows.push(...downloadRows());
     }
     rows.push(el('div', { className: 'sep' }), el('div', { className: 'title', textContent: t('position') }));
     const cells = PRESETS.map((p) => {
@@ -360,11 +384,12 @@
       );
     }
     const support = el('button', { className: 'support', textContent: t('support'), onclick: openSupport });
-    rows.push(el('div', { className: 'sep' }), el('div', { className: 'footer' }, [el('span', { className: 'credit', textContent: t('credit') }), support]));
+    rows.push(el('div', { className: 'sep' }), el('div', { className: 'footer' }, [el('span', { className: 'credit', textContent: `Reel Quality · by ${AUTHOR}` }), support]));
     if (state.donateOpen) {
       const kofi = el('a', { href: KOFI_URL, target: '_blank', rel: 'noopener', textContent: t('orKofi') });
       rows.push(el('div', { className: 'donate' }, [qrIcon(), el('span', { textContent: t('scanToDonate') }), kofi]));
     }
+    menu.dir = rtl() ? 'rtl' : 'ltr';
     menu.replaceChildren(...rows);
   }
 
@@ -376,6 +401,155 @@
     } else {
       window.open(KOFI_URL, '_blank', 'noopener');
     }
+  }
+
+  // --- download ------------------------------------------------------------------
+
+  const audioRep = () => (state.entry ? FBQ.bestAudio(state.entry.reps) : null);
+  const mine = () => (state.download?.video === state.video ? state.download : null);
+  const megabytes = (bytes) => (bytes >= 10e6 ? Math.round(bytes / 1e6) : (bytes / 1e6).toFixed(1));
+  const codecName = (r) => ({ avc1: '', avc3: '', hev1: 'HEVC', hvc1: 'HEVC', vp09: 'VP9', av01: 'AV1' })[r.codecs.slice(0, 4)] ?? r.codecs.slice(0, 4);
+
+  function downloadSignature() {
+    const dl = mine();
+    return [dl?.rep.url, dl?.status, dl && Math.floor(dl.progress * 100), ...state.downloads.map((r) => r.url)].join(',');
+  }
+
+  // Shared by the download menu and the quality-menu fallback.
+  function downloadRows() {
+    const dl = mine();
+    const playing = current()?.label || fbPlayingLabel(state.video);
+    const audio = audioRep();
+    const rows = [el('div', { className: 'title', textContent: t('downloadTitle') })];
+    for (const rep of state.downloads) {
+      const label = el('span', {}, [rep.label]);
+      if (FBQ.qualityHeight(rep) >= 720) label.append(' ', el('span', { className: 'hd', textContent: 'HD' }));
+      let sub = `~${megabytes(FBQ.estimateSize(rep, audio, state.video?.duration))} MB`;
+      if (codecName(rep)) sub += ` · ${codecName(rep)}`;
+      if (dl?.rep === rep && dl.status === 'running') sub = `${Math.floor(dl.progress * 100)}%`;
+      const onPick = () => (dl?.status === 'running' ? dl.rep === rep && dl.ctrl.abort() : startDownload(rep));
+      rows.push(
+        el('button', { className: 'item', onclick: onPick }, [
+          el('span', { className: 'check', textContent: rep.label === playing ? '•' : '' }),
+          label,
+          el('span', { className: 'sub', textContent: sub }),
+        ])
+      );
+    }
+    if (!audio) rows.push(el('div', { className: 'hint', textContent: t('noSound') }));
+    return rows;
+  }
+
+  let dlSignature = '';
+  function renderDownload() {
+    const dl = mine();
+    dlBtn.classList.toggle('running', dl?.status === 'running');
+    dlBtn.style.setProperty('--p', `${Math.round((dl?.progress || 0) * 360)}deg`);
+    dlLabel.textContent =
+      dl?.status === 'running' ? `${Math.floor(dl.progress * 100)}%` : dl?.status === 'done' ? '✓' : dl?.status === 'error' ? '!' : t('download');
+    dlBtn.title = dl?.status === 'running' ? t('downloadCancel') : dl?.status === 'error' ? t('downloadFailed') : t('downloadTitle');
+    if (!dlMenu.classList.contains('open')) return (dlSignature = '');
+    const signature = [downloadSignature(), current()?.label, fbPlayingLabel(state.video), lang()].join('|');
+    if (signature === dlSignature) return;
+    dlSignature = signature;
+    dlMenu.dir = rtl() ? 'rtl' : 'ltr';
+    dlMenu.replaceChildren(...downloadRows());
+  }
+
+  const fileName = (rep) => {
+    const id = state.entry?.id || /\/reels?\/(\d+)/.exec(location.pathname)?.[1] || Date.now();
+    return `reel-${id}-${rep.label}.mp4`;
+  };
+
+  async function startDownload(rep) {
+    if (state.download?.status === 'running' || !state.video) return;
+    const dl = (state.download = { video: state.video, rep, progress: 0, status: 'running', ctrl: new AbortController() });
+    const name = fileName(rep);
+    const audio = audioRep();
+    dlMenu.classList.remove('open');
+    menu.classList.remove('open');
+    const refresh = () => {
+      renderDownload();
+      renderMenu();
+    };
+    refresh();
+    let last = 0;
+    try {
+      const blob = await FBQ.downloadReel({
+        video: rep,
+        audio,
+        signal: dl.ctrl.signal,
+        onProgress: (p) => {
+          dl.progress = p;
+          if (Date.now() - last > 100 || p === 1) {
+            last = Date.now();
+            refresh();
+          }
+        },
+      });
+      FBQ.saveBlob(blob, name);
+      dl.status = 'done';
+    } catch (e) {
+      dl.status = dl.ctrl.signal.aborted ? 'cancelled' : 'error';
+      if (dl.status === 'error') console.warn('[FBQ] download failed:', e);
+    }
+    const clear = () => {
+      if (state.download === dl) state.download = null;
+      refresh();
+    };
+    dl.status === 'cancelled' ? clear() : setTimeout(clear, dl.status === 'done' ? 2000 : 4000);
+    refresh();
+  }
+
+  // Facebook's reel actions (Like, Comment, Share, ...) form an evenly spaced column of labelled buttons
+  // just right of the video. Class names are obfuscated and labels are translated, so go by layout only.
+  function findRail(video) {
+    const v = video.getBoundingClientRect();
+    const columns = [];
+    for (const node of document.querySelectorAll('[role="button"][aria-label], button[aria-label]')) {
+      const r = node.getBoundingClientRect();
+      if (r.width < 20 || r.width > 90 || r.height < 20 || r.height > 90) continue;
+      const x = r.left + r.width / 2;
+      const y = r.top + r.height / 2;
+      if (x < v.right - 100 || x > v.right + 160 || y < v.top || y > v.bottom) continue;
+      let col = columns.find((c) => Math.abs(c.x - x) < 10);
+      if (!col) columns.push((col = { x, items: [] }));
+      if (!col.items.some((i) => Math.abs(i.y - y) < 6)) col.items.push({ node, y }); // skip nested duplicates
+    }
+    for (const col of columns.sort((a, b) => b.items.length - a.items.length)) {
+      if (col.items.length < 3) break;
+      const [a, b, c] = col.items.sort((p, q) => p.y - q.y);
+      const gap = b.y - a.y;
+      if (gap > 30 && gap < 140 && Math.abs(c.y - b.y - gap) < gap * 0.35) return { like: a.node, item: railItem(a.node, b.node), next: b.node };
+    }
+    return null;
+  }
+
+  // The Like button's whole block, count included: its widest ancestor that stays narrow and doesn't reach Comment.
+  function railItem(like, next) {
+    let item = like;
+    for (let n = like.parentElement, i = 0; n && i < 5; n = n.parentElement, i++) {
+      if (n.contains(next) || n.getBoundingClientRect().width > 120) break;
+      item = n;
+    }
+    return item;
+  }
+
+  function positionDownload() {
+    const rail = state.rail;
+    const show = !!(rail?.like.isConnected && state.downloads.length);
+    dlHost.style.display = show ? 'block' : 'none';
+    if (!show) return;
+    const container = document.fullscreenElement || document.body;
+    if (dlHost.parentNode !== container) container.append(dlHost);
+    // Leave the same empty space above Like as Facebook leaves between the Like count and Comment,
+    // with the icon centred on the column's axis.
+    const r = rail.like.getBoundingClientRect();
+    const space = Math.min(32, Math.max(8, rail.next.getBoundingClientRect().top - rail.item.getBoundingClientRect().bottom));
+    const left = r.left + r.width / 2 - dlHost.offsetWidth / 2;
+    const top = r.top - space - dlHost.offsetHeight;
+    dlHost.style.left = `${Math.min(innerWidth - dlHost.offsetWidth - 4, Math.max(4, left))}px`;
+    dlHost.style.top = `${Math.max(4, top)}px`;
   }
 
   function movePreset(x, y) {
@@ -482,20 +656,26 @@
       state.clip = null;
       lastDetect = 0;
       menu.classList.remove('open');
+      dlMenu.classList.remove('open');
     }
     const entry = video && FBQ.entryForVideo(video);
+    state.entry = entry;
     state.qualities = entry ? FBQ.playableQualities(entry.reps) : [];
+    state.downloads = entry ? FBQ.downloadQualities(entry.reps) : [];
+    state.rail = video && state.downloads.length ? findRail(video) : null;
     detectClip();
-    const visible = state.qualities.length >= 2 || !!state.clip;
+    const visible = state.qualities.length >= 2 || !!state.clip || (!state.rail && state.downloads.length > 0);
     host.style.display = visible ? 'block' : 'none';
     if (state.qualities.length >= 2) applyPref();
     else stopPlayer();
     renderButton();
     renderMenu();
+    renderDownload();
   }
 
   function position() {
     requestAnimationFrame(position);
+    positionDownload();
     if (!state.video || host.style.display === 'none') return;
     const container = document.fullscreenElement || document.body;
     if (host.parentNode !== container) container.append(host);
@@ -523,7 +703,7 @@
     menu.classList.toggle('al-center', x >= 0.34 && x <= 0.66);
   }
 
-  FBQ.ui = { state, menu, choose, openViewer }; // for debugging from the console
+  FBQ.ui = { state, menu, choose, openViewer, startDownload }; // for debugging from the console
 
   // --- auto-hide and keyboard shortcuts ------------------------------------------
 
@@ -576,10 +756,22 @@
         if (current() || state.pref) choose(null); // back to Auto, and forget the saved quality
       } else if (e.shiftKey && (e.code === 'ArrowUp' || e.code === 'ArrowDown')) {
         stepQuality(e.code === 'ArrowUp');
+      } else if (e.code === 'KeyD' && !e.shiftKey && state.downloads.length) {
+        if (mine()?.status === 'running') {
+          // already downloading this reel; D does nothing rather than cancelling by surprise
+        } else if (state.rail) {
+          dlMenu.classList.toggle('open');
+          renderDownload();
+        } else {
+          menu.classList.add('open');
+          state.donateOpen = false;
+          renderMenu();
+        }
       } else if (e.code === 'KeyE' && !e.shiftKey && (state.clip || state.viewer)) {
         state.viewer ? state.viewer.close() : openViewer();
-      } else if (e.code === 'Escape' && menu.classList.contains('open')) {
+      } else if (e.code === 'Escape' && (menu.classList.contains('open') || dlMenu.classList.contains('open'))) {
         menu.classList.remove('open');
+        dlMenu.classList.remove('open');
       } else {
         handled = false;
       }
@@ -592,7 +784,7 @@
   );
 
   function boot() {
-    document.body.append(host);
+    document.body.append(host, dlHost);
     setInterval(update, 400);
     requestAnimationFrame(position);
   }

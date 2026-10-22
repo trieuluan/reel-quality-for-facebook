@@ -1,0 +1,39 @@
+# Chrome Web Store listing (Polski)
+
+Bản tiếng Ba Lan cho trang cửa hàng. Trên Developer Dashboard, ở **Store listing**, chọn ngôn ngữ **Polski** rồi dán phần dưới vào ô **Description**. Tên và mô tả ngắn đã có sẵn trong `_locales/pl/messages.json`.
+
+## Description
+
+```text
+Facebook Reels nie ma ustawienia jakości wideo. Facebook sam wybiera rozdzielczość i nawet przy szybkim łączu Reels często spadają do 540p lub 360p i wyglądają na rozmyte. Reel Quality dodaje mały przycisk jakości bezpośrednio na oglądanym Reelu, dzięki czemu to Ty wybierasz rozdzielczość: HD 1080p, 720p lub inną, którą oferuje wideo.
+
+🛠️ JAK UŻYWAĆ
+Otwórz dowolny Reel na facebook.com i kliknij przycisk z zębatką (⚙) na wideo. Menu pokazuje dokładnie te poziomy jakości, które obsługuje dany Reel (na przykład 1080p, 720p, 540p, 360p). Wybierz jeden, a wideo od razu przełączy się na tę rozdzielczość. Wybierz „Automatycznie”, aby wrócić do domyślnego ustawienia Facebooka.
+
+✨ NAJWAŻNIEJSZE FUNKCJE
+• Tylko prawdziwa jakość: menu pokazuje wyłącznie rozdzielczości, które Reel naprawdę ma i które Twoja przeglądarka potrafi odtworzyć. Żadnego sztucznego skalowania ani wymyślonych liczb.
+• Zapamiętuje wybór: wybrana rozdzielczość jest automatycznie stosowana do kolejnych Reels. Jeśli Reel jej nie ma, używana jest najbliższa niższa jakość.
+• Powiększanie poziomych klipów: wiele Reels to w rzeczywistości poziomy klip umieszczony w pionowej ramce z czarnymi pasami i napisami. Reel Quality wykrywa taki klip i pokazuje go w dużym rozmiarze na środku ekranu, w najlepszej dostępnej jakości.
+• Zapisywanie Reels z dźwiękiem: przycisk Pobierz znajduje się tuż nad przyciskiem „Lubię to!” Facebooka. Wybierz jakość (widać szacowany rozmiar pliku), a Reel zostanie zapisany na Twoim komputerze jako jeden plik MP4 z dźwiękiem. Obraz i dźwięk są łączone w Twojej przeglądarce, nic nie jest nigdzie wysyłane. Kliknij przycisk ponownie, aby anulować.
+• Prawdziwa rozdzielczość na widoku: w trybie „Automatycznie” przycisk pokazuje dokładną rozdzielczość, którą odtwarza Facebook (na przykład „Automatycznie · 540p”), więc od razu widzisz spadek jakości.
+• Chowa się podczas oglądania: przycisk znika po kilku sekundach, żeby nie zasłaniać wideo, i wraca, gdy tylko poruszysz myszą. Można to wyłączyć w menu.
+• Skróty klawiszowe: Q otwiera menu, Shift + ↑ / Shift + ↓ podnoszą lub obniżają jakość, A wraca do trybu automatycznego, E powiększa poziomy klip, a D otwiera menu pobierania. Skróty nie działają, gdy piszesz komentarz lub szukasz.
+• Przesuwany przycisk: przeciągnij przycisk w dowolne miejsce wideo lub wybierz jedną z 8 gotowych pozycji w menu. Pozycja zostaje zachowana po zmianie Reela, zmianie rozmiaru okna i w trybie pełnoekranowym.
+• Płynne odtwarzanie: dźwięk, sterowanie, zapętlanie i przewijanie nadal obsługuje odtwarzacz Facebooka. Podczas ładowania nowej jakości nigdy nie zobaczysz czarnego ekranu.
+• 20 języków, w tym polski, angielski, hiszpański, portugalski, niemiecki, rosyjski i wietnamski: interfejs dopasowuje się do języka Twojego konta na Facebooku.
+• Lekkie i bezpieczne: bez wyskakujących okienek, bez rejestracji, bez skomplikowanej strony ustawień.
+
+🔒 PRYWATNOŚĆ I BEZPIECZEŃSTWO
+Reel Quality nie zbiera żadnych danych użytkownika. Nie ma analityki, trackerów ani własnych serwerów. Rozszerzenie nie prosi o wrażliwe uprawnienia, działa tylko na facebook.com i pobiera wideo wyłącznie z serwerów wideo Facebooka. Wybrana jakość, pozycja przycisku i opcje wyświetlania są zapisywane lokalnie w Twojej przeglądarce. Pobrane Reels są składane w Twojej przeglądarce i zapisywane bezpośrednio na Twoim komputerze.
+
+💻 OTWARTE ŹRÓDŁO
+Cały kod źródłowy jest publiczny na GitHubie: https://github.com/trieuluan/reel-quality-for-facebook
+Trafiłeś na Reel, który nie działa, albo na funkcję z błędem? Zgłoś issue na GitHubie, a sprawdzę to.
+
+☕ WESPRZYJ PROJEKT
+Reel Quality jest całkowicie darmowe. Jeśli umila Ci oglądanie Reels, możesz postawić mi kawę na https://ko-fi.com/luantruong19136 albo użyć przycisku ☕ Wesprzyj w menu.
+
+Autor: Louis.
+
+Zastrzeżenie: Reel Quality to niezależny projekt. Nie jest powiązany z Meta Platforms, Inc. ani przez nią zatwierdzony czy sponsorowany. Facebook jest zastrzeżonym znakiem towarowym Meta Platforms, Inc.
+```
