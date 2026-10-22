@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "Reel Quality – Facebook 릴스 고화질 설정",
+    "message": "Reel Quality – Facebook 동영상·릴스 다운로드 & 고화질",
     "description": "Extension name shown in Chrome and on the Chrome Web Store (max 75 characters)."
   },
   "extShortName": {
@@ -8,7 +8,7 @@
     "description": "Short name used where space is limited (max 12 characters recommended)."
   },
   "extDescription": {
-    "message": "Facebook 릴스 화질(1080p, 720p…)을 영상 위에서 바로 선택하고, 소리까지 담아 저장하세요. 가로 클립 확대도 지원. 제작: Louis",
+    "message": "Facebook 동영상과 릴스를 소리까지 HD로 저장하거나, 흐린 360p 대신 1080p로 보세요. 무료, 가입 불필요. 제작: Louis",
     "description": "Summary shown in Chrome and on the Chrome Web Store (max 132 characters)."
   }
 }

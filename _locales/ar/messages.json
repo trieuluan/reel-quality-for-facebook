@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "Reel Quality – جودة HD لمقاطع Facebook Reels",
+    "message": "Reel Quality – تنزيل فيديوهات ومقاطع Reels من Facebook بجودة HD",
     "description": "Extension name shown in Chrome and on the Chrome Web Store (max 75 characters)."
   },
   "extShortName": {
@@ -8,7 +8,7 @@
     "description": "Short name used where space is limited (max 12 characters recommended)."
   },
   "extDescription": {
-    "message": "اختر 1080p أو 720p… لمقاطع Facebook Reels بدل 360p الضبابية، واحفظ المقاطع بالصوت. تكبير المقاطع الأفقية. من Louis.",
+    "message": "نزّل فيديوهات ومقاطع Reels من Facebook بجودة HD مع الصوت، أو شاهدها بدقة 1080p بدل 360p الضبابية. مجاني. من Louis.",
     "description": "Summary shown in Chrome and on the Chrome Web Store (max 132 characters)."
   }
 }

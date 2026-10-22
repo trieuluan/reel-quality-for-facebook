@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "Reel Quality – Kualiti HD untuk Facebook Reels",
+    "message": "Reel Quality – Muat Turun Video & Reels Facebook HD",
     "description": "Extension name shown in Chrome and on the Chrome Web Store (max 75 characters)."
   },
   "extShortName": {
@@ -8,7 +8,7 @@
     "description": "Short name used where space is limited (max 12 characters recommended)."
   },
   "extDescription": {
-    "message": "Pilih 1080p, 720p… untuk Facebook Reels, bukan 360p yang kabur, dan simpan Reels berserta bunyi. Besarkan klip mendatar. Oleh Louis.",
+    "message": "Muat turun video dan Reels Facebook dalam HD berserta bunyi, atau tonton 1080p, bukan 360p yang kabur. Percuma. Oleh Louis.",
     "description": "Summary shown in Chrome and on the Chrome Web Store (max 132 characters)."
   }
 }

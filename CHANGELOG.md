@@ -3,6 +3,7 @@
 ## Unreleased
 
 - **Review ask after downloads.** After your second saved reel, a small "Finding Reel Quality useful? Rate it / Report a problem / Not now" card appears beside the download button. Clicking elsewhere just closes it (it may come back, at most once a day); "Not now" and the at-most-twice limit work as before.
+- **Store name and summary say what people search for.** In all 20 languages they now lead with downloading Facebook Reels and videos in HD with sound ("Facebook Reels & Video Downloader", "Tải video, Reels Facebook HD", "Descargar videos y Reels de Facebook"…), then watching in 1080p.
 
 ## 1.3.0 (2026-10-22)
 

@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "Reel Quality – Facebook Reels में HD क्वालिटी",
+    "message": "Reel Quality – Facebook वीडियो और Reels डाउनलोडर (HD)",
     "description": "Extension name shown in Chrome and on the Chrome Web Store (max 75 characters)."
   },
   "extShortName": {
@@ -8,7 +8,7 @@
     "description": "Short name used where space is limited (max 12 characters recommended)."
   },
   "extDescription": {
-    "message": "Facebook Reels में धुंधले 360p की जगह 1080p, 720p… चुनें और Reels आवाज़ के साथ सेव करें। हॉरिज़ॉन्टल क्लिप बड़ा करें। Louis द्वारा।",
+    "message": "Facebook वीडियो और Reels को आवाज़ के साथ HD में डाउनलोड करें, या धुंधले 360p की जगह 1080p में देखें। मुफ़्त। Louis द्वारा।",
     "description": "Summary shown in Chrome and on the Chrome Web Store (max 132 characters)."
   }
 }
