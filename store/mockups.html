@@ -75,6 +75,17 @@
   .item.hl { background: rgba(255,255,255,.14); }
   .label { position: absolute; text-align: center; font-weight: 700; font-size: 22px; }
   .label small { display: block; font-weight: 500; font-size: 15px; opacity: .6; margin-top: 4px; }
+  /* Facebook's action column with the download button on top, mirrors the .dl button in src/ui.js */
+  .rail { position: absolute; right: 10px; display: grid; gap: 14px; justify-items: center; transform-origin: bottom right;
+    font: 600 14px/1.2 -apple-system, "Segoe UI", system-ui, sans-serif; text-shadow: 0 1px 2px rgba(0,0,0,.45); }
+  .rail .act { position: relative; display: grid; justify-items: center; gap: 2px; min-width: 56px; }
+  .rail .icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; }
+  .rail .act.hover .icon { background: rgba(255,255,255,.18); }
+  .rail svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,.4)); }
+  .rail .dl svg { width: 28px; height: 28px; }
+  .rail .menu { top: 0; left: auto; right: calc(100% + 8px); transform: none; text-shadow: none; font: 13px/1.3 -apple-system, "Segoe UI", system-ui, sans-serif; }
+  .rail .item .check { opacity: .8; }
 </style>
 </head>
 <body style="background:#444; display:grid; gap:24px; padding:24px; justify-content:start">
@@ -88,6 +99,7 @@
     <ul class="points">
       <li><b>✓</b>Lists only the qualities each reel really has</li>
       <li><b>✓</b>Remembers your choice for the next reels</li>
+      <li><b>✓</b>Save Reels with sound, right above Like</li>
       <li><b>✓</b>Drag the button anywhere on the video</li>
       <li><b>✓</b>Shows the real resolution, with keyboard shortcuts</li>
       <li><b>✓</b>No data collected, no extra permissions</li>
@@ -95,12 +107,12 @@
   </div>
   <div class="reel" data-scene style="left:800px; top:56px; width:390px; height:690px">
     <div class="shade"></div>
-    <div class="actions"><span></span><span></span><span></span></div>
+    <div class="rail" data-rail style="bottom:30px"></div>
     <div class="meta"><div class="who"><div class="avatar"></div>travel.diaries</div><div class="line" style="width:90%"></div><div class="line" style="width:60%"></div></div>
     <div class="progress"><i></i></div>
-    <div class="ext" style="left:50%; top:16px; transform: translateX(-50%) scale(1.3)">
+    <div class="ext" style="left:14px; top:16px; transform: scale(1.05); transform-origin: top left">
       <div class="btn" data-gear>1080p</div>
-      <div class="menu">
+      <div class="menu" style="left:0; transform:none">
         <div class="title">Quality</div>
         <div class="item"><span class="check"></span>Auto<span class="sub">540p</span></div>
         <div class="item hover"><span class="check">✓</span>1080p<span class="hd">HD</span><span class="sub">3200 kbps</span></div>
@@ -109,14 +121,36 @@
         <div class="item"><span class="check"></span>360p<span class="sub">450 kbps</span></div>
         <div class="sep"></div>
         <div class="title">Button position</div>
-        <div class="grid"><i class="cell"></i><i class="cell active"></i><i class="cell"></i><i class="cell"></i><i class="cell empty"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i></div>
+        <div class="grid"><i class="cell active"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell empty"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i></div>
         <div class="hint">Or drag the button</div>
         <div class="item"><span class="check">✓</span>Hide button until the mouse moves</div>
-        <div class="hint">Keys: Q menu · Shift+↑/↓ quality · A auto · E expand</div>
+        <div class="hint">Keys: Q menu · Shift+↑/↓ quality · A auto · E expand · D download</div>
         <div class="sep"></div>
         <div class="footer"><span class="credit">Reel Quality · by Louis</span><span class="support">☕ Support</span></div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- 4. Save reels with sound -->
+<div id="shot-4" class="canvas shot">
+  <div style="position:absolute; left:80px; top:120px; width:600px; display:grid; gap:28px">
+    <div class="brand"><img data-icon alt="">Reel Quality for Facebook</div>
+    <h1>Save Reels <em>with sound</em></h1>
+    <p class="lead">A Download button sits right above Like. Pick a quality and get one MP4 file, picture and sound together.</p>
+    <ul class="points">
+      <li><b>✓</b>1080p, 720p… with the file size shown</li>
+      <li><b>✓</b>One MP4 file with picture and sound</li>
+      <li><b>✓</b>Put together in your browser, nothing uploaded</li>
+      <li><b>✓</b>Progress on the button, click again to cancel</li>
+    </ul>
+  </div>
+  <div class="reel" data-scene style="left:800px; top:56px; width:390px; height:690px">
+    <div class="shade"></div>
+    <div class="meta" style="right:90px"><div class="who"><div class="avatar"></div>travel.diaries</div><div class="line" style="width:90%"></div><div class="line" style="width:60%"></div></div>
+    <div class="progress"><i></i></div>
+    <div class="ext" style="left:50%; top:16px; transform: translateX(-50%) scale(1.15)"><div class="btn" data-gear>1080p</div></div>
+    <div class="rail" data-rail="menu" style="bottom:40px; transform: scale(1.2)"></div>
   </div>
 </div>
 
@@ -239,6 +273,28 @@
     </svg>`;
   }
 
+  // Simple outline icons for the action column (download, like, comment, share, more).
+  const ICONS = {
+    download: 'M12 3.5v12M6.5 10.5 12 16l5.5-5.5M4.5 20.5h15',
+    like: 'M7 10.5v10M7 10.5l4-7.5c1.7 0 2.7 1.2 2.4 2.9L13 9h5.6c1.3 0 2.2 1.2 1.9 2.4l-1.7 7.1c-.2.9-1 1.5-1.9 1.5H7M7 10.5H4.5v10H7',
+    comment: 'M12 3.5c4.7 0 8.5 3.4 8.5 7.6s-3.8 7.6-8.5 7.6c-1.2 0-2.3-.2-3.3-.6L4.5 20l1.2-3.6c-1.4-1.4-2.2-3.2-2.2-5.3 0-4.2 3.8-7.6 8.5-7.6z',
+    share: 'M13.5 4.5 20.5 11l-7 6.5v-4c-5 0-8 1.5-10 5 .7-5.3 3.6-9.4 10-10V4.5z',
+  };
+  const icon = (d) => `<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`;
+  function railHTML(withMenu) {
+    const act = (name, label, extra = '') => `<div class="act${extra}"><span class="icon">${icon(ICONS[name])}</span>${label}</div>`;
+    const menu = !withMenu ? '' : `<div class="menu" style="min-width:200px">
+        <div class="title">Download video</div>
+        <div class="item hover"><span class="check">•</span>1080p<span class="hd">HD</span><span class="sub">~7.4 MB</span></div>
+        <div class="item"><span class="check"></span>720p<span class="hd">HD</span><span class="sub">~4.6 MB</span></div>
+        <div class="item"><span class="check"></span>540p<span class="sub">~3.4 MB</span></div>
+        <div class="item"><span class="check"></span>360p<span class="sub">~2.1 MB</span></div>
+      </div>`;
+    return `<div class="act dl${withMenu ? ' hover' : ''}"><span class="icon">${icon(ICONS.download)}</span>Download${menu}</div>` +
+      act('like', '2.6K') + act('comment', '67') + act('share', '200') +
+      `<div class="act"><span class="icon" style="font-size:22px; letter-spacing:1px">•••</span></div>`;
+  }
+
   window.mockupsReady = (async () => {
     const blob = await (await fetch('../icons/icon-128.png')).blob();
     const iconUrl = await new Promise((r) => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(blob); });
@@ -247,6 +303,7 @@
     let n = 0;
     document.querySelectorAll('[data-scene]').forEach((r) => r.insertAdjacentHTML('afterbegin', scene(n++, r.dataset.scene === 'blur')));
     document.querySelectorAll('[data-wide]').forEach((r) => r.insertAdjacentHTML('afterbegin', sceneWide(n++)));
+    document.querySelectorAll('[data-rail]').forEach((r) => r.insertAdjacentHTML('beforeend', railHTML(r.dataset.rail === 'menu')));
   })();
 </script>
 <script src="render.js"></script>
