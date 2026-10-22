@@ -1,9 +1,10 @@
 # Changelog
 
-## Unreleased
+## 1.3.0 (2026-10-22)
 
 - **Download reels.** A **Download** button sits above Facebook's Like button. Pick a quality from its menu (with an estimated size) and the reel is saved as one MP4 with sound: the separate video and audio streams are joined in the browser, nothing is uploaded anywhere. The button shows the progress while downloading; click it again to cancel. `D` opens the menu. If the Like column can't be found, the download options appear in the quality menu instead.
 - **18 more languages.** The menus and the store name/description are now available in Spanish, Portuguese (Brazil), French, German, Italian, Polish, Russian, Turkish, Arabic (right-to-left), Hindi, Indonesian, Malay, Filipino, Thai, Japanese, Korean and Chinese (Simplified and Traditional). The menu follows Facebook's language setting.
+- **Tidier support card.** The MoMo/VietQR card now opens beside the quality menu instead of stretching it.
 
 ## 1.2.0 (2026-10-19)
 
