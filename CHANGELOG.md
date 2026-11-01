@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.4.0 (2026-11-01)
 
 - **Fullscreen for Reels.** Facebook Reels on desktop have no fullscreen button and `F` does nothing. Click the **⛶** button at the video's bottom right, level with the page name (it moves up with it when the description is expanded, so it never covers the text), or press `F`, to watch the reel fullscreen, letterboxed, with the chosen HD quality. The same button, `F` or Esc leaves. It fades out with the ⚙ button while you watch. Since Facebook's own keys and progress bar don't reach a fullscreen reel, fullscreen has its own: a progress bar with the time just above the page name and description, sharing its line with the ⛶ button (both move up when the description is expanded; click or drag the bar to seek, and hover it for a thumbnail of that moment with its time, taken from the reel's lowest quality so it loads fast), Space or `K` to play/pause, ←/→ to skip 5 seconds, and ↑/↓ for the previous/next reel, which comes back fullscreen. While fullscreen, the download options move into the quality menu.
 - **Mouse pointer hides while you watch.** Resting the mouse on a playing reel now hides the pointer together with the ⚙ and ⛶ buttons; moving it brings everything back. It stays visible while the video is paused, a menu is open, the mouse is off the video, or "Hide button until the mouse moves" is off.
