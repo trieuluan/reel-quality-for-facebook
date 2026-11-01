@@ -27,7 +27,12 @@
   const REVIEW_AFTER_DAYS = 3;
   // A saved reel is the clearest moment of value, so downloads alone are enough, without the waiting period.
   const REVIEW_AFTER_DOWNLOADS = 2;
-  const REVIEW_CARD_FOR = 30_000; // ms the card beside the download button stays up if ignored
+  // Watching in HD on a few different days counts too, including a remembered quality applied automatically:
+  // the happiest users pick 1080p once and never touch the menu again.
+  const REVIEW_AFTER_HD_DAYS = 3;
+  const REVIEW_HD_FOR = 20_000; // ms of HD playback in one go before the card may appear beside the ⚙ button
+  const REVIEW_CARD_FOR = 30_000; // ms a review card stays up if ignored
+  const REVIEW_IGNORES = 3; // cards brushed away this many times count as one "Not now"
   const REVIEW_SNOOZE_DAYS = 21;
   const REVIEW_MAX_ASKS = 2;
   // MoMo / VietQR (Napas 247) payment code, 45x45 modules, one row per 12 hex digits (45 bits + 3 padding).
@@ -70,6 +75,25 @@
     .support { white-space: nowrap; padding: 3px 6px; border: 0; border-radius: 5px; background: none; color: #fbbf24; font: inherit; font-size: 11px;
       font-weight: 600; cursor: pointer; opacity: .85; }
     .support:hover, .support.active { background: rgba(251,191,36,.12); opacity: 1; }
+    .links { display: flex; gap: 2px; }
+    .fs { display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 8px;
+      background: rgba(0,0,0,.55); color: #fff; cursor: pointer; backdrop-filter: blur(4px); }
+    .fs:hover { background: rgba(0,0,0,.75); }
+    .bar { position: relative; display: flex; align-items: center; gap: 10px; color: #fff; font-size: 12px; font-weight: 600;
+      font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+    .bar .time { white-space: nowrap; }
+    .bar .hit { flex: 1; padding: 8px 0; cursor: pointer; }
+    .bar .track { position: relative; height: 4px; border-radius: 2px; background: rgba(255,255,255,.3); box-shadow: 0 1px 2px rgba(0,0,0,.4); }
+    .bar .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: #fff; }
+    .bar .knob { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #fff;
+      opacity: 0; transition: opacity .15s; }
+    .bar .hit:hover .knob, .bar.seeking .knob { opacity: 1; }
+    .tip { position: absolute; bottom: calc(100% + 4px); display: none; flex-direction: column; align-items: center; gap: 4px; pointer-events: none; }
+    .tip.on { display: flex; }
+    .tip canvas { display: block; border-radius: 6px; background: #000; border: 2px solid rgba(255,255,255,.9); box-shadow: 0 4px 16px rgba(0,0,0,.6); }
+    .tip canvas:not([data-ready]) { visibility: hidden; }
+    .tip span { padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,.75); }
+    .fs svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .donate { position: absolute; display: none; width: 190px; box-sizing: border-box; justify-items: center; gap: 6px; padding: 12px;
       border-radius: 10px; background: #fff; color: #1c1c1e; box-shadow: 0 8px 24px rgba(0,0,0,.4); }
     .donate.open { display: grid; }
@@ -123,6 +147,7 @@
     entry: null, // manifest entry of state.video
     downloads: [], // downloadable video reps for it, best first
     rail: null, // { like, item, next }: Facebook's Like button, its block (icon + count) and the Comment button below
+    avatar: null, // the page's avatar over the video's bottom left; the ⛶ button lines up with it
     download: null, // { video, rep, progress, status: 'running'|'done'|'error', ctrl }
   };
 
@@ -154,13 +179,13 @@
     } catch {}
     return { ...DEFAULT_POS };
   }
-  // { firstSeen, switches, asks, snoozedUntil, done }: kept only in this browser's localStorage.
+  // { firstSeen, switches, downloads, hdDays, asks, snoozedUntil, done, ... }: kept only in this browser's localStorage.
   function readReview() {
     let r = null;
     try {
       r = JSON.parse(localStorage.getItem(REVIEW_KEY));
     } catch {}
-    r = { firstSeen: Date.now(), switches: 0, downloads: 0, asks: 0, snoozedUntil: 0, cardShownAt: 0, done: false, ...(r || {}) };
+    r = { firstSeen: Date.now(), switches: 0, downloads: 0, hdDays: 0, lastHdDay: '', asks: 0, snoozedUntil: 0, cardShownAt: 0, ignored: 0, done: false, ...(r || {}) };
     saveReview(r);
     return r;
   }
@@ -172,15 +197,21 @@
   function shouldAskReview() {
     const r = state.review;
     const earned =
-      (r.switches >= REVIEW_AFTER_SWITCHES && Date.now() - r.firstSeen >= REVIEW_AFTER_DAYS * DAY) || r.downloads >= REVIEW_AFTER_DOWNLOADS;
+      (r.switches >= REVIEW_AFTER_SWITCHES && Date.now() - r.firstSeen >= REVIEW_AFTER_DAYS * DAY) ||
+      r.downloads >= REVIEW_AFTER_DOWNLOADS ||
+      r.hdDays >= REVIEW_AFTER_HD_DAYS;
     return !r.done && earned && Date.now() >= r.snoozedUntil;
+  }
+  function snoozeReview(r) {
+    r.asks++;
+    r.ignored = 0;
+    r.snoozedUntil = Date.now() + REVIEW_SNOOZE_DAYS * DAY;
+    if (r.asks >= REVIEW_MAX_ASKS) r.done = true;
   }
   function answerReview(action) {
     const r = state.review;
     if (action === 'later') {
-      r.asks++;
-      r.snoozedUntil = Date.now() + REVIEW_SNOOZE_DAYS * DAY;
-      if (r.asks >= REVIEW_MAX_ASKS) r.done = true;
+      snoozeReview(r);
     } else {
       r.done = true;
       window.open(action === 'rate' ? REVIEW_URL : ISSUES_URL, '_blank', 'noopener');
@@ -265,12 +296,14 @@
   const btn = el('button', { className: 'btn', title: t('buttonTitle') }, [gearIcon(), btnLabel]);
   const menu = el('div', { className: 'menu' });
   const donate = el('div', { className: 'donate' }); // MoMo/VietQR card that opens beside the menu
-  root.append(btn, menu, donate);
+  const qReviewCard = el('div', { className: 'menu review-card' }); // review ask that opens where the menu would
+  root.append(btn, menu, donate, qReviewCard);
   for (const type of ['click', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'dblclick']) {
     host.addEventListener(type, (e) => e.stopPropagation());
   }
   btn.addEventListener('click', () => {
     if (suppressClick) return (suppressClick = false);
+    hideReviewCard();
     if (menu.classList.toggle('open')) state.donateOpen = false; // start collapsed each time
     renderMenu();
   });
@@ -332,10 +365,8 @@
   document.addEventListener('pointerdown', (e) => {
     const path = e.composedPath();
     if (!path.includes(host)) menu.classList.remove('open');
-    if (!path.includes(dlHost)) {
-      dlMenu.classList.remove('open');
-      hideReviewCard(); // dismissing it this way doesn't count as an answer
-    }
+    if (!path.includes(dlHost)) dlMenu.classList.remove('open');
+    if (!path.includes(host) && !path.includes(dlHost)) hideReviewCard(true); // brushed away, not an answer
   });
 
   const current = () => (state.player && !state.player.dead ? state.player.rep : null);
@@ -352,7 +383,7 @@
     if (!menu.classList.contains('open')) return (menuSignature = '');
     const active = current();
     // Rebuild only on change: replacing the buttons mid-click would swallow the click.
-    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, shouldAskReview(), state.autoHide, lang(), ...state.qualities.map((r) => r.url), state.rail ? '' : downloadSignature()].join('|');
+    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, shouldAskReview(), state.autoHide, lang(), ...state.qualities.map((r) => r.url), railShown() ? '' : downloadSignature()].join('|');
     if (signature === menuSignature) return;
     menuSignature = signature;
     const item = (label, checked, sub, onPick) =>
@@ -375,7 +406,7 @@
       if (rows.length) rows.push(el('div', { className: 'sep' }));
       rows.push(el('button', { className: 'item', textContent: t('expand'), onclick: openViewer }));
     }
-    if (!state.rail && state.downloads.length) {
+    if (!railShown() && state.downloads.length) {
       if (rows.length) rows.push(el('div', { className: 'sep' }));
       rows.push(...downloadRows());
     }
@@ -394,7 +425,10 @@
     rows.push(el('div', { className: 'hint', textContent: t('shortcuts') }));
     if (shouldAskReview()) rows.push(el('div', { className: 'sep' }), reviewBlock());
     const support = el('button', { className: `support${state.donateOpen ? ' active' : ''}`, textContent: t('support'), onclick: openSupport });
-    rows.push(el('div', { className: 'sep' }), el('div', { className: 'footer' }, [el('span', { className: 'credit', textContent: `Reel Quality · by ${AUTHOR}` }), support]));
+    // Always there for anyone who wants to rate, whether or not the one-off ask has come up.
+    const rate = el('button', { className: 'support', textContent: `⭐ ${t('reviewRate')}`, onclick: () => answerReview('rate') });
+    const links = el('span', { className: 'links' }, [rate, support]);
+    rows.push(el('div', { className: 'sep' }), el('div', { className: 'footer' }, [el('span', { className: 'credit', textContent: `Reel Quality · by ${AUTHOR}` }), links]));
     menu.dir = rtl() ? 'rtl' : 'ltr';
     menu.replaceChildren(...rows);
   }
@@ -450,20 +484,31 @@
     return rows;
   }
 
+  // One review card at a time, beside the download button or where the quality menu opens; at most one a day.
   let reviewTimer = 0;
-  function showReviewCard() {
+  const reviewCardOpen = () => reviewCard.classList.contains('open') || qReviewCard.classList.contains('open');
+  const mayShowReviewCard = () => shouldAskReview() && !reviewCardOpen() && Date.now() - state.review.cardShownAt >= DAY;
+  function showReviewCard(card) {
     dlMenu.classList.remove('open');
-    reviewCard.dir = rtl() ? 'rtl' : 'ltr';
-    reviewCard.replaceChildren(reviewBlock());
-    reviewCard.classList.add('open');
+    menu.classList.remove('open');
+    card.dir = rtl() ? 'rtl' : 'ltr';
+    card.replaceChildren(reviewBlock());
+    card.classList.add('open');
     state.review.cardShownAt = Date.now();
     saveReview(state.review);
     clearTimeout(reviewTimer);
-    reviewTimer = setTimeout(hideReviewCard, REVIEW_CARD_FOR);
+    reviewTimer = setTimeout(() => hideReviewCard(true), REVIEW_CARD_FOR);
   }
-  function hideReviewCard() {
+  // Ignored cards come back on another day; a few ignored ones count as one "Not now", so it never nags forever.
+  function hideReviewCard(ignored = false) {
     clearTimeout(reviewTimer);
+    if (!reviewCardOpen()) return;
     reviewCard.classList.remove('open');
+    qReviewCard.classList.remove('open');
+    if (!ignored) return;
+    const r = state.review;
+    if (++r.ignored >= REVIEW_IGNORES) snoozeReview(r);
+    saveReview(r);
   }
 
   let dlSignature = '';
@@ -517,8 +562,7 @@
       dl.status = 'done';
       state.review.downloads++;
       saveReview(state.review);
-      // Brushing the card away isn't an answer, so it may come back, but at most once a day.
-      if (shouldAskReview() && state.rail && state.video === dl.video && Date.now() - state.review.cardShownAt >= DAY) showReviewCard();
+      if (railShown() && state.video === dl.video && mayShowReviewCard()) showReviewCard(reviewCard);
     } catch (e) {
       dl.status = dl.ctrl.signal.aborted ? 'cancelled' : 'error';
       if (dl.status === 'error') console.warn('[FBQ] download failed:', e);
@@ -567,7 +611,7 @@
 
   function positionDownload() {
     const rail = state.rail;
-    const show = !!(rail?.like.isConnected && state.downloads.length);
+    const show = !!(rail?.like.isConnected && state.downloads.length && railShown());
     dlHost.style.display = show ? 'block' : 'none';
     if (!show) return;
     const container = document.fullscreenElement || document.body;
@@ -581,6 +625,328 @@
     dlHost.style.left = `${Math.min(innerWidth - dlHost.offsetWidth - 4, Math.max(4, left))}px`;
     dlHost.style.top = `${Math.max(4, top)}px`;
   }
+
+  // --- fullscreen ------------------------------------------------------------------
+  //
+  // Reels on desktop have no fullscreen button. Fullscreen the video's own box (the outermost ancestor with the
+  // same size), so Facebook's click-to-pause layer and our HD layer come along, and letterbox the video in it.
+
+  const fsSheet = new CSSStyleSheet();
+  fsSheet.replaceSync(`
+    [data-fbq-fs]:fullscreen { background: #000 !important; }
+    [data-fbq-idle] { cursor: none !important; }
+    [data-fbq-fs]:fullscreen video { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important;
+      max-width: none !important; max-height: none !important; object-fit: contain !important; transform: none !important; }
+  `);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, fsSheet];
+
+  function fullscreenBox(video) {
+    const v = video.getBoundingClientRect();
+    const same = (r) => Math.abs(r.left - v.left) < 3 && Math.abs(r.top - v.top) < 3 && Math.abs(r.width - v.width) < 3 && Math.abs(r.height - v.height) < 3;
+    let box = video.parentElement; // holds our HD layer, which sits right after Facebook's <video>
+    for (let n = box?.parentElement, i = 0; n && n !== document.body && i < 8; n = n.parentElement, i++) {
+      if (!same(n.getBoundingClientRect())) break;
+      box = n;
+    }
+    return box;
+  }
+
+  const inOurFullscreen = () => !!document.fullscreenElement?.hasAttribute('data-fbq-fs');
+
+  // ⛶ at the video's bottom right, level with the page name: where players put it, and it comes along into
+  // fullscreen so the same button leaves again (the Like column doesn't).
+  const FS_RIGHT = 12; // px from the video's right edge
+  const FS_BOTTOM = 47; // px from the video's bottom edge to the button's when no page name is found
+  const FS_MIN_BOTTOM = 16; // never lower than this above the video's bottom edge (the progress bar)
+  const FS_ICONS = { enter: 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5', exit: 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5' };
+  const fsHost = el('div');
+  const fsRoot = fsHost.attachShadow({ mode: 'closed' });
+  fsRoot.adoptedStyleSheets = [sheet];
+  const fsBtn = el('button', { className: 'fs', onclick: () => toggleFullscreen() });
+  fsRoot.append(fsBtn);
+  for (const type of ['click', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'dblclick']) {
+    fsHost.addEventListener(type, (e) => e.stopPropagation());
+  }
+  fsHost.addEventListener('pointerenter', () => (state.hovering = true));
+  fsHost.addEventListener('pointerleave', () => {
+    state.hovering = false;
+    reveal();
+  });
+  let fsIcon = '';
+  function renderFullscreenButton() {
+    const mode = inOurFullscreen() ? 'exit' : 'enter';
+    if (mode === fsIcon) return;
+    fsIcon = mode;
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', FS_ICONS[mode]);
+    svg.append(path);
+    fsBtn.replaceChildren(svg);
+    const label = t(mode === 'exit' ? 'exitFullscreen' : 'fullscreen').replace(/^⛶\s*/, '');
+    fsBtn.title = `${label} (F)`;
+    fsBtn.setAttribute('aria-label', label);
+  }
+  // In our fullscreen the video is letterboxed: place the buttons on the picture, not out on the black bars.
+  function pictureBox(video) {
+    const r = video.getBoundingClientRect();
+    if (!inOurFullscreen() || !video.videoWidth || !video.videoHeight) return r;
+    const scale = Math.min(r.width / video.videoWidth, r.height / video.videoHeight);
+    const width = video.videoWidth * scale;
+    const height = video.videoHeight * scale;
+    const left = r.left + (r.width - width) / 2;
+    const top = r.top + (r.height - height) / 2;
+    return { left, top, width, height, right: left + width, bottom: top + height };
+  }
+
+  // Box of the page's avatar (start of Facebook's author row) when it is on screen, else null.
+  function avatarBox() {
+    const a = state.avatar;
+    if (!a?.isConnected || (document.fullscreenElement && !document.fullscreenElement.contains(a))) return null;
+    const r = a.getBoundingClientRect();
+    return r.height ? r : null;
+  }
+
+  function positionFullscreenButton(visible) {
+    fsHost.style.display = state.video ? 'block' : 'none';
+    if (!state.video) return;
+    const container = document.fullscreenElement || document.body;
+    if (fsHost.parentNode !== container) container.append(fsHost);
+    renderFullscreenButton();
+    const r = pictureBox(state.video);
+    const h = fsHost.offsetHeight;
+    let top;
+    if (barShown()) {
+      // Fullscreen: at the right end of the progress bar's line, so the two never overlap.
+      const line = barLine(r);
+      top = line.bottom - line.height / 2 - h / 2;
+    } else {
+      // Level with the page name row, which moves up when the description is expanded, so the button never sits on the text.
+      const ar = avatarBox();
+      top = ar ? Math.min(r.bottom - FS_MIN_BOTTOM - h, ar.top + ar.height / 2 - h / 2) : r.bottom - FS_BOTTOM - h;
+    }
+    fsHost.style.left = `${Math.min(innerWidth - fsHost.offsetWidth - 4, r.right - FS_RIGHT - fsHost.offsetWidth)}px`;
+    fsHost.style.top = `${Math.min(innerHeight - h - 4, Math.max(r.top + 4, top))}px`;
+    fsHost.style.opacity = visible ? '1' : '0';
+  }
+
+  // Facebook's author row (avatar, page name, Follow) sits over the video's bottom left, above the description.
+  // Its avatar is the topmost round-ish picture there, so look for that rather than for translated text.
+  function findAvatar(video) {
+    const v = video.getBoundingClientRect();
+    const scope = fullscreenBox(video)?.parentElement || document.body;
+    let best = null;
+    let bestTop = Infinity;
+    for (const n of scope.querySelectorAll('img, svg')) {
+      const r = n.getBoundingClientRect();
+      if (r.width < 24 || r.width > 64 || Math.abs(r.width - r.height) > 4) continue;
+      if (r.left < v.left || r.right > v.left + v.width * 0.4 || r.top < v.top + v.height * 0.25 || r.bottom > v.bottom) continue;
+      if (r.top < bestTop) {
+        best = n;
+        bestTop = r.top;
+      }
+    }
+    return best;
+  }
+
+  function enterFullscreen(video) {
+    const box = video && fullscreenBox(video);
+    if (!box) return;
+    box.setAttribute('data-fbq-fs', '');
+    box.requestFullscreen().catch((e) => {
+      box.removeAttribute('data-fbq-fs');
+      console.warn('[FBQ] fullscreen failed:', e);
+    });
+  }
+  function toggleFullscreen() {
+    menu.classList.remove('open');
+    if (document.fullscreenElement) return void document.exitFullscreen().catch(() => {});
+    enterFullscreen(state.video);
+  }
+
+  // Facebook ignores its own keys while our box is fullscreen, and plays the next reel in another box anyway.
+  // So ↑/↓ leave fullscreen, hand Facebook the same arrow key, and go fullscreen again on the reel it shows next.
+  // The key press still counts as user activation for a few seconds, which requestFullscreen needs.
+  const NAV_WAIT = 4000; // ms to wait for Facebook to show the next reel
+  let pendingNav = null; // { from: <video>, until }
+  function switchReel(down) {
+    const key = down ? 'ArrowDown' : 'ArrowUp';
+    const code = down ? 40 : 38;
+    pendingNav = { from: state.video, until: Date.now() + NAV_WAIT };
+    document
+      .exitFullscreen()
+      .catch(() => {})
+      .then(() => {
+        const target = document.activeElement || document.body;
+        for (const type of ['keydown', 'keyup']) {
+          target.dispatchEvent(new KeyboardEvent(type, { key, code: key, keyCode: code, which: code, bubbles: true, cancelable: true }));
+        }
+      });
+  }
+  function resumeFullscreenAfterSwitch(video) {
+    if (!pendingNav) return;
+    if (Date.now() > pendingNav.until) return void (pendingNav = null);
+    if (!video || video === pendingNav.from) return;
+    pendingNav = null;
+    enterFullscreen(video);
+  }
+
+  const SEEK_STEP = 5; // seconds for ← / →
+  // Keys while our box is fullscreen: true when handled.
+  function fullscreenKey(e) {
+    const v = state.video;
+    if (e.shiftKey) return false;
+    if (e.code === 'Space' || e.code === 'KeyK') {
+      v.paused ? v.play().catch(() => {}) : v.pause();
+    } else if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') {
+      if (!Number.isFinite(v.duration)) return true;
+      const step = e.code === 'ArrowRight' ? SEEK_STEP : -SEEK_STEP;
+      v.currentTime = Math.min(v.duration - 0.1, Math.max(0, v.currentTime + step));
+    } else if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+      switchReel(e.code === 'ArrowDown');
+    } else {
+      return false;
+    }
+    return true;
+  }
+
+  // --- progress bar while fullscreen --------------------------------------------------
+  //
+  // Facebook's own bar stays outside the fullscreen box, so draw one at the bottom of the picture.
+
+  const BAR_SIDE = 16; // px from the picture's left and right edges
+  const BAR_BOTTOM = 10; // px from the picture's bottom edge when Facebook's author row isn't there
+  const BAR_GAP = 6; // px between the bar's line and the author row above which it sits
+  const BAR_FS_GAP = 10; // px between the bar's end and the ⛶ button on the same line
+  const barHost = el('div');
+  const barRoot = barHost.attachShadow({ mode: 'closed' });
+  barRoot.adoptedStyleSheets = [sheet];
+  const barTime = el('span', { className: 'time' });
+  const barFill = el('div', { className: 'fill' });
+  const barKnob = el('div', { className: 'knob' });
+  const barHit = el('div', { className: 'hit' }, [el('div', { className: 'track' }, [barFill, barKnob])]);
+  // Hover thumbnail: a frame from a hidden low-quality player, with the time under it.
+  const PREVIEW_SIZE = 160; // px, longer side of the thumbnail
+  const tipCanvas = el('canvas');
+  const tipTime = el('span');
+  const tip = el('div', { className: 'tip' }, [tipCanvas, tipTime]);
+  const bar = el('div', { className: 'bar' }, [barTime, barHit, tip]);
+  barRoot.append(bar);
+  for (const type of ['click', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'dblclick']) {
+    barHost.addEventListener(type, (e) => e.stopPropagation());
+  }
+  barHost.addEventListener('pointerenter', () => (state.hovering = true));
+  barHost.addEventListener('pointerleave', () => {
+    state.hovering = false;
+    reveal();
+  });
+  let seeking = false;
+  function seekTo(e) {
+    const v = state.video;
+    if (!v || !Number.isFinite(v.duration)) return;
+    const r = barHit.getBoundingClientRect();
+    v.currentTime = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * v.duration;
+  }
+  barHit.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    seeking = true;
+    bar.classList.add('seeking');
+    barHit.setPointerCapture(e.pointerId);
+    seekTo(e);
+  });
+  let preview = null; // FramePreview for state.video while fullscreen
+  function previewFor(video) {
+    if (preview?.owner === video && !preview.dead) return preview;
+    preview?.destroy();
+    preview = null;
+    // The lowest quality this browser can play through MSE is plenty for a 160 px thumbnail.
+    const rep = state.qualities.at(-1) || state.downloads.findLast((r) => MediaSource.isTypeSupported(`${r.mime}; codecs="${r.codecs}"`));
+    if (!rep) return null;
+    preview = new FBQ.FramePreview(rep);
+    preview.owner = video; // the Facebook <video> this preview belongs to
+    const ratio = rep.width && rep.height ? rep.width / rep.height : 9 / 16;
+    tipCanvas.width = Math.round(ratio >= 1 ? PREVIEW_SIZE : PREVIEW_SIZE * ratio);
+    tipCanvas.height = Math.round(ratio >= 1 ? PREVIEW_SIZE / ratio : PREVIEW_SIZE);
+    delete tipCanvas.dataset.ready;
+    return preview;
+  }
+  function stopPreview() {
+    tip.classList.remove('on');
+    preview?.destroy();
+    preview = null;
+  }
+  function showTip(e) {
+    const v = state.video;
+    if (!v || !Number.isFinite(v.duration)) return;
+    const hit = barHit.getBoundingClientRect();
+    const frac = Math.min(1, Math.max(0, (e.clientX - hit.left) / hit.width));
+    const t = frac * v.duration;
+    tipTime.textContent = clock(t, v.duration >= 3600);
+    tip.classList.add('on');
+    // Centre over the pointer, kept inside the bar.
+    const box = bar.getBoundingClientRect();
+    const w = tip.offsetWidth;
+    tip.style.left = `${Math.min(box.width - w, Math.max(0, e.clientX - box.left - w / 2))}px`;
+    previewFor(v)?.frameAt(t, tipCanvas);
+  }
+  barHit.addEventListener('pointermove', (e) => {
+    if (seeking) seekTo(e);
+    showTip(e);
+  });
+  barHit.addEventListener('pointerleave', () => !seeking && tip.classList.remove('on'));
+  const endSeek = () => {
+    seeking = false;
+    bar.classList.remove('seeking');
+    if (!barHit.matches(':hover')) tip.classList.remove('on');
+  };
+  barHit.addEventListener('pointerup', endSeek);
+  barHit.addEventListener('pointercancel', endSeek);
+
+  // m:ss, or h:mm:ss once the video is an hour or longer (both sides then use hours, like 0:05:12 / 1:12:24).
+  const clock = (t, hours) => {
+    const s = Math.max(0, Math.floor(t));
+    const pad = (n) => String(n).padStart(2, '0');
+    return hours ? `${Math.floor(s / 3600)}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}` : `${Math.floor(s / 60)}:${pad(s % 60)}`;
+  };
+  const barShown = () => !!state.video && inOurFullscreen() && Number.isFinite(state.video.duration) && state.video.duration > 0;
+
+  // The line shared by the progress bar and the ⛶ button in fullscreen. Facebook's author row and description come
+  // along into fullscreen: the line sits just above them, and moves up with them when the description is expanded.
+  function barLine(r) {
+    const ar = avatarBox();
+    const bottom = ar ? Math.min(r.bottom - BAR_BOTTOM, ar.top - BAR_GAP) : r.bottom - BAR_BOTTOM;
+    const height = Math.max(barHost.offsetHeight, fsHost.offsetHeight);
+    return { bottom: Math.max(r.top + height, bottom), height };
+  }
+
+  function positionBar(visible) {
+    const v = state.video;
+    const show = barShown();
+    barHost.style.display = show ? 'block' : 'none';
+    if (!show || (preview && preview.owner !== v)) stopPreview(); // left fullscreen, or another reel
+    if (!show) return;
+    if (barHost.parentNode !== document.fullscreenElement) document.fullscreenElement.append(barHost);
+    const r = pictureBox(v);
+    const line = barLine(r);
+    barHost.style.left = `${r.left + BAR_SIDE}px`;
+    // Leave the right end of the line to the ⛶ button.
+    barHost.style.width = `${Math.max(0, r.width - BAR_SIDE - FS_RIGHT - fsHost.offsetWidth - BAR_FS_GAP)}px`;
+    barHost.style.top = `${line.bottom - line.height / 2 - barHost.offsetHeight / 2}px`;
+    barHost.style.opacity = visible || seeking ? '1' : '0';
+    const pct = `${(Math.min(1, v.currentTime / v.duration) * 100).toFixed(2)}%`;
+    barFill.style.width = pct;
+    barKnob.style.left = pct;
+    const hours = v.duration >= 3600;
+    barTime.textContent = `${clock(v.currentTime, hours)} / ${clock(v.duration, hours)}`;
+  }
+  document.addEventListener('fullscreenchange', () => {
+    for (const n of document.querySelectorAll('[data-fbq-fs]')) if (n !== document.fullscreenElement) n.removeAttribute('data-fbq-fs');
+    renderMenu();
+  });
+
+  // The Like column stays outside a fullscreen video, so downloads then move into the quality menu.
+  const railShown = () => !!state.rail && (!document.fullscreenElement || document.fullscreenElement.contains(state.rail.like));
 
   function movePreset(x, y) {
     writePos({ x, y });
@@ -677,6 +1043,23 @@
     if (rect) state.clip = rect;
   }
 
+  // A day counts once a chosen (or remembered) quality has actually played in HD for a while.
+  let hdSince = 0;
+  function noteHdPlayback() {
+    const playingHd = current() && state.video && !state.video.paused;
+    if (!playingHd) return (hdSince = 0);
+    hdSince ||= Date.now();
+    if (Date.now() - hdSince < REVIEW_HD_FOR) return;
+    const r = state.review;
+    const today = new Date().toDateString();
+    if (r.lastHdDay !== today) {
+      r.lastHdDay = today;
+      r.hdDays++;
+      saveReview(r);
+    }
+    if (host.style.display !== 'none' && !menu.classList.contains('open') && mayShowReviewCard()) showReviewCard(qReviewCard);
+  }
+
   function update() {
     const video = pickVideo();
     if (video !== state.video) {
@@ -687,30 +1070,67 @@
       lastDetect = 0;
       menu.classList.remove('open');
       dlMenu.classList.remove('open');
-      hideReviewCard();
+      hideReviewCard(true);
+      hdSince = 0;
     }
     const entry = video && FBQ.entryForVideo(video);
     state.entry = entry;
     state.qualities = entry ? FBQ.playableQualities(entry.reps) : [];
     state.downloads = entry ? FBQ.downloadQualities(entry.reps) : [];
     state.rail = video && state.downloads.length ? findRail(video) : null;
+    state.avatar = video ? findAvatar(video) : null;
+    resumeFullscreenAfterSwitch(video);
     detectClip();
-    const visible = state.qualities.length >= 2 || !!state.clip || (!state.rail && state.downloads.length > 0);
+    const visible = state.qualities.length >= 2 || !!state.clip || (!railShown() && state.downloads.length > 0) || inOurFullscreen();
     host.style.display = visible ? 'block' : 'none';
     if (state.qualities.length >= 2) applyPref();
     else stopPlayer();
     renderButton();
     renderMenu();
     renderDownload();
+    noteHdPlayback();
+  }
+
+  // The ⚙ and ⛶ buttons fade out together while you watch and come back with the mouse.
+  const controlsVisible = () =>
+    !state.autoHide ||
+    menu.classList.contains('open') ||
+    qReviewCard.classList.contains('open') ||
+    drag ||
+    state.hovering ||
+    seeking ||
+    state.video.paused ||
+    Date.now() - state.lastActive < HIDE_AFTER;
+
+  // The mouse pointer hides along with the buttons, but only while it rests on the playing picture: the element
+  // under it gets cursor: none until the mouse moves again.
+  let pointer = null; // last mouse position, page-wide
+  let idleEl = null;
+  function updateCursor(visible) {
+    let target = null;
+    if (!visible && pointer) {
+      const r = pictureBox(state.video);
+      if (pointer.x >= r.left && pointer.x <= r.right && pointer.y >= r.top && pointer.y <= r.bottom) {
+        target = document.elementFromPoint(pointer.x, pointer.y);
+      }
+    }
+    if (target === idleEl) return;
+    idleEl?.removeAttribute('data-fbq-idle');
+    idleEl = target;
+    idleEl?.setAttribute('data-fbq-idle', '');
   }
 
   function position() {
     requestAnimationFrame(position);
     positionDownload();
+    const visible = !!state.video && controlsVisible();
+    positionFullscreenButton(visible);
+    updateCursor(visible);
+    positionBar(visible);
     if (!state.video || host.style.display === 'none') return;
     const container = document.fullscreenElement || document.body;
     if (host.parentNode !== container) container.append(host);
-    const r = state.video.getBoundingClientRect();
+    const r = pictureBox(state.video);
     const { x, y } = state.pos;
     const w = host.offsetWidth;
     const h = host.offsetHeight;
@@ -718,22 +1138,17 @@
     const top = r.top + MARGIN + y * Math.max(0, r.height - h - 2 * MARGIN);
     host.style.left = `${Math.min(innerWidth - w - 8, Math.max(8, left))}px`;
     host.style.top = `${Math.min(innerHeight - h - 8, Math.max(8, top))}px`;
-    const show =
-      !state.autoHide ||
-      menu.classList.contains('open') ||
-      drag ||
-      state.hovering ||
-      state.video.paused ||
-      Date.now() - state.lastActive < HIDE_AFTER;
-    host.style.opacity = show ? '1' : '0';
+    host.style.opacity = controlsVisible() ? '1' : '0';
     // An open menu (and the support card beside it) may reach over the download button: keep it on top.
-    host.style.zIndex = menu.classList.contains('open') ? '2147483001' : '';
-    // Open the menu towards the inside of the video.
-    menu.classList.toggle('down', y < 0.5);
-    menu.classList.toggle('up', y >= 0.5);
-    menu.classList.toggle('al-left', x < 0.34);
-    menu.classList.toggle('al-right', x > 0.66);
-    menu.classList.toggle('al-center', x >= 0.34 && x <= 0.66);
+    host.style.zIndex = menu.classList.contains('open') || qReviewCard.classList.contains('open') ? '2147483001' : '';
+    // Open the menu (and the review card) towards the inside of the video.
+    for (const box of [menu, qReviewCard]) {
+      box.classList.toggle('down', y < 0.5);
+      box.classList.toggle('up', y >= 0.5);
+      box.classList.toggle('al-left', x < 0.34);
+      box.classList.toggle('al-right', x > 0.66);
+      box.classList.toggle('al-center', x >= 0.34 && x <= 0.66);
+    }
     positionDonate();
   }
 
@@ -759,7 +1174,7 @@
     donate.style.top = `${y - box.top}px`;
   }
 
-  FBQ.ui = { state, menu, choose, openViewer, startDownload, openSupport }; // for debugging from the console
+  FBQ.ui = { state, menu, choose, openViewer, startDownload, openSupport, toggleFullscreen }; // for debugging from the console
 
   // --- auto-hide and keyboard shortcuts ------------------------------------------
 
@@ -772,6 +1187,7 @@
   document.addEventListener(
     'mousemove',
     (e) => {
+      pointer = { x: e.clientX, y: e.clientY };
       if (!state.video) return;
       const r = state.video.getBoundingClientRect();
       if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) reveal();
@@ -801,9 +1217,20 @@
   window.addEventListener(
     'keydown',
     (e) => {
-      if (!state.video || host.style.display === 'none' || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (!state.video || e.metaKey || e.ctrlKey || e.altKey) return;
       const target = e.composedPath()[0];
       if (target?.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target?.tagName)) return; // typing a comment
+      if (inOurFullscreen() && fullscreenKey(e)) {
+        e.preventDefault();
+        e.stopPropagation();
+        return reveal();
+      }
+      if (e.code === 'KeyF' && !e.shiftKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        return toggleFullscreen();
+      }
+      if (host.style.display === 'none') return;
       let handled = true;
       if (e.code === 'KeyQ' && !e.shiftKey) {
         if (menu.classList.toggle('open')) state.donateOpen = false;
@@ -815,7 +1242,7 @@
       } else if (e.code === 'KeyD' && !e.shiftKey && state.downloads.length) {
         if (mine()?.status === 'running') {
           // already downloading this reel; D does nothing rather than cancelling by surprise
-        } else if (state.rail) {
+        } else if (railShown()) {
           dlMenu.classList.toggle('open');
           renderDownload();
         } else {
@@ -840,7 +1267,7 @@
   );
 
   function boot() {
-    document.body.append(host, dlHost);
+    document.body.append(host, dlHost, fsHost, barHost);
     setInterval(update, 400);
     requestAnimationFrame(position);
   }

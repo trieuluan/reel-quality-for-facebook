@@ -224,7 +224,113 @@
     }
   }
 
+  // Frames for the progress bar's hover thumbnail, from a hidden player on a low-quality rep. Only the segment around
+  // the asked time is fetched; requests made while one is in flight collapse into the latest.
+  const PREVIEW_KEEP = 30; // segments kept in the buffer before it is cleared
+
+  class FramePreview {
+    constructor(rep) {
+      this.rep = rep;
+      this.dead = false;
+      this.want = null;
+      this.busy = false;
+      this.appended = new Set();
+      const v = (this.video = document.createElement('video'));
+      v.muted = true;
+      v.preload = 'auto';
+      v.dataset.fbq = '';
+      v.style.cssText = 'position:fixed;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none;';
+      this.ms = new MediaSource();
+      this.blobUrl = URL.createObjectURL(this.ms);
+      v.src = this.blobUrl;
+      document.body.append(v);
+      this.ready = new Promise((resolve, reject) => {
+        this.ms.addEventListener('sourceopen', () => this.open().then(resolve, reject), { once: true });
+      });
+      this.ready.catch(() => {});
+    }
+
+    async open() {
+      const r = this.rep;
+      this.sb = this.ms.addSourceBuffer(`${r.mime}; codecs="${r.codecs}"`);
+      const [init, index] = await Promise.all([fetchRange(r.url, r.init), fetchRange(r.url, r.index)]);
+      this.segments = parseSidx(index, r.index.start);
+      this.ms.duration = this.segments.at(-1).end;
+      this.init = init;
+      await this.append(init);
+    }
+
+    append(data) {
+      return new Promise((resolve, reject) => {
+        const done = () => {
+          this.sb.removeEventListener('updateend', done);
+          this.sb.removeEventListener('error', done);
+          this.dead ? reject(new Error('stopped')) : resolve();
+        };
+        this.sb.addEventListener('updateend', done);
+        this.sb.addEventListener('error', done);
+        data ? this.sb.appendBuffer(data) : this.sb.remove(0, Infinity);
+      });
+    }
+
+    seek(t) {
+      return new Promise((resolve) => {
+        const v = this.video;
+        const done = () => {
+          clearTimeout(timer);
+          v.removeEventListener('seeked', done);
+          resolve();
+        };
+        const timer = setTimeout(done, 1500);
+        v.addEventListener('seeked', done);
+        v.currentTime = t;
+      });
+    }
+
+    // Draw the frame at time t into canvas; calls made meanwhile collapse into the latest one.
+    async frameAt(t, canvas) {
+      this.want = { t, canvas };
+      if (this.busy) return;
+      this.busy = true;
+      try {
+        await this.ready;
+        while (this.want && !this.dead) {
+          const { t, canvas } = this.want;
+          this.want = null;
+          const seg = this.segments.find((s) => t < s.end) || this.segments.at(-1);
+          if (!this.appended.has(seg)) {
+            if (this.appended.size >= PREVIEW_KEEP) {
+              await this.append(null); // clear the buffer, then the init segment again
+              await this.append(this.init);
+              this.appended.clear();
+            }
+            await this.append(await fetchRange(this.rep.url, seg.range));
+            this.appended.add(seg);
+          }
+          if (this.dead || this.want) continue;
+          await this.seek(Math.min(seg.end - 0.05, Math.max(seg.start, t)));
+          if (this.dead || this.want || this.video.readyState < 2) continue;
+          canvas.getContext('2d').drawImage(this.video, 0, 0, canvas.width, canvas.height);
+          canvas.dataset.ready = '';
+        }
+      } catch (e) {
+        if (!this.dead) console.warn('[FBQ] preview frame failed:', e);
+      } finally {
+        this.busy = false;
+      }
+    }
+
+    destroy() {
+      this.dead = true;
+      this.video.removeAttribute('src');
+      this.video.load();
+      this.video.remove();
+      URL.revokeObjectURL(this.blobUrl);
+    }
+  }
+
   FBQ.OverlayPlayer = OverlayPlayer;
+  FBQ.FramePreview = FramePreview;
   FBQ.parseSidx = parseSidx;
   FBQ.fetchRange = fetchRange;
 })();

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- **Fullscreen for Reels.** Facebook Reels on desktop have no fullscreen button and `F` does nothing. Click the **⛶** button at the video's bottom right, level with the page name (it moves up with it when the description is expanded, so it never covers the text), or press `F`, to watch the reel fullscreen, letterboxed, with the chosen HD quality. The same button, `F` or Esc leaves. It fades out with the ⚙ button while you watch. Since Facebook's own keys and progress bar don't reach a fullscreen reel, fullscreen has its own: a progress bar with the time just above the page name and description, sharing its line with the ⛶ button (both move up when the description is expanded; click or drag the bar to seek, and hover it for a thumbnail of that moment with its time, taken from the reel's lowest quality so it loads fast), Space or `K` to play/pause, ←/→ to skip 5 seconds, and ↑/↓ for the previous/next reel, which comes back fullscreen. While fullscreen, the download options move into the quality menu.
+- **Mouse pointer hides while you watch.** Resting the mouse on a playing reel now hides the pointer together with the ⚙ and ⛶ buttons; moving it brings everything back. It stays visible while the video is paused, a menu is open, the mouse is off the video, or "Hide button until the mouse moves" is off.
+- **Rate link in the menu.** The menu footer now always has **⭐ Rate** next to **☕ Support**.
+- **Review ask that actually shows up.** Watching in HD on 3 different days (a remembered quality applied automatically counts too) now earns the ask, shown as a small card where the menu opens instead of only inside the menu. Cards brushed away three times count as one "Not now", so it never nags.
+
 ## 1.3.1 (2026-10-22)
 
 - **Review ask after downloads.** After your second saved reel, a small "Finding Reel Quality useful? Rate it / Report a problem / Not now" card appears beside the download button. Clicking elsewhere just closes it (it may come back, at most once a day); "Not now" and the at-most-twice limit work as before.
