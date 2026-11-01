@@ -14,15 +14,17 @@ Clique em Baixar, acima do botão Curtir, escolha uma qualidade (1080p, 720p, 54
 1. Abra qualquer Reel no facebook.com.
 2. Para salvar, clique em Baixar acima do botão Curtir e escolha uma qualidade. A tecla D abre o mesmo menu.
 3. Para assistir em HD, clique no botão de engrenagem (⚙) no vídeo e escolha uma resolução. Escolha "Automática" para voltar ao padrão do Facebook.
+4. Para assistir em tela cheia, clique em ⛶ no canto inferior direito do vídeo ou aperte F.
 
 ✨ PRINCIPAIS RECURSOS
 • Salve Reels com som: um botão Baixar fica logo acima do botão Curtir do Facebook. Escolha uma qualidade (o tamanho aproximado aparece ao lado) e o Reel é salvo no seu computador como um único MP4 com som. Imagem e som são juntados dentro do seu navegador; nada é enviado para lugar nenhum. Clique de novo no botão para cancelar.
+• Reels em tela cheia: o Facebook Reels no computador não tem botão de tela cheia. Clique em ⛶, no canto inferior direito do vídeo, ou aperte F para assistir em tela cheia na qualidade escolhida, com barra de progresso própria (passe o mouse para ver uma prévia daquele momento), Espaço para pausar, ←/→ para pular 5 segundos e ↑/↓ para o Reel anterior ou o próximo.
 • Só qualidades reais: o menu lista apenas as resoluções que o Reel realmente tem e que o seu navegador consegue reproduzir. Nada de upscaling falso ou números inventados.
 • Lembra a sua escolha: a resolução escolhida é aplicada automaticamente aos próximos Reels. Se um Reel não tiver essa resolução, é usada a qualidade inferior mais próxima.
 • Amplie clipes horizontais: muitos Reels são, na verdade, um clipe horizontal dentro de um quadro vertical com faixas pretas e legendas. O Reel Quality detecta o clipe e o mostra grande no meio da tela, na melhor qualidade disponível.
 • Veja a resolução real: no modo "Automática", o botão mostra a resolução exata que o Facebook está reproduzindo (por exemplo "Automática · 540p"), então você percebe na hora quando a qualidade cai.
-• Some enquanto você assiste: o botão desaparece depois de alguns segundos para não cobrir o vídeo e volta assim que você mexe o mouse. Dá para desativar no menu.
-• Atalhos de teclado: Q abre o menu, Shift + ↑ / Shift + ↓ aumentam ou diminuem a qualidade, A volta para Automática, E amplia um clipe horizontal e D abre o menu de download. Os atalhos são ignorados enquanto você digita um comentário ou pesquisa.
+• Some enquanto você assiste: o botão desaparece depois de alguns segundos para não cobrir o vídeo e volta assim que você mexe o mouse. Dá para desativar no menu. O ponteiro do mouse também some, para nada cobrir a imagem.
+• Atalhos de teclado: Q abre o menu, Shift + ↑ / Shift + ↓ aumentam ou diminuem a qualidade, A volta para Automática, E amplia um clipe horizontal e D abre o menu de download. Os atalhos são ignorados enquanto você digita um comentário ou pesquisa. A tecla F liga e desliga a tela cheia.
 • Botão móvel: arraste o botão para qualquer lugar do vídeo ou escolha uma das 8 posições prontas no menu. A posição é mantida quando você troca de Reel, redimensiona a janela ou entra em tela cheia.
 • Reprodução suave: som, controles, repetição e avanço continuam com o próprio player do Facebook. Você nunca vê tela preta enquanto a nova qualidade carrega.
 • 20 idiomas, entre eles português, inglês, espanhol, indonésio, hindi, árabe e vietnamita: a interface segue o idioma da sua conta do Facebook.

@@ -14,15 +14,17 @@ Klicke über dem „Gefällt mir“-Button auf Laden, wähle eine Qualität (108
 1. Öffne ein beliebiges Reel auf facebook.com.
 2. Zum Speichern klickst du über dem „Gefällt mir“-Button auf Laden und wählst eine Qualität. Die Taste D öffnet dasselbe Menü.
 3. Zum Ansehen in HD klickst du auf das Zahnrad (⚙) im Video und wählst eine Auflösung. Mit „Automatisch“ kehrst du zur Standardeinstellung von Facebook zurück.
+4. Für das Vollbild klickst du unten rechts im Video auf ⛶ oder drückst F.
 
 ✨ FUNKTIONEN
 • Reels mit Ton speichern: Direkt über dem „Gefällt mir“-Button von Facebook sitzt eine Schaltfläche zum Laden. Wähle eine Qualität (die ungefähre Dateigröße wird angezeigt), und das Reel wird als eine MP4-Datei mit Ton auf deinem Computer gespeichert. Bild und Ton werden in deinem Browser zusammengefügt, nichts wird irgendwohin hochgeladen. Ein erneuter Klick auf die Schaltfläche bricht ab.
+• Reels im Vollbild: Facebook Reels haben am Computer keine Vollbild-Schaltfläche. Klicke unten rechts im Video auf ⛶ oder drücke F, um das Reel im Vollbild in der gewählten Qualität zu sehen, mit eigener Fortschrittsleiste (beim Darüberfahren erscheint eine Vorschau dieser Stelle), Leertaste zum Pausieren, ←/→ zum Springen um 5 Sekunden und ↑/↓ für das vorherige oder nächste Reel.
 • Nur echte Qualitätsstufen: Das Menü zeigt nur Auflösungen, die das Reel wirklich hat und die dein Browser abspielen kann. Kein künstliches Hochskalieren, keine erfundenen Zahlen.
 • Merkt sich deine Wahl: Die gewählte Auflösung wird automatisch für die nächsten Reels übernommen. Hat ein Reel sie nicht, wird die nächstniedrigere Qualität verwendet.
 • Querformat-Clips vergrößern: Viele Reels sind eigentlich ein Clip im Querformat in einem Hochformat-Rahmen mit schwarzen Balken und Text. Reel Quality erkennt den Clip und zeigt ihn groß in der Bildschirmmitte, in der besten verfügbaren Qualität.
 • Echte Auflösung im Blick: Bei „Automatisch“ zeigt die Schaltfläche die genaue Auflösung, die Facebook gerade abspielt (zum Beispiel „Automatisch · 540p“). So merkst du sofort, wenn die Qualität sinkt.
-• Blendet sich beim Zuschauen aus: Die Schaltfläche verschwindet nach ein paar Sekunden, damit sie das Video nicht verdeckt, und erscheint wieder, sobald du die Maus bewegst. Lässt sich im Menü abschalten.
-• Tastenkürzel: Q öffnet das Menü, Umschalt + ↑ / Umschalt + ↓ erhöhen oder senken die Qualität, A schaltet zurück auf Automatisch, E vergrößert einen Querformat-Clip und D öffnet das Download-Menü. Beim Schreiben eines Kommentars oder bei der Suche werden die Kürzel ignoriert.
+• Blendet sich beim Zuschauen aus: Die Schaltfläche verschwindet nach ein paar Sekunden, damit sie das Video nicht verdeckt, und erscheint wieder, sobald du die Maus bewegst. Lässt sich im Menü abschalten. Auch der Mauszeiger verschwindet, damit nichts das Bild verdeckt.
+• Tastenkürzel: Q öffnet das Menü, Umschalt + ↑ / Umschalt + ↓ erhöhen oder senken die Qualität, A schaltet zurück auf Automatisch, E vergrößert einen Querformat-Clip und D öffnet das Download-Menü. Beim Schreiben eines Kommentars oder bei der Suche werden die Kürzel ignoriert. Die Taste F schaltet das Vollbild ein und aus.
 • Verschiebbare Schaltfläche: Zieh die Schaltfläche an eine beliebige Stelle im Video oder wähle eine von 8 festen Positionen im Menü. Die Position bleibt erhalten, wenn du das Reel wechselst, die Fenstergröße änderst oder in den Vollbildmodus gehst.
 • Flüssige Wiedergabe: Ton, Steuerung, Wiederholung und Spulen übernimmt weiterhin der Facebook-Player. Während die neue Qualität lädt, siehst du nie einen schwarzen Bildschirm.
 • 20 Sprachen, darunter Deutsch, Englisch, Spanisch, Portugiesisch, Französisch, Arabisch und Vietnamesisch: Die Oberfläche folgt der Sprache deines Facebook-Kontos.

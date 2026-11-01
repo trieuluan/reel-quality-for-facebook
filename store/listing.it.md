@@ -14,15 +14,17 @@ Fai clic su Scarica sopra il pulsante Mi piace, scegli una qualità (1080p, 720p
 1. Apri un Reel qualsiasi su facebook.com.
 2. Per salvarlo, fai clic su Scarica sopra il pulsante Mi piace e scegli una qualità. Il tasto D apre lo stesso menu.
 3. Per guardarlo in HD, fai clic sul pulsante a forma di ingranaggio (⚙) sul video e scegli una risoluzione. Scegli "Automatica" per tornare all'impostazione predefinita di Facebook.
+4. Per guardarlo a schermo intero, fai clic su ⛶ in basso a destra nel video o premi F.
 
 ✨ FUNZIONI PRINCIPALI
 • Salva i Reels con l'audio: un pulsante Scarica si trova proprio sopra il pulsante Mi piace di Facebook. Scegli una qualità (viene mostrata la dimensione stimata del file) e il Reel viene salvato sul tuo computer come un unico MP4 con l'audio. Immagine e audio vengono uniti nel tuo browser, nulla viene caricato da nessuna parte. Fai di nuovo clic sul pulsante per annullare.
+• Reels a schermo intero: su computer i Reels di Facebook non hanno un pulsante per lo schermo intero. Fai clic su ⛶ in basso a destra nel video o premi F per guardarlo a schermo intero nella qualità scelta, con una barra di avanzamento dedicata (passaci sopra per un'anteprima di quel momento), Spazio per mettere in pausa, ←/→ per saltare di 5 secondi e ↑/↓ per il Reel precedente o successivo.
 • Solo qualità reali: il menu elenca solo le risoluzioni che il Reel ha davvero e che il tuo browser può riprodurre. Niente upscaling finto, niente numeri inventati.
 • Ricorda la tua scelta: la risoluzione scelta viene applicata automaticamente ai Reels successivi. Se un Reel non la ha, viene usata la qualità inferiore più vicina.
 • Ingrandisci le clip orizzontali: molti Reels sono in realtà una clip orizzontale inserita in una cornice verticale con bande nere e didascalie. Reel Quality riconosce la clip e la mostra in grande al centro dello schermo, nella migliore qualità disponibile.
 • Vedi la risoluzione reale: in modalità "Automatica" il pulsante mostra la risoluzione esatta che Facebook sta riproducendo (ad esempio "Automatica · 540p"), così noti subito un calo di qualità.
-• Si nasconde mentre guardi: il pulsante sparisce dopo qualche secondo per non coprire il video e ricompare appena muovi il mouse. Puoi disattivarlo dal menu.
-• Scorciatoie da tastiera: Q apre il menu, Shift + ↑ / Shift + ↓ alzano o abbassano la qualità, A torna ad Automatica, E ingrandisce una clip orizzontale e D apre il menu di download. Le scorciatoie vengono ignorate mentre scrivi un commento o fai una ricerca.
+• Si nasconde mentre guardi: il pulsante sparisce dopo qualche secondo per non coprire il video e ricompare appena muovi il mouse. Puoi disattivarlo dal menu. Anche il puntatore del mouse si nasconde, così niente copre l'immagine.
+• Scorciatoie da tastiera: Q apre il menu, Shift + ↑ / Shift + ↓ alzano o abbassano la qualità, A torna ad Automatica, E ingrandisce una clip orizzontale e D apre il menu di download. Le scorciatoie vengono ignorate mentre scrivi un commento o fai una ricerca. Il tasto F attiva e disattiva lo schermo intero.
 • Pulsante spostabile: trascina il pulsante in qualsiasi punto del video o scegli una delle 8 posizioni predefinite nel menu. La posizione resta la stessa quando cambi Reel, ridimensioni la finestra o passi a schermo intero.
 • Riproduzione fluida: audio, controlli, ripetizione e avanzamento restano gestiti dal lettore di Facebook. Non vedrai mai una schermata nera mentre si carica la nuova qualità.
 • 20 lingue, tra cui italiano, inglese, spagnolo, portoghese, francese, tedesco e vietnamita: l'interfaccia segue la lingua del tuo account Facebook.

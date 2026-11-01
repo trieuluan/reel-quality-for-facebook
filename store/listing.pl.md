@@ -14,15 +14,17 @@ Kliknij Pobierz nad przyciskiem „Lubię to!”, wybierz jakość (1080p, 720p,
 1. Otwórz dowolny Reel na facebook.com.
 2. Aby go zapisać, kliknij Pobierz nad przyciskiem „Lubię to!” i wybierz jakość. Klawisz D otwiera to samo menu.
 3. Aby oglądać w HD, kliknij przycisk z zębatką (⚙) na wideo i wybierz rozdzielczość. Wybierz „Automatycznie”, aby wrócić do domyślnego ustawienia Facebooka.
+4. Aby oglądać na pełnym ekranie, kliknij ⛶ w prawym dolnym rogu wideo lub naciśnij F.
 
 ✨ NAJWAŻNIEJSZE FUNKCJE
 • Zapisywanie Reels z dźwiękiem: przycisk Pobierz znajduje się tuż nad przyciskiem „Lubię to!” Facebooka. Wybierz jakość (widać szacowany rozmiar pliku), a Reel zostanie zapisany na Twoim komputerze jako jeden plik MP4 z dźwiękiem. Obraz i dźwięk są łączone w Twojej przeglądarce, nic nie jest nigdzie wysyłane. Kliknij przycisk ponownie, aby anulować.
+• Reels na pełnym ekranie: na komputerze Facebook Reels nie mają przycisku pełnego ekranu. Kliknij ⛶ w prawym dolnym rogu wideo lub naciśnij F, aby oglądać na pełnym ekranie w wybranej jakości, z własnym paskiem postępu (najedź na niego, aby zobaczyć podgląd tej chwili), spacją do pauzy, ←/→ do przewijania o 5 sekund i ↑/↓ do poprzedniego lub następnego Reela.
 • Tylko prawdziwa jakość: menu pokazuje wyłącznie rozdzielczości, które Reel naprawdę ma i które Twoja przeglądarka potrafi odtworzyć. Żadnego sztucznego skalowania ani wymyślonych liczb.
 • Zapamiętuje wybór: wybrana rozdzielczość jest automatycznie stosowana do kolejnych Reels. Jeśli Reel jej nie ma, używana jest najbliższa niższa jakość.
 • Powiększanie poziomych klipów: wiele Reels to w rzeczywistości poziomy klip umieszczony w pionowej ramce z czarnymi pasami i napisami. Reel Quality wykrywa taki klip i pokazuje go w dużym rozmiarze na środku ekranu, w najlepszej dostępnej jakości.
 • Prawdziwa rozdzielczość na widoku: w trybie „Automatycznie” przycisk pokazuje dokładną rozdzielczość, którą odtwarza Facebook (na przykład „Automatycznie · 540p”), więc od razu widzisz spadek jakości.
-• Chowa się podczas oglądania: przycisk znika po kilku sekundach, żeby nie zasłaniać wideo, i wraca, gdy tylko poruszysz myszą. Można to wyłączyć w menu.
-• Skróty klawiszowe: Q otwiera menu, Shift + ↑ / Shift + ↓ podnoszą lub obniżają jakość, A wraca do trybu automatycznego, E powiększa poziomy klip, a D otwiera menu pobierania. Skróty nie działają, gdy piszesz komentarz lub szukasz.
+• Chowa się podczas oglądania: przycisk znika po kilku sekundach, żeby nie zasłaniać wideo, i wraca, gdy tylko poruszysz myszą. Można to wyłączyć w menu. Kursor myszy też znika, więc nic nie zasłania obrazu.
+• Skróty klawiszowe: Q otwiera menu, Shift + ↑ / Shift + ↓ podnoszą lub obniżają jakość, A wraca do trybu automatycznego, E powiększa poziomy klip, a D otwiera menu pobierania. Skróty nie działają, gdy piszesz komentarz lub szukasz. Klawisz F włącza i wyłącza pełny ekran.
 • Przesuwany przycisk: przeciągnij przycisk w dowolne miejsce wideo lub wybierz jedną z 8 gotowych pozycji w menu. Pozycja zostaje zachowana po zmianie Reela, zmianie rozmiaru okna i w trybie pełnoekranowym.
 • Płynne odtwarzanie: dźwięk, sterowanie, zapętlanie i przewijanie nadal obsługuje odtwarzacz Facebooka. Podczas ładowania nowej jakości nigdy nie zobaczysz czarnego ekranu.
 • 20 języków, w tym polski, angielski, hiszpański, portugalski, niemiecki, rosyjski i wietnamski: interfejs dopasowuje się do języka Twojego konta na Facebooku.

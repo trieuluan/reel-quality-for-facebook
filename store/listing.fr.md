@@ -14,15 +14,17 @@ Cliquez sur Enregistrer au-dessus du bouton J'aime, choisissez une qualité (108
 1. Ouvrez n'importe quel Reel sur facebook.com.
 2. Pour l'enregistrer, cliquez sur Enregistrer au-dessus du bouton J'aime et choisissez une qualité. La touche D ouvre le même menu.
 3. Pour le regarder en HD, cliquez sur le bouton en forme d'engrenage (⚙) sur la vidéo et choisissez une résolution. Choisissez « Auto » pour revenir au réglage par défaut de Facebook.
+4. Pour la regarder en plein écran, cliquez sur ⛶ en bas à droite de la vidéo ou appuyez sur F.
 
 ✨ FONCTIONNALITÉS
 • Enregistrez les Reels avec le son : un bouton Enregistrer se trouve juste au-dessus du bouton J'aime de Facebook. Choisissez une qualité (la taille approximative est indiquée) et le Reel est enregistré sur votre ordinateur dans un seul fichier MP4 avec le son. L'image et le son sont assemblés dans votre navigateur ; rien n'est envoyé nulle part. Cliquez à nouveau sur le bouton pour annuler.
+• Reels en plein écran : sur ordinateur, les Reels Facebook n'ont pas de bouton plein écran. Cliquez sur ⛶ en bas à droite de la vidéo ou appuyez sur F pour la regarder en plein écran dans la qualité choisie, avec sa propre barre de progression (survolez-la pour un aperçu de ce moment), Espace pour mettre en pause, ←/→ pour avancer ou reculer de 5 secondes et ↑/↓ pour le Reel précédent ou suivant.
 • Uniquement de vraies qualités : le menu ne liste que les résolutions que le Reel possède réellement et que votre navigateur peut lire. Pas de faux agrandissement, pas de chiffres inventés.
 • Mémorise votre choix : la résolution choisie s'applique automatiquement aux Reels suivants. Si un Reel ne la propose pas, la qualité inférieure la plus proche est utilisée.
 • Agrandir les clips horizontaux : beaucoup de Reels sont en fait un clip horizontal placé dans un cadre vertical avec des bandes noires et des légendes. Reel Quality détecte le clip et l'affiche en grand au milieu de l'écran, dans la meilleure qualité disponible.
 • La vraie résolution sous les yeux : en mode « Auto », le bouton indique la résolution exacte lue par Facebook (par exemple « Auto · 540p »), vous voyez donc tout de suite quand la qualité baisse.
-• Masquage automatique : le bouton s'efface après quelques secondes pour ne jamais cacher la vidéo, et revient dès que vous bougez la souris. Désactivable dans le menu.
-• Raccourcis clavier : Q ouvre le menu, Maj + ↑ / Maj + ↓ montent ou baissent la qualité, A revient en Auto, E agrandit un clip horizontal et D ouvre le menu de téléchargement. Les raccourcis sont ignorés pendant que vous écrivez un commentaire ou faites une recherche.
+• Masquage automatique : le bouton s'efface après quelques secondes pour ne jamais cacher la vidéo, et revient dès que vous bougez la souris. Désactivable dans le menu. Le pointeur de la souris disparaît aussi, pour que rien ne cache l'image.
+• Raccourcis clavier : Q ouvre le menu, Maj + ↑ / Maj + ↓ montent ou baissent la qualité, A revient en Auto, E agrandit un clip horizontal et D ouvre le menu de téléchargement. Les raccourcis sont ignorés pendant que vous écrivez un commentaire ou faites une recherche. La touche F active et désactive le plein écran.
 • Bouton déplaçable : faites glisser le bouton n'importe où sur la vidéo, ou choisissez l'une des 8 positions prédéfinies dans le menu. La position est conservée quand vous changez de Reel, redimensionnez la fenêtre ou passez en plein écran.
 • Lecture fluide : le son, les commandes, la lecture en boucle et la navigation restent gérés par le lecteur de Facebook. Jamais d'écran noir pendant le chargement de la nouvelle qualité.
 • 20 langues, dont le français, l'anglais, l'espagnol, le portugais, l'arabe, l'hindi et le vietnamien : l'interface suit la langue de votre compte Facebook.

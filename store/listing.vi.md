@@ -14,15 +14,17 @@ Bấm nút Tải phía trên nút Thích, chọn độ phân giải (1080p, 720p
 1. Mở một video Reel bất kỳ trên facebook.com.
 2. Muốn tải về: bấm nút Tải phía trên nút Thích rồi chọn độ phân giải. Có thể nhấn phím D để mở menu tải.
 3. Muốn xem HD: bấm nút bánh răng (⚙) trên video rồi chọn độ phân giải. Chọn "Tự động" để quay về thiết lập mặc định của Facebook.
+4. Muốn xem toàn màn hình: bấm ⛶ ở góc dưới bên phải video hoặc nhấn phím F.
 
 ✨ TÍNH NĂNG NỔI BẬT
 • Tải Reel về máy, có cả tiếng: Nút Tải nằm ngay phía trên nút Thích của Facebook. Chọn độ phân giải (có hiện dung lượng ước tính) và video sẽ được lưu về máy thành một file MP4 có đầy đủ hình và tiếng. Hình và tiếng được ghép ngay trong trình duyệt, không tải lên bất kỳ đâu. Bấm lại vào nút để huỷ khi đang tải.
+• Xem Reels toàn màn hình: Facebook Reels trên máy tính không có nút toàn màn hình. Bấm ⛶ ở góc dưới bên phải video hoặc nhấn F để xem toàn màn hình với chất lượng bạn chọn, kèm thanh tiến trình riêng (rê chuột lên để xem trước khung hình), Space để dừng, ←/→ để tua 5 giây và ↑/↓ để chuyển sang Reel trước hoặc sau.
 • Chỉ hiện mức thật: Menu chỉ liệt kê các độ phân giải thực tế mà video Reel đó có và trình duyệt của bạn có thể phát được. Không sử dụng kỹ thuật phóng to giả lập (upscale), không bịa thêm thông số.
 • Ghi nhớ lựa chọn: Độ phân giải bạn đã chọn sẽ tự động áp dụng cho các video Reels tiếp theo. Nếu video sau không hỗ trợ mức đó, tiện ích sẽ tự động chọn mức thấp hơn gần nhất.
 • Phóng to clip màn hình ngang: Nhiều video Reels thực chất là clip ngang được dán vào khung dọc có hai viền đen kèm phụ đề. Reel Quality sẽ tự động nhận diện phần clip này và phóng lớn ra giữa màn hình với chất lượng cao nhất hiện có.
 • Hiển thị độ phân giải thực tế: Ở chế độ "Tự động", nút cài đặt sẽ hiển thị chính xác độ phân giải mà Facebook đang phát (ví dụ: "Auto · 540p"), giúp bạn nhận biết ngay khi video bị tụt chất lượng.
-• Tự động ẩn nút khi xem: Nút cài đặt sẽ tự mờ đi sau vài giây để không che khuất video và hiện lại ngay khi bạn di chuột. Bạn có thể tắt tính năng này trong menu.
-• Phím tắt tiện lợi: Nhấn Q để mở menu, Shift + ↑ / Shift + ↓ để tăng hoặc giảm chất lượng, A để quay về chế độ Tự động, E để phóng to clip ngang và D để mở menu tải video. Phím tắt sẽ không hoạt động khi bạn đang gõ bình luận hay tìm kiếm.
+• Tự động ẩn nút khi xem: Nút cài đặt sẽ tự mờ đi sau vài giây để không che khuất video và hiện lại ngay khi bạn di chuột. Bạn có thể tắt tính năng này trong menu. Con trỏ chuột cũng tự ẩn theo, không còn gì che hình.
+• Phím tắt tiện lợi: Nhấn Q để mở menu, Shift + ↑ / Shift + ↓ để tăng hoặc giảm chất lượng, A để quay về chế độ Tự động, E để phóng to clip ngang và D để mở menu tải video. Phím tắt sẽ không hoạt động khi bạn đang gõ bình luận hay tìm kiếm. Phím F để bật hoặc tắt toàn màn hình.
 • Nút bấm di chuyển linh hoạt: Bạn có thể kéo thả nút cài đặt đến bất kỳ vị trí nào trên video, hoặc chọn 1 trong 8 vị trí cố định có sẵn trong menu. Vị trí này được giữ nguyên khi bạn chuyển qua Reel khác, thay đổi kích thước cửa sổ hay xem toàn màn hình.
 • Phát video mượt mà: Hệ thống âm thanh, các nút điều khiển, tính năng lặp lại và tua video vẫn do trình phát gốc của Facebook xử lý. Bạn sẽ không bao giờ bị hiện tượng màn hình đen khi đang tải chất lượng mới.
 • Hỗ trợ 20 ngôn ngữ: Tiếng Việt, Tiếng Anh, Tây Ban Nha, Bồ Đào Nha, Indonesia, Hindi, Ả Rập… Giao diện tự động đổi theo ngôn ngữ tài khoản Facebook của bạn.
