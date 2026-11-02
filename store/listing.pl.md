@@ -15,29 +15,32 @@ Kliknij Pobierz nad przyciskiem „Lubię to!”, wybierz jakość (1080p, 720p,
 2. Aby go zapisać, kliknij Pobierz nad przyciskiem „Lubię to!” i wybierz jakość. Klawisz D otwiera to samo menu.
 3. Aby oglądać w HD, kliknij przycisk z zębatką (⚙) na wideo i wybierz rozdzielczość. Wybierz „Automatycznie”, aby wrócić do domyślnego ustawienia Facebooka.
 4. Aby oglądać na pełnym ekranie, kliknij ⛶ w prawym dolnym rogu wideo lub naciśnij F.
+5. Aby znaleźć rolkę ponownie, kliknij ikonę Reel Quality na pasku narzędzi. Naciśnij 🔖 lub B na rolce, aby obejrzeć ją później.
 
 ✨ NAJWAŻNIEJSZE FUNKCJE
 • Zapisywanie Reels z dźwiękiem: przycisk Pobierz znajduje się tuż nad przyciskiem „Lubię to!” Facebooka. Wybierz jakość (widać szacowany rozmiar pliku), a Reel zostanie zapisany na Twoim komputerze jako jeden plik MP4 z dźwiękiem. Obraz i dźwięk są łączone w Twojej przeglądarce, nic nie jest nigdzie wysyłane. Kliknij przycisk ponownie, aby anulować.
 • Reels na pełnym ekranie: na komputerze Facebook Reels nie mają przycisku pełnego ekranu. Kliknij ⛶ w prawym dolnym rogu wideo lub naciśnij F, aby oglądać na pełnym ekranie w wybranej jakości, z własnym paskiem postępu (najedź na niego, aby zobaczyć podgląd tej chwili), spacją do pauzy, ←/→ do przewijania o 5 sekund i ↑/↓ do poprzedniego lub następnego Reela.
+• Historia i Obejrzyj później: każda rolka, którą naprawdę oglądasz (co najmniej 3 sekundy, więc przewinięte się nie liczą), jest zapisywana z nazwą strony, opisem, miniaturą i miejscem, w którym skończyłeś. Po powrocie zobaczysz „Obejrzano 2 dni temu · zatrzymano na 0:42” z przyciskiem Wznów. Przycisk 🔖 pod Pobierz lub klawisz B odkłada rolkę na później. Kliknij ikonę rozszerzenia na pasku narzędzi, aby znaleźć je wyszukiwarką, albo otwórz bibliotekę, by przeglądać je według dni, usuwać, czyścić okres lub eksportować.
 • Tylko prawdziwa jakość: menu pokazuje wyłącznie rozdzielczości, które Reel naprawdę ma i które Twoja przeglądarka potrafi odtworzyć. Żadnego sztucznego skalowania ani wymyślonych liczb.
 • Zapamiętuje wybór: wybrana rozdzielczość jest automatycznie stosowana do kolejnych Reels. Jeśli Reel jej nie ma, używana jest najbliższa niższa jakość.
 • Powiększanie poziomych klipów: wiele Reels to w rzeczywistości poziomy klip umieszczony w pionowej ramce z czarnymi pasami i napisami. Reel Quality wykrywa taki klip i pokazuje go w dużym rozmiarze na środku ekranu, w najlepszej dostępnej jakości.
 • Prawdziwa rozdzielczość na widoku: w trybie „Automatycznie” przycisk pokazuje dokładną rozdzielczość, którą odtwarza Facebook (na przykład „Automatycznie · 540p”), więc od razu widzisz spadek jakości.
 • Chowa się podczas oglądania: przycisk znika po kilku sekundach, żeby nie zasłaniać wideo, i wraca, gdy tylko poruszysz myszą. Można to wyłączyć w menu. Kursor myszy też znika, więc nic nie zasłania obrazu.
-• Skróty klawiszowe: Q otwiera menu, Shift + ↑ / Shift + ↓ podnoszą lub obniżają jakość, A wraca do trybu automatycznego, E powiększa poziomy klip, a D otwiera menu pobierania. Skróty nie działają, gdy piszesz komentarz lub szukasz. Klawisz F włącza i wyłącza pełny ekran.
+• Skróty klawiszowe: Q otwiera menu, Shift + ↑ / Shift + ↓ podnoszą lub obniżają jakość, A wraca do trybu automatycznego, E powiększa poziomy klip, a D otwiera menu pobierania. Skróty nie działają, gdy piszesz komentarz lub szukasz. Klawisz F włącza i wyłącza pełny ekran. B dodaje rolkę do Obejrzyj później.
 • Przesuwany przycisk: przeciągnij przycisk w dowolne miejsce wideo lub wybierz jedną z 8 gotowych pozycji w menu. Pozycja zostaje zachowana po zmianie Reela, zmianie rozmiaru okna i w trybie pełnoekranowym.
 • Płynne odtwarzanie: dźwięk, sterowanie, zapętlanie i przewijanie nadal obsługuje odtwarzacz Facebooka. Podczas ładowania nowej jakości nigdy nie zobaczysz czarnego ekranu.
 • 20 języków, w tym polski, angielski, hiszpański, portugalski, niemiecki, rosyjski i wietnamski: interfejs dopasowuje się do języka Twojego konta na Facebooku.
-• Lekkie i bezpieczne: bez wyskakujących okienek, bez rejestracji, bez skomplikowanej strony ustawień.
+• Lekkie i bezpieczne: bez reklam, bez rejestracji, bez skomplikowanych ustawień.
 
 ❓ CZĘSTE PYTANIA
 • Czy to jest darmowe? Tak, całkowicie darmowe, bez rejestracji i bez reklam.
 • Czy jest znak wodny? Nie. Plik MP4 to oryginalny obraz i dźwięk z Facebooka, połączone w Twojej przeglądarce.
 • Gdzie trafiają pobrane pliki? Do zwykłego folderu pobierania przeglądarki, pod nazwą w rodzaju reel-123456789-1080p.mp4.
 • Czy coś jest wysyłane? Nie. Rozszerzenie tylko pobiera wideo z serwerów Facebooka.
+• Gdzie jest przechowywana historia? Tylko w Twojej przeglądarce, w pamięci samego rozszerzenia. Nigdy nie jest wysyłana. Możesz ją wstrzymać, usuwać rolki, wyczyścić ostatnią godzinę, dzień lub tydzień albo ją wyeksportować. Odinstalowanie rozszerzenia ją usuwa.
 
 🔒 PRYWATNOŚĆ I BEZPIECZEŃSTWO
-Reel Quality nie zbiera żadnych danych użytkownika. Nie ma analityki, trackerów ani własnych serwerów. Rozszerzenie nie prosi o wrażliwe uprawnienia, działa tylko na facebook.com i pobiera wideo wyłącznie z serwerów wideo Facebooka. Wybrana jakość, pozycja przycisku i opcje wyświetlania są zapisywane lokalnie w Twojej przeglądarce. Pobrane Reels są składane w Twojej przeglądarce i zapisywane bezpośrednio na Twoim komputerze.
+Reel Quality nie zbiera żadnych danych użytkownika. Nie ma analityki, trackerów ani własnych serwerów. Rozszerzenie nie prosi o wrażliwe uprawnienia, działa tylko na facebook.com i pobiera wideo wyłącznie z serwerów wideo Facebooka. Wybrana jakość, pozycja przycisku i opcje wyświetlania są zapisywane lokalnie w Twojej przeglądarce. Pobrane Reels są składane w Twojej przeglądarce i zapisywane bezpośrednio na Twoim komputerze. Historia oglądania i lista Obejrzyj później zostają w pamięci rozszerzenia na Twoim komputerze i nigdy nie są nigdzie wysyłane.
 
 💻 OTWARTE ŹRÓDŁO
 Cały kod źródłowy jest publiczny na GitHubie: https://github.com/trieuluan/reel-quality-for-facebook

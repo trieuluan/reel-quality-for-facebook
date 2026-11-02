@@ -15,29 +15,32 @@ Beğen düğmesinin üstündeki İndir'e tıklayın, bir kalite seçin (1080p, 7
 2. Kaydetmek için Beğen düğmesinin üstündeki İndir'e tıklayın ve bir kalite seçin. D tuşu aynı menüyü açar.
 3. HD izlemek için videodaki dişli düğmesine (⚙) tıklayın ve bir çözünürlük seçin. Facebook'un varsayılan ayarına dönmek için "Otomatik"i seçin.
 4. Tam ekran izlemek için videonun sağ alt köşesindeki ⛶ düğmesine tıklayın ya da F'ye basın.
+5. Bir Reels videosunu yeniden bulmak için araç çubuğundaki Reel Quality simgesine tıkla. Sonra izlemek için videoda 🔖 veya B'ye bas.
 
 ✨ ÖNE ÇIKAN ÖZELLİKLER
 • Reels'i sesiyle kaydedin: Facebook'un Beğen düğmesinin hemen üstünde bir İndir düğmesi bulunur. Bir kalite seçin (tahmini dosya boyutu gösterilir), Reel bilgisayarınıza sesli tek bir MP4 dosyası olarak kaydedilsin. Görüntü ve ses tarayıcınızın içinde birleştirilir, hiçbir şey bir yere yüklenmez. İptal etmek için düğmeye yeniden tıklayın.
 • Reels'i tam ekran izleyin: Bilgisayarda Facebook Reels'in tam ekran düğmesi yok. Videonun sağ alt köşesindeki ⛶ düğmesine tıklayın ya da F'ye basın; seçtiğiniz kalitede tam ekran izleyin. Kendi ilerleme çubuğu (üzerine gelince o anın önizlemesi çıkar), duraklatmak için Boşluk, 5 saniye atlamak için ←/→ ve önceki ya da sonraki Reel için ↑/↓ da var.
+• Geçmiş ve Daha sonra izle: Gerçekten izlediğin her Reels videosu (3 saniye ve üzeri, kaydırıp geçtiklerin sayılmaz) sayfa adı, açıklama, küçük resim ve kaldığın yerle birlikte saklanır. Birine geri döndüğünde "2 gün önce izlendi · 0:42 anında kaldı" yazısı ve Devam et düğmesi çıkar. İndir'in altındaki 🔖 düğmesi ya da B tuşu bir videoyu sonraya saklar. Araç çubuğundaki eklenti simgesine tıklayıp hepsini arayarak bulabilir, kitaplığı açıp güne göre göz atabilir, silebilir, bir dönemi temizleyebilir veya dışa aktarabilirsin.
 • Yalnızca gerçek kaliteler: Menüde sadece Reel'de gerçekten bulunan ve tarayıcınızın oynatabildiği çözünürlükler yer alır. Sahte büyütme yok, uydurma sayılar yok.
 • Seçiminizi hatırlar: Seçtiğiniz çözünürlük sonraki Reels videolarına otomatik uygulanır. Bir Reel'de o çözünürlük yoksa en yakın düşük kalite kullanılır.
 • Yatay klipleri büyütün: Birçok Reel aslında siyah bantlar ve yazılar içeren dikey bir çerçeveye yerleştirilmiş yatay bir kliptir. Reel Quality klibi algılar ve mevcut en iyi kalitede ekranın ortasında büyük olarak gösterir.
 • Gerçek çözünürlüğü görün: "Otomatik" modunda düğme, Facebook'un o anda oynattığı çözünürlüğü tam olarak gösterir (örneğin "Otomatik · 540p"); kalite düştüğünde hemen fark edersiniz.
 • İzlerken gizlenir: Düğme birkaç saniye sonra videoyu kapatmamak için kaybolur, fareyi oynattığınızda geri gelir. Menüden kapatılabilir. Fare imleci de gizlenir, böylece görüntünün üstünde hiçbir şey kalmaz.
-• Klavye kısayolları: Q menüyü açar, Shift + ↑ / Shift + ↓ kaliteyi yükseltir veya düşürür, A Otomatik'e döner, E yatay klibi büyütür, D indirme menüsünü açar. Yorum yazarken ya da arama yaparken kısayollar devre dışıdır. F tuşu tam ekranı açıp kapatır.
+• Klavye kısayolları: Q menüyü açar, Shift + ↑ / Shift + ↓ kaliteyi yükseltir veya düşürür, A Otomatik'e döner, E yatay klibi büyütür, D indirme menüsünü açar. Yorum yazarken ya da arama yaparken kısayollar devre dışıdır. F tuşu tam ekranı açıp kapatır. B videoyu Daha sonra izle listesine ekler.
 • Taşınabilir düğme: Düğmeyi videonun istediğiniz yerine sürükleyin ya da menüdeki 8 hazır konumdan birini seçin. Reel değiştirdiğinizde, pencereyi yeniden boyutlandırdığınızda veya tam ekrana geçtiğinizde konum korunur.
 • Kesintisiz oynatma: Ses, kontroller, döngü ve ileri-geri sarma yine Facebook'un kendi oynatıcısı tarafından yönetilir. Yeni kalite yüklenirken asla siyah ekran görmezsiniz.
 • Türkçe, İngilizce, İspanyolca, Portekizce, Arapça, Hintçe ve Vietnamca dahil 20 dil: Arayüz, Facebook hesabınızın dilini kullanır.
-• Hafif ve güvenli: Açılır pencere yok, kayıt yok, karmaşık ayar sayfası yok.
+• Hafif ve güvenli: Reklam yok, kayıt yok, karmaşık ayar sayfası yok.
 
 ❓ SIK SORULAN SORULAR
 • Ücretsiz mi? Evet, tamamen ücretsiz; kayıt yok, reklam yok.
 • Filigran var mı? Hayır. MP4, Facebook'un orijinal görüntüsü ve sesidir; tarayıcınızda birleştirilir.
 • İndirilenler nereye kaydedilir? Tarayıcınızın her zamanki indirme klasörüne, reel-123456789-1080p.mp4 gibi bir adla.
 • Bir yere bir şey yükleniyor mu? Hayır. Eklenti videoyu yalnızca Facebook'un kendi sunucularından alır.
+• İzleme geçmişim nerede saklanıyor? Yalnızca tarayıcında, eklentinin kendi depolama alanında. Hiçbir yere yüklenmez. Duraklatabilir, video silebilir, son saati, günü veya haftayı temizleyebilir ya da dışa aktarabilirsin. Eklentiyi kaldırınca silinir.
 
 🔒 GİZLİLİK VE GÜVENLİK
-Reel Quality hiçbir kullanıcı verisi toplamaz. Analiz aracı, izleyici ya da kendine ait sunucusu yoktur. Eklenti hassas izin istemez, yalnızca facebook.com'da çalışır ve videoyu yalnızca Facebook'un kendi video sunucularından yükler. Kalite seçiminiz, düğme konumu ve görüntü seçenekleri tarayıcınızda yerel olarak saklanır. İndirdiğiniz Reels tarayıcınızın içinde birleştirilir ve doğrudan bilgisayarınıza kaydedilir.
+Reel Quality hiçbir kullanıcı verisi toplamaz. Analiz aracı, izleyici ya da kendine ait sunucusu yoktur. Eklenti hassas izin istemez, yalnızca facebook.com'da çalışır ve videoyu yalnızca Facebook'un kendi video sunucularından yükler. Kalite seçiminiz, düğme konumu ve görüntü seçenekleri tarayıcınızda yerel olarak saklanır. İndirdiğiniz Reels tarayıcınızın içinde birleştirilir ve doğrudan bilgisayarınıza kaydedilir. İzleme geçmişin ve Daha sonra izle listen bilgisayarındaki eklenti depolamasında kalır ve hiçbir yere gönderilmez.
 
 💻 AÇIK KAYNAK
 Kaynak kodun tamamı GitHub'da herkese açık: https://github.com/trieuluan/reel-quality-for-facebook

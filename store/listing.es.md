@@ -15,29 +15,32 @@ Haz clic en Bajar, encima del botón Me gusta, elige una calidad (1080p, 720p, 5
 2. Para guardarlo, haz clic en Bajar encima del botón Me gusta y elige una calidad. La tecla D abre el mismo menú.
 3. Para verlo en HD, haz clic en el botón de engranaje (⚙) del video y elige una resolución. Elige "Automática" para volver a la opción predeterminada de Facebook.
 4. Para verlo en pantalla completa, haz clic en ⛶ abajo a la derecha del video o pulsa F.
+5. Para encontrar un Reel otra vez, haz clic en el icono de Reel Quality en la barra de herramientas. Pulsa 🔖 o B en un Reel para guardarlo para más tarde.
 
 ✨ FUNCIONES PRINCIPALES
 • Guarda Reels con sonido: un botón Bajar aparece justo encima del botón Me gusta de Facebook. Elige una calidad (se muestra el tamaño aproximado) y el Reel se guarda en tu equipo como un solo MP4 con sonido. Imagen y sonido se unen dentro de tu navegador; no se sube nada a ningún sitio. Vuelve a hacer clic en el botón para cancelar.
 • Reels en pantalla completa: Facebook Reels en el ordenador no tiene botón de pantalla completa. Haz clic en ⛶, abajo a la derecha del video, o pulsa F para verlo en pantalla completa con la calidad elegida, con su propia barra de progreso (pasa el ratón para ver una vista previa de ese momento), Espacio para pausar, ←/→ para saltar 5 segundos y ↑/↓ para el Reel anterior o siguiente.
+• Historial y Ver más tarde: cada Reel que ves de verdad (3 segundos o más, así los que pasas de largo no cuentan) se guarda con el nombre de la página, la descripción, una miniatura y hasta dónde llegaste. Al volver a uno verás "Visto hace 2 días · te quedaste en 0:42" con un botón Continuar. El botón 🔖 bajo Descargar, o la tecla B, guarda un Reel para más tarde. Haz clic en el icono de la extensión en la barra de herramientas para encontrarlos con un buscador, o abre la biblioteca para verlos por día, borrar, limpiar un periodo o exportar.
 • Solo calidades reales: el menú muestra únicamente las resoluciones que el Reel tiene de verdad y que tu navegador puede reproducir. Sin reescalado falso ni números inventados.
 • Recuerda tu elección: la resolución que elijas se aplica automáticamente a los siguientes Reels. Si un Reel no la tiene, se usa la calidad inferior más cercana.
 • Amplía clips horizontales: muchos Reels son en realidad un clip horizontal dentro de un marco vertical con franjas negras y subtítulos. Reel Quality detecta el clip y lo muestra en grande en el centro de la pantalla, con la mejor calidad disponible.
 • Ve la resolución real: en "Automática", el botón muestra la resolución exacta que está reproduciendo Facebook (por ejemplo "Automática · 540p"), así notas al momento si baja la calidad.
 • Se oculta mientras miras: el botón se desvanece tras unos segundos para no tapar el video y vuelve en cuanto mueves el ratón. Puedes desactivarlo en el menú. El puntero del ratón también se oculta, así nada tapa la imagen.
-• Atajos de teclado: Q abre el menú, Shift + ↑ / Shift + ↓ suben o bajan la calidad, A vuelve a Automática, E amplía un clip horizontal y D abre el menú de descarga. Los atajos no se activan mientras escribes un comentario o buscas. La tecla F activa y desactiva la pantalla completa.
+• Atajos de teclado: Q abre el menú, Shift + ↑ / Shift + ↓ suben o bajan la calidad, A vuelve a Automática, E amplía un clip horizontal y D abre el menú de descarga. Los atajos no se activan mientras escribes un comentario o buscas. La tecla F activa y desactiva la pantalla completa. B guarda el Reel en Ver más tarde.
 • Botón movible: arrastra el botón a cualquier parte del video o elige una de las 8 posiciones del menú. La posición se mantiene al cambiar de Reel, redimensionar la ventana o pasar a pantalla completa.
 • Reproducción fluida: el sonido, los controles, la repetición y el avance siguen a cargo del reproductor de Facebook. Nunca verás una pantalla negra mientras carga la nueva calidad.
 • 20 idiomas, entre ellos español, inglés, portugués, indonesio, hindi, árabe y vietnamita: la interfaz sigue el idioma de tu cuenta de Facebook.
-• Ligera y segura: sin ventanas emergentes, sin registro y sin páginas de configuración complicadas.
+• Ligera y segura: sin anuncios, sin registro y sin páginas de ajustes complicadas.
 
 ❓ PREGUNTAS FRECUENTES
 • ¿Es gratis? Sí, totalmente gratis, sin registro y sin anuncios.
 • ¿Lleva marca de agua? No. El MP4 es la imagen y el sonido originales de Facebook, unidos en tu navegador.
 • ¿Dónde se guardan las descargas? En la carpeta de descargas habitual de tu navegador, con un nombre como reel-123456789-1080p.mp4.
 • ¿Se sube algo? No. La extensión solo obtiene el video de los servidores de Facebook.
+• ¿Dónde se guarda mi historial? Solo en tu navegador, en el almacenamiento propio de la extensión. Nunca se sube. Puedes pausarlo, borrar Reels, limpiar la última hora, día o semana, o exportarlo. Al desinstalar la extensión se borra.
 
 🔒 PRIVACIDAD Y SEGURIDAD
-Reel Quality no recopila ningún dato del usuario. No tiene analíticas, rastreadores ni servidores propios. La extensión no pide permisos sensibles, solo funciona en facebook.com y solo carga video desde los servidores de video de Facebook. Tu elección de calidad, la posición del botón y las opciones de visualización se guardan localmente en tu navegador. Los Reels que descargas se montan dentro de tu navegador y se guardan directamente en tu equipo.
+Reel Quality no recopila ningún dato del usuario. No tiene analíticas, rastreadores ni servidores propios. La extensión no pide permisos sensibles, solo funciona en facebook.com y solo carga video desde los servidores de video de Facebook. Tu elección de calidad, la posición del botón y las opciones de visualización se guardan localmente en tu navegador. Los Reels que descargas se montan dentro de tu navegador y se guardan directamente en tu equipo. Tu historial y tu lista Ver más tarde se quedan en el almacenamiento de la extensión en tu ordenador y nunca se envían a ningún sitio.
 
 💻 CÓDIGO ABIERTO
 Todo el código fuente es público en GitHub: https://github.com/trieuluan/reel-quality-for-facebook

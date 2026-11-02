@@ -15,29 +15,32 @@ Klik Muat turun di atas butang Suka, pilih kualiti (1080p, 720p, 540p…, setiap
 2. Untuk menyimpannya, klik Muat turun di atas butang Suka dan pilih kualiti. Kekunci D membuka menu yang sama.
 3. Untuk menonton dalam HD, klik butang gear (⚙) pada video dan pilih resolusi. Pilih "Auto" untuk kembali ke tetapan lalai Facebook.
 4. Untuk menonton dalam skrin penuh, klik ⛶ di bahagian kanan bawah video atau tekan F.
+5. Untuk mencari semula Reels, klik ikon Reel Quality pada bar alat. Tekan 🔖 atau B pada Reels untuk menontonnya kemudian.
 
 ✨ CIRI UTAMA
 • Simpan Reels berserta bunyi: butang Muat turun terletak betul-betul di atas butang Suka Facebook. Pilih kualiti (anggaran saiz fail dipaparkan) dan Reel disimpan ke komputer anda sebagai satu fail MP4 berserta bunyi. Gambar dan bunyi digabungkan dalam pelayar anda, tiada apa-apa dimuat naik ke mana-mana. Klik butang sekali lagi untuk membatalkan.
 • Reels skrin penuh: Facebook Reels di komputer tiada butang skrin penuh. Klik ⛶ di bahagian kanan bawah video atau tekan F untuk menonton dalam skrin penuh pada kualiti pilihan anda, dengan bar kemajuan sendiri (halakan tetikus untuk pratonton detik itu), Space untuk jeda, ←/→ untuk langkau 5 saat dan ↑/↓ untuk Reel sebelum atau seterusnya.
+• Sejarah dan Tonton kemudian: setiap Reels yang anda benar-benar tonton (3 saat atau lebih, jadi yang hanya ditatal tidak dikira) disimpan bersama nama halaman, kapsyen, lakaran kecil dan kedudukan terakhir. Apabila kembali kepadanya, "Ditonton 2 hari lalu · berhenti pada 0:42" muncul dengan butang Sambung. Butang 🔖 di bawah Muat turun, atau kekunci B, menyimpan Reels untuk kemudian. Klik ikon sambungan pada bar alat untuk mencarinya semula, atau buka pustaka untuk melihat mengikut hari, memadam, mengosongkan tempoh tertentu atau mengeksport.
 • Kualiti sebenar sahaja: menu hanya menyenaraikan resolusi yang benar-benar ada pada Reel dan boleh dimainkan oleh pelayar anda. Tiada pembesaran palsu, tiada angka rekaan.
 • Mengingati pilihan anda: resolusi yang anda pilih digunakan secara automatik untuk Reels seterusnya. Jika sesuatu Reel tidak memilikinya, kualiti lebih rendah yang terdekat digunakan.
 • Besarkan klip mendatar: banyak Reels sebenarnya klip mendatar yang diletakkan dalam bingkai menegak dengan jalur hitam dan kapsyen. Reel Quality mengesan klip itu dan memaparkannya besar di tengah skrin pada kualiti terbaik yang ada.
 • Lihat resolusi sebenar: dalam mod "Auto", butang menunjukkan resolusi tepat yang sedang dimainkan Facebook (contohnya "Auto · 540p"), jadi anda terus perasan apabila kualiti jatuh.
 • Tersembunyi semasa menonton: butang hilang selepas beberapa saat supaya tidak menutup video, dan muncul semula sebaik sahaja anda menggerakkan tetikus. Boleh dimatikan dalam menu. Penuding tetikus juga turut tersembunyi, jadi tiada apa yang menutup gambar.
-• Pintasan papan kekunci: Q membuka menu, Shift + ↑ / Shift + ↓ menaikkan atau menurunkan kualiti, A kembali ke Auto, E membesarkan klip mendatar dan D membuka menu muat turun. Pintasan diabaikan semasa anda menaip komen atau mencari. Kekunci F menghidupkan dan mematikan skrin penuh.
+• Pintasan papan kekunci: Q membuka menu, Shift + ↑ / Shift + ↓ menaikkan atau menurunkan kualiti, A kembali ke Auto, E membesarkan klip mendatar dan D membuka menu muat turun. Pintasan diabaikan semasa anda menaip komen atau mencari. Kekunci F menghidupkan dan mematikan skrin penuh. B menyimpan Reels ke Tonton kemudian.
 • Butang boleh dialih: seret butang ke mana-mana bahagian video, atau pilih salah satu daripada 8 kedudukan sedia ada dalam menu. Kedudukan dikekalkan apabila anda bertukar Reel, mengubah saiz tetingkap atau masuk skrin penuh.
 • Main balik lancar: bunyi, kawalan, ulang main dan anjakan masih dikendalikan oleh pemain Facebook sendiri. Anda tidak akan nampak skrin hitam semasa kualiti baharu dimuatkan.
 • 20 bahasa, termasuk Bahasa Melayu, Inggeris, Indonesia, Sepanyol, Portugis, Thai dan Vietnam: antara muka mengikut bahasa akaun Facebook anda.
-• Ringan dan selamat: tiada pop timbul, tiada pendaftaran, tiada halaman tetapan yang rumit.
+• Ringan dan selamat: tiada iklan, tiada pendaftaran, tiada halaman tetapan yang rumit.
 
 ❓ SOALAN LAZIM
 • Adakah ia percuma? Ya, percuma sepenuhnya, tanpa pendaftaran dan tanpa iklan.
 • Adakah ada tera air? Tidak. MP4 itu ialah gambar dan bunyi asal dari Facebook, digabungkan dalam pelayar anda.
 • Di mana fail disimpan? Dalam folder muat turun biasa pelayar anda, dengan nama seperti reel-123456789-1080p.mp4.
 • Adakah apa-apa dimuat naik? Tidak. Sambungan ini hanya mengambil video dari pelayan Facebook sendiri.
+• Di manakah sejarah tontonan disimpan? Hanya dalam pelayar anda, dalam storan sambungan itu sendiri. Ia tidak pernah dimuat naik. Anda boleh menjedanya, memadam Reels, mengosongkan sejam, sehari atau seminggu lalu, atau mengeksportnya. Membuang sambungan akan memadamnya.
 
 🔒 PRIVASI & KESELAMATAN
-Reel Quality tidak mengumpul sebarang data pengguna. Tiada analitik, penjejak atau pelayan sendiri. Sambungan ini tidak meminta kebenaran sensitif, hanya berjalan di facebook.com dan hanya memuatkan video daripada pelayan video Facebook sendiri. Pilihan kualiti, kedudukan butang dan pilihan paparan anda disimpan secara setempat dalam pelayar anda. Reels yang dimuat turun digabungkan dalam pelayar anda dan disimpan terus ke komputer anda.
+Reel Quality tidak mengumpul sebarang data pengguna. Tiada analitik, penjejak atau pelayan sendiri. Sambungan ini tidak meminta kebenaran sensitif, hanya berjalan di facebook.com dan hanya memuatkan video daripada pelayan video Facebook sendiri. Pilihan kualiti, kedudukan butang dan pilihan paparan anda disimpan secara setempat dalam pelayar anda. Reels yang dimuat turun digabungkan dalam pelayar anda dan disimpan terus ke komputer anda. Sejarah tontonan dan senarai Tonton kemudian kekal dalam storan sambungan di komputer anda dan tidak pernah dihantar ke mana-mana.
 
 💻 SUMBER TERBUKA
 Keseluruhan kod sumber terbuka di GitHub: https://github.com/trieuluan/reel-quality-for-facebook

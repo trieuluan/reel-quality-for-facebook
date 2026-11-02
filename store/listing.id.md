@@ -15,29 +15,32 @@ Klik Unduh di atas tombol Suka, pilih kualitas (1080p, 720p, 540p…, masing-mas
 2. Untuk menyimpannya, klik Unduh di atas tombol Suka lalu pilih kualitas. Tombol D membuka menu yang sama.
 3. Untuk menonton dalam HD, klik tombol roda gigi (⚙) di video lalu pilih resolusi. Pilih "Otomatis" untuk kembali ke pengaturan bawaan Facebook.
 4. Untuk menonton layar penuh, klik ⛶ di kanan bawah video atau tekan F.
+5. Untuk menemukan Reels lagi, klik ikon Reel Quality di toolbar. Tekan 🔖 atau B pada Reels untuk menontonnya nanti.
 
 ✨ FITUR UTAMA
 • Simpan Reels lengkap dengan suara: tombol Unduh ada tepat di atas tombol Suka Facebook. Pilih kualitas (perkiraan ukuran file ditampilkan) dan Reel disimpan ke komputer Anda sebagai satu file MP4 bersuara. Gambar dan suara digabung di dalam browser Anda; tidak ada yang diunggah ke mana pun. Klik tombol itu lagi untuk membatalkan.
 • Reels layar penuh: Facebook Reels di komputer tidak punya tombol layar penuh. Klik ⛶ di kanan bawah video atau tekan F untuk menonton layar penuh dalam kualitas pilihan Anda, lengkap dengan bilah progres sendiri (arahkan mouse untuk pratinjau momen itu), Spasi untuk jeda, ←/→ untuk lompat 5 detik, dan ↑/↓ untuk Reel sebelum atau berikutnya.
+• Riwayat dan Tonton nanti: setiap Reels yang benar-benar kamu tonton (3 detik atau lebih, jadi yang cuma di-scroll tidak ikut) disimpan dengan nama halaman, keterangan, thumbnail, dan posisi terakhir. Saat kembali ke salah satunya, muncul "Ditonton 2 hari yang lalu · berhenti di 0:42" dengan tombol Lanjutkan. Tombol 🔖 di bawah Unduh, atau tombol B, menyimpan Reels untuk nanti. Klik ikon ekstensi di toolbar untuk menemukannya lagi lewat pencarian, atau buka koleksi untuk melihat per hari, menghapus, membersihkan periode tertentu, atau mengekspor.
 • Hanya kualitas asli: menu hanya menampilkan resolusi yang benar-benar dimiliki Reel dan bisa diputar browser Anda. Tanpa upscaling palsu, tanpa angka karangan.
 • Mengingat pilihan Anda: resolusi yang Anda pilih otomatis dipakai untuk Reels berikutnya. Jika sebuah Reel tidak memilikinya, dipakai kualitas terdekat di bawahnya.
 • Perbesar klip horizontal: banyak Reels sebenarnya adalah klip horizontal di dalam bingkai vertikal dengan bilah hitam dan teks. Reel Quality mendeteksi klip itu dan menampilkannya besar di tengah layar dengan kualitas terbaik yang tersedia.
 • Lihat resolusi sebenarnya: dalam mode "Otomatis", tombol menampilkan resolusi persis yang sedang diputar Facebook (misalnya "Otomatis · 540p"), jadi Anda langsung tahu saat kualitas turun.
 • Tersembunyi saat menonton: tombol memudar setelah beberapa detik agar tidak menutupi video, dan muncul lagi begitu mouse digerakkan. Bisa dimatikan di menu. Kursor mouse juga ikut tersembunyi, jadi tidak ada yang menutupi gambar.
-• Pintasan keyboard: Q membuka menu, Shift + ↑ / Shift + ↓ menaikkan atau menurunkan kualitas, A kembali ke Otomatis, E memperbesar klip horizontal, dan D membuka menu unduhan. Pintasan diabaikan saat Anda mengetik komentar atau mencari. Tombol F menyalakan dan mematikan layar penuh.
+• Pintasan keyboard: Q membuka menu, Shift + ↑ / Shift + ↓ menaikkan atau menurunkan kualitas, A kembali ke Otomatis, E memperbesar klip horizontal, dan D membuka menu unduhan. Pintasan diabaikan saat Anda mengetik komentar atau mencari. Tombol F menyalakan dan mematikan layar penuh. B menyimpan Reels ke Tonton nanti.
 • Tombol bisa dipindah: seret tombol ke mana saja di video, atau pilih salah satu dari 8 posisi di menu. Posisinya tetap saat berganti Reel, mengubah ukuran jendela, atau masuk layar penuh.
 • Pemutaran mulus: suara, kontrol, pengulangan, dan penggeseran tetap ditangani pemutar Facebook sendiri. Tidak ada layar hitam saat kualitas baru dimuat.
 • 20 bahasa, termasuk Indonesia, Inggris, Spanyol, Portugis, Hindi, Arab, dan Vietnam: tampilan mengikuti bahasa akun Facebook Anda.
-• Ringan dan aman: tanpa pop-up, tanpa daftar akun, tanpa halaman pengaturan yang rumit.
+• Ringan dan aman: tanpa iklan, tanpa daftar akun, tanpa halaman pengaturan yang rumit.
 
 ❓ PERTANYAAN UMUM
 • Apakah gratis? Ya, sepenuhnya gratis, tanpa daftar dan tanpa iklan.
 • Apakah ada watermark? Tidak. MP4-nya berisi gambar dan suara asli dari Facebook, digabung di browser Anda.
 • Di mana file tersimpan? Di folder unduhan biasa browser Anda, dengan nama seperti reel-123456789-1080p.mp4.
 • Apakah ada yang diunggah? Tidak. Ekstensi hanya mengambil video dari server Facebook sendiri.
+• Di mana riwayat tontonan disimpan? Hanya di browser kamu, di penyimpanan milik ekstensi. Tidak pernah diunggah. Kamu bisa menjedanya, menghapus Reels, membersihkan 1 jam, 1 hari, atau 1 minggu terakhir, atau mengekspornya. Menghapus ekstensi akan menghapusnya.
 
 🔒 PRIVASI & KEAMANAN
-Reel Quality tidak mengumpulkan data pengguna sama sekali. Tidak ada analitik, pelacak, atau server sendiri. Ekstensi ini tidak meminta izin sensitif, hanya berjalan di facebook.com, dan hanya memuat video dari server video Facebook sendiri. Pilihan kualitas, posisi tombol, dan opsi tampilan disimpan secara lokal di browser Anda. Reels yang Anda unduh disusun di dalam browser dan langsung disimpan ke komputer Anda.
+Reel Quality tidak mengumpulkan data pengguna sama sekali. Tidak ada analitik, pelacak, atau server sendiri. Ekstensi ini tidak meminta izin sensitif, hanya berjalan di facebook.com, dan hanya memuat video dari server video Facebook sendiri. Pilihan kualitas, posisi tombol, dan opsi tampilan disimpan secara lokal di browser Anda. Reels yang Anda unduh disusun di dalam browser dan langsung disimpan ke komputer Anda. Riwayat tontonan dan daftar Tonton nanti tetap di penyimpanan ekstensi di komputermu dan tidak pernah dikirim ke mana pun.
 
 💻 SUMBER TERBUKA
 Seluruh kode sumber terbuka di GitHub: https://github.com/trieuluan/reel-quality-for-facebook

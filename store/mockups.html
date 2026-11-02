@@ -86,33 +86,92 @@
   .rail .dl svg { width: 28px; height: 28px; }
   .rail .menu { top: 0; left: auto; right: calc(100% + 8px); transform: none; text-shadow: none; font: 13px/1.3 -apple-system, "Segoe UI", system-ui, sans-serif; }
   .rail .item .check { opacity: .8; }
+  /* the rail outside the reel, as on Facebook desktop */
+  .rail.out { right: auto; }
+  .rail .act.saved svg { fill: #fff; }
+  /* ⛶ button, mirrors .fs in src/ui.js */
+  .fsb { position: absolute; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: rgba(0,0,0,.55); }
+  .fsb svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  /* "Watched … · Resume" note, mirrors .note in src/ui.js */
+  .note { position: absolute; display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 6px 0 10px; border-radius: 15px; white-space: nowrap;
+    background: rgba(0,0,0,.62); font: 600 12px/1 -apple-system, "Segoe UI", system-ui, sans-serif; }
+  .note .r { padding: 5px 9px; border-radius: 11px; background: #fff; color: #1c1c1e; }
+  .note .x { opacity: .7; padding: 0 4px; }
+  /* toolbar popup, mirrors pages/popup.html (dark) */
+  .tb { position: absolute; display: flex; align-items: center; justify-content: flex-end; gap: 10px; height: 40px; padding: 0 10px; border-radius: 12px;
+    background: #2b2d31; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+  .tb .addr { flex: 1; height: 24px; border-radius: 12px; background: #1d1f22; color: #9aa0a6; font-size: 12px; display: flex; align-items: center; padding: 0 12px; }
+  .tb img { width: 22px; height: 22px; padding: 4px; border-radius: 6px; box-sizing: content-box; }
+  .tb img.on { background: rgba(255,255,255,.14); }
+  .pop { position: absolute; border-radius: 12px; background: #18191a; color: #e4e6eb; box-shadow: 0 24px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08);
+    font: 13px/1.35 -apple-system, "Segoe UI", system-ui, sans-serif; overflow: hidden; }
+  .pop header { display: grid; gap: 8px; padding: 10px 12px 8px; border-bottom: 1px solid #3e4042; }
+  .pop .tabs { display: flex; gap: 4px; }
+  .pop .tab { padding: 6px 12px; border-radius: 18px; color: #b0b3b8; font-weight: 600; }
+  .pop .tab.on { background: rgba(45,136,255,.18); color: #2d88ff; }
+  .pop .tab i { font-style: normal; font-weight: 500; opacity: .75; margin-left: 4px; }
+  .pop .search { height: 32px; border-radius: 16px; background: #242526; color: #8a8d91; display: flex; align-items: center; padding: 0 12px; }
+  .pop .row { display: flex; align-items: center; gap: 10px; padding: 6px 10px 6px 12px; }
+  .pop .row.hover { background: #242526; }
+  .pop .th { position: relative; flex: none; width: 40px; height: 54px; border-radius: 6px; overflow: hidden; }
+  .pop .th svg { width: 100%; height: 100%; display: block; }
+  .pop .th b { position: absolute; left: 0; bottom: 0; height: 3px; background: #e41e3f; }
+  .pop .tx { flex: 1; min-width: 0; }
+  .pop .tx div { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .pop .pg { font-weight: 600; }
+  .pop .cp, .pop .mt { color: #b0b3b8; }
+  .pop .mt { font-size: 12px; }
+  .pop .acts { display: flex; gap: 2px; color: #b0b3b8; }
+  .pop .acts svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; margin: 6px; }
+  .pop .acts .on { color: #f59e0b; } .pop .acts .on svg { fill: currentColor; }
+  .pop footer { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-top: 1px solid #3e4042; }
+  .pop .lib { padding: 6px 10px; border-radius: 6px; background: #242526; font-weight: 600; }
+  .pop .sw { display: flex; align-items: center; gap: 8px; color: #b0b3b8; font-size: 12px; }
+  .pop .sw i { width: 32px; height: 18px; border-radius: 9px; background: #3e4042; position: relative; }
+  .pop .sw i::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; }
+  /* fullscreen screen with the letterboxed reel, the progress bar and the hover thumbnail (mirrors .bar / .tip in src/ui.js) */
+  .screen { position: absolute; border-radius: 18px; background: #000; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.1); }
+  .screen .reel.pic { top: 0; bottom: 0; border-radius: 0; box-shadow: none; }
+  .fbar { position: absolute; display: flex; align-items: center; gap: 10px; font: 600 12px/1 -apple-system, "Segoe UI", system-ui, sans-serif;
+    text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+  .fbar .trk { position: relative; flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,.3); }
+  .fbar .trk b { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: #fff; }
+  .fbar .trk u { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #fff; }
+  .ftip { position: absolute; display: grid; justify-items: center; gap: 4px; font: 600 12px/1 -apple-system, "Segoe UI", system-ui, sans-serif; }
+  .ftip .img { width: 90px; height: 160px; border-radius: 6px; overflow: hidden; border: 2px solid rgba(255,255,255,.9); box-shadow: 0 4px 16px rgba(0,0,0,.6); }
+  .ftip .img svg { width: 100%; height: 100%; display: block; }
+  .ftip span { padding: 3px 6px; border-radius: 4px; background: rgba(0,0,0,.75); }
+  .keys { position: absolute; display: grid; gap: 16px; font-size: 16px; }
+  .keys div { display: flex; align-items: center; gap: 12px; opacity: .9; }
+  .keys kbd { display: inline-grid; place-items: center; min-width: 34px; height: 30px; padding: 0 8px; border-radius: 7px; background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.18); font: 700 14px/1 -apple-system, "Segoe UI", system-ui, sans-serif; }
 </style>
 </head>
 <body style="background:#444; display:grid; gap:24px; padding:24px; justify-content:start">
 
 <!-- 1. Hero -->
 <div id="shot-1" class="canvas shot">
-  <div style="position:absolute; left:80px; top:110px; width:600px; display:grid; gap:28px">
+  <div style="position:absolute; left:80px; top:104px; width:600px; display:grid; gap:28px">
     <div class="brand"><img data-icon alt="">Reel Quality for Facebook</div>
     <h1>Watch Reels in the <em>quality you choose</em></h1>
     <p class="lead">Pick 1080p, 720p or any resolution a reel offers, right from a button on the video.</p>
     <ul class="points">
-      <li><b>✓</b>Lists only the qualities each reel really has</li>
-      <li><b>✓</b>Remembers your choice for the next reels</li>
+      <li><b>✓</b>Only the qualities each reel really has, remembered</li>
       <li><b>✓</b>Save Reels with sound, right above Like</li>
-      <li><b>✓</b>Drag the button anywhere on the video</li>
+      <li><b>✓</b>Fullscreen button, progress bar and keys</li>
+      <li><b>✓</b>Watch history and Watch later, one click away</li>
       <li><b>✓</b>Shows the real resolution, with keyboard shortcuts</li>
-      <li><b>✓</b>No data collected, no extra permissions</li>
+      <li><b>✓</b>No data collected, everything stays in your browser</li>
     </ul>
   </div>
-  <div class="reel" data-scene style="left:800px; top:56px; width:390px; height:690px">
+  <div class="reel" data-scene style="left:720px; top:56px; width:390px; height:690px">
     <div class="shade"></div>
-    <div class="rail" data-rail style="bottom:30px"></div>
     <div class="meta"><div class="who"><div class="avatar"></div>travel.diaries</div><div class="line" style="width:90%"></div><div class="line" style="width:60%"></div></div>
+    <div class="fsb" data-fs="enter" style="right:14px; bottom:72px"></div>
     <div class="progress"><i></i></div>
     <div class="ext" style="left:14px; top:16px; transform: scale(1.05); transform-origin: top left">
       <div class="btn" data-gear>1080p</div>
-      <div class="menu" style="left:0; transform:none">
+      <div class="menu" style="left:0; transform:none; min-width:250px">
         <div class="title">Quality</div>
         <div class="item"><span class="check"></span>Auto<span class="sub">540p</span></div>
         <div class="item hover"><span class="check">✓</span>1080p<span class="hd">HD</span><span class="sub">3200 kbps</span></div>
@@ -124,17 +183,19 @@
         <div class="grid"><i class="cell active"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell empty"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i></div>
         <div class="hint">Or drag the button</div>
         <div class="item"><span class="check">✓</span>Hide button until the mouse moves</div>
-        <div class="hint">Keys: Q menu · Shift+↑/↓ quality · A auto · E expand · D download</div>
+        <div class="item"><span class="check"></span>Add to watch history<span class="sub">after 3 s</span></div>
+        <div class="hint" style="white-space:normal">Keys: Q menu · Shift+↑/↓ quality · A auto · E expand · D download · F full screen · B watch later</div>
         <div class="sep"></div>
-        <div class="footer"><span class="credit">Reel Quality · by Louis</span><span class="support">☕ Support</span></div>
+        <div class="footer"><span class="credit">Reel Quality · by Louis</span><span style="display:flex; gap:2px"><span class="support" style="background:none">⭐ Rate</span><span class="support">☕ Support</span></span></div>
       </div>
     </div>
   </div>
+  <div class="rail out" data-rail style="left:1124px; bottom:64px"></div>
 </div>
 
 <!-- 4. Save reels with sound -->
 <div id="shot-4" class="canvas shot">
-  <div style="position:absolute; left:80px; top:120px; width:600px; display:grid; gap:28px">
+  <div style="position:absolute; left:80px; top:120px; width:560px; display:grid; gap:28px">
     <div class="brand"><img data-icon alt="">Reel Quality for Facebook</div>
     <h1>Save Reels <em>with sound</em></h1>
     <p class="lead">A Download button sits right above Like. Pick a quality and get one MP4 file, picture and sound together.</p>
@@ -143,14 +204,78 @@
       <li><b>✓</b>One MP4 file with picture and sound</li>
       <li><b>✓</b>Put together in your browser, nothing uploaded</li>
       <li><b>✓</b>Progress on the button, click again to cancel</li>
+      <li><b>✓</b>Save, right below it, keeps a reel for later</li>
     </ul>
   </div>
-  <div class="reel" data-scene style="left:800px; top:56px; width:390px; height:690px">
+  <div class="reel" data-scene style="left:720px; top:56px; width:390px; height:690px">
     <div class="shade"></div>
-    <div class="meta" style="right:90px"><div class="who"><div class="avatar"></div>travel.diaries</div><div class="line" style="width:90%"></div><div class="line" style="width:60%"></div></div>
+    <div class="meta"><div class="who"><div class="avatar"></div>travel.diaries</div><div class="line" style="width:90%"></div><div class="line" style="width:60%"></div></div>
+    <div class="fsb" data-fs="enter" style="right:14px; bottom:72px"></div>
     <div class="progress"><i></i></div>
     <div class="ext" style="left:50%; top:16px; transform: translateX(-50%) scale(1.15)"><div class="btn" data-gear>1080p</div></div>
-    <div class="rail" data-rail="menu" style="bottom:40px; transform: scale(1.2)"></div>
+  </div>
+  <div class="rail out" data-rail="menu" style="left:1124px; bottom:64px"></div>
+</div>
+
+<!-- 5. Watch history and Watch later -->
+<div id="shot-5" class="canvas shot">
+  <div style="position:absolute; left:80px; top:104px; width:420px; display:grid; gap:26px">
+    <div class="brand"><img data-icon alt="">Reel Quality for Facebook</div>
+    <h1 style="font-size:50px">Never lose a <em>good Reel</em> again</h1>
+    <p class="lead" style="font-size:19px">Every reel you watch lands in your history. Find it again from the toolbar, or keep it for later.</p>
+    <ul class="points" style="font-size:17px; gap:12px">
+      <li><b>✓</b>Counts after 3 s, skipped reels stay out</li>
+      <li><b>✓</b>"Watched 2 days ago" with Resume</li>
+      <li><b>✓</b>Save or B adds it to Watch later</li>
+      <li><b>✓</b>Search, a library by day, export</li>
+      <li><b>✓</b>Kept in your browser, never uploaded</li>
+    </ul>
+  </div>
+  <div class="reel" data-scene style="left:520px; top:130px; width:334px; height:594px; border-radius:22px">
+    <div class="shade"></div>
+    <div class="ext" style="left:50%; top:14px; transform: translateX(-50%)"><div class="btn" data-gear>1080p</div></div>
+    <div class="note" style="left:50%; top:54px; transform: translateX(-50%) scale(.93)">Watched 2 days ago · stopped at 0:42<span class="r">Resume</span><span class="x">✕</span></div>
+    <div class="meta" style="left:16px; right:56px; bottom:22px"><div class="who" style="font-size:14px"><div class="avatar" style="width:28px; height:28px"></div>travel.diaries</div><div class="line" style="width:90%"></div></div>
+    <div class="fsb" data-fs="enter" style="right:12px; bottom:47px; transform:scale(.9)"></div>
+    <div class="progress"><i style="width:55%"></i></div>
+  </div>
+  <div class="rail out" data-rail="saved" style="left:858px; top:436px; transform:scale(.85); transform-origin:top left"></div>
+  <div class="tb" style="left:936px; top:70px; width:304px"><span class="addr">facebook.com/reel/…</span><img data-icon class="on" alt=""></div>
+  <div class="pop" style="left:936px; top:120px; width:304px">
+    <header>
+      <div class="tabs"><span class="tab on">Watched<i>128</i></span><span class="tab">Watch later<i>9</i></span></div>
+      <div class="search">Search page or caption</div>
+    </header>
+    <div data-rows></div>
+    <footer><span class="lib">Open library ↗</span><span class="sw"><i></i>Pause</span></footer>
+  </div>
+</div>
+
+<!-- 6. Fullscreen -->
+<div id="shot-6" class="canvas shot">
+  <div style="position:absolute; left:0; right:0; top:52px; text-align:center; display:grid; gap:12px">
+    <h1 style="font-size:46px">Fullscreen for <em>Facebook Reels</em></h1>
+    <p class="lead">Reels on desktop have no fullscreen button. Click ⛶ or press F, with a progress bar and keys of its own.</p>
+  </div>
+  <div class="screen" style="left:110px; top:196px; width:1060px; height:560px">
+    <div class="keys" style="left:44px; top:150px">
+      <div><kbd>Space</kbd>Play / pause</div>
+      <div><kbd>←</kbd><kbd>→</kbd>Skip 5 s</div>
+      <div><kbd>↑</kbd><kbd>↓</kbd>Previous / next reel</div>
+      <div><kbd>F</kbd><kbd>Esc</kbd>Leave fullscreen</div>
+    </div>
+    <div class="reel pic" data-scene style="left:372px; width:315px">
+      <div class="shade"></div>
+      <div class="ext" style="left:50%; top:14px; transform: translateX(-50%)"><div class="btn" data-gear>1080p</div></div>
+      <div class="ftip" style="left:146px; bottom:110px"><div class="img" data-mini="2"></div><span>0:19</span></div>
+      <div class="fbar" style="left:16px; width:233px; bottom:88px"><span>0:12 / 0:31</span><span class="trk"><b style="width:38%"></b><u style="left:38%"></u></span></div>
+      <div class="fsb" data-fs="exit" style="right:12px; bottom:80px; width:32px; height:32px"></div>
+      <div class="meta" style="left:16px; right:16px; bottom:20px"><div class="who" style="font-size:14px"><div class="avatar" style="width:28px; height:28px"></div>travel.diaries</div><div class="line" style="width:80%"></div></div>
+    </div>
+    <div style="position:absolute; right:44px; top:186px; width:250px; display:grid; gap:10px; font-size:16px; opacity:.85; line-height:1.4">
+      <div style="font-size:19px; font-weight:700; opacity:1">Hover the bar</div>
+      <div>to preview any moment, click or drag it to seek. The next reel comes back fullscreen too.</div>
+    </div>
   </div>
 </div>
 
@@ -210,7 +335,7 @@
   <div style="position:absolute; left:34px; top:50px; display:grid; gap:14px; width:250px">
     <img data-icon alt="" style="width:64px; height:64px">
     <div style="font-size:30px; font-weight:800; line-height:1.1">Reel Quality</div>
-    <div style="font-size:15px; opacity:.75; line-height:1.4">Choose the video quality of Facebook Reels</div>
+    <div style="font-size:15px; opacity:.75; line-height:1.4">HD quality, downloads and watch history for Facebook Reels</div>
   </div>
   <div class="reel" data-scene style="left:300px; top:28px; width:126px; height:224px; border-radius:14px">
     <div class="ext" style="left:50%; top:10px; transform: translateX(-50%) scale(.85)"><div class="btn" data-gear>1080p</div></div>
@@ -279,9 +404,41 @@
     like: 'M7 10.5v10M7 10.5l4-7.5c1.7 0 2.7 1.2 2.4 2.9L13 9h5.6c1.3 0 2.2 1.2 1.9 2.4l-1.7 7.1c-.2.9-1 1.5-1.9 1.5H7M7 10.5H4.5v10H7',
     comment: 'M12 3.5c4.7 0 8.5 3.4 8.5 7.6s-3.8 7.6-8.5 7.6c-1.2 0-2.3-.2-3.3-.6L4.5 20l1.2-3.6c-1.4-1.4-2.2-3.2-2.2-5.3 0-4.2 3.8-7.6 8.5-7.6z',
     share: 'M13.5 4.5 20.5 11l-7 6.5v-4c-5 0-8 1.5-10 5 .7-5.3 3.6-9.4 10-10V4.5z',
+    bookmark: 'M6.5 3.5h11v17L12 16.5l-5.5 4z',
+    close: 'M6 6l12 12M18 6 6 18',
   };
+  const FS = { enter: 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5', exit: 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5' };
+
+  // Small reel stills for the popup rows and the hover thumbnail: same style, other colours.
+  const PALETTES = [
+    ['#1e1b4b', '#9d4edd', '#fbbf24', '#4c1d95'], ['#0c4a6e', '#38bdf8', '#fde68a', '#075985'], ['#14532d', '#4ade80', '#fef08a', '#166534'],
+    ['#7c2d12', '#fb923c', '#fde68a', '#9a3412'], ['#312e81', '#f472b6', '#fbcfe8', '#4338ca'], ['#111827', '#64748b', '#e2e8f0', '#334155'],
+  ];
+  function mini(i) {
+    const [a, b, c, d] = PALETTES[i % PALETTES.length];
+    return `<svg viewBox="0 0 90 160" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="m${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset=".6" stop-color="${b}"/><stop offset="1" stop-color="${c}"/></linearGradient></defs>
+      <rect width="90" height="160" fill="url(#m${i})"/><circle cx="${30 + (i * 17) % 40}" cy="88" r="13" fill="${c}"/>
+      <path d="M0 110 L20 ${80 + i % 3 * 6} L40 100 L62 ${76 + i % 2 * 10} L90 104 L90 160 L0 160 Z" fill="${d}"/>
+      <path d="M0 128 L25 112 L50 126 L72 114 L90 124 L90 160 L0 160 Z" fill="#0b0a24" opacity=".85"/></svg>`;
+  }
+  const ROWS = [
+    ['travel.diaries', 'Sunset over the lake, no filter 🌅', '2 minutes ago · 0:31', 0.4, 0, true],
+    ['Bếp Nhà Mây', 'Bánh flan mềm mịn không bị rỗ 🍮', '25 minutes ago · 0:58', 1, 1, false],
+    ['Daily Laughs', 'When the boss says "quick call" 😂', '1 hour ago · 0:15', 1, 2, false],
+    ['Chef Marco', 'Fresh pasta in 5 minutes', '3 hours ago · 1:12', 0.6, 3, true],
+    ['Cat Club', 'He hates Mondays too', 'yesterday · 0:22', 1, 4, false],
+    ['Gym Basics', '5 core moves for beginners', 'yesterday · 0:45', 0.3, 5, false],
+  ];
+  function rowsHTML() {
+    return ROWS.map(([page, cap, meta, frac, scene, saved], i) => `<div class="row${i === 0 ? ' hover' : ''}">
+      <div class="th">${mini(scene)}<b style="width:${frac * 100}%"></b></div>
+      <div class="tx"><div class="pg">${page}</div><div class="cp">${cap}</div><div class="mt">${meta}</div></div>
+      ${i === 0 ? `<div class="acts"><span class="${saved ? 'on' : ''}">${icon(ICONS.bookmark)}</span><span>${icon(ICONS.close)}</span></div>` : ''}
+    </div>`).join('');
+  }
   const icon = (d) => `<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`;
-  function railHTML(withMenu) {
+  function railHTML(withMenu, saved) {
     const act = (name, label, extra = '') => `<div class="act${extra}"><span class="icon">${icon(ICONS[name])}</span>${label}</div>`;
     const menu = !withMenu ? '' : `<div class="menu" style="min-width:200px">
         <div class="title">Download video</div>
@@ -291,6 +448,7 @@
         <div class="item"><span class="check"></span>360p<span class="sub">~2.1 MB</span></div>
       </div>`;
     return `<div class="act dl${withMenu ? ' hover' : ''}"><span class="icon">${icon(ICONS.download)}</span>Download${menu}</div>` +
+      (saved ? act('bookmark', 'Saved', ' saved') : act('bookmark', 'Save')) +
       act('like', '2.6K') + act('comment', '67') + act('share', '200') +
       `<div class="act"><span class="icon" style="font-size:22px; letter-spacing:1px">•••</span></div>`;
   }
@@ -303,7 +461,10 @@
     let n = 0;
     document.querySelectorAll('[data-scene]').forEach((r) => r.insertAdjacentHTML('afterbegin', scene(n++, r.dataset.scene === 'blur')));
     document.querySelectorAll('[data-wide]').forEach((r) => r.insertAdjacentHTML('afterbegin', sceneWide(n++)));
-    document.querySelectorAll('[data-rail]').forEach((r) => r.insertAdjacentHTML('beforeend', railHTML(r.dataset.rail === 'menu')));
+    document.querySelectorAll('[data-rail]').forEach((r) => r.insertAdjacentHTML('beforeend', railHTML(r.dataset.rail === 'menu', r.dataset.rail === 'saved')));
+    document.querySelectorAll('[data-fs]').forEach((b) => b.insertAdjacentHTML('beforeend', icon(FS[b.dataset.fs])));
+    document.querySelectorAll('[data-mini]').forEach((b) => b.insertAdjacentHTML('beforeend', mini(+b.dataset.mini)));
+    document.querySelectorAll('[data-rows]').forEach((b) => b.insertAdjacentHTML('beforeend', rowsHTML()));
   })();
 </script>
 <script src="render.js"></script>

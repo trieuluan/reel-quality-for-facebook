@@ -19,29 +19,32 @@ Click Download above the Like button, pick a quality (1080p, 720p, 540p…, each
 2. To save it, click Download above the Like button and pick a quality. Press D to open the same menu from the keyboard.
 3. To watch it in HD, click the gear button (⚙) on the video and pick a resolution. Choose "Auto" to go back to Facebook's default.
 4. To watch fullscreen, click ⛶ at the bottom right of the video or press F.
+5. To find a Reel again, click the Reel Quality icon in the toolbar. Press 🔖 or B on a Reel to keep it for later.
 
 ✨ KEY FEATURES
 • Save Reels with sound: a Download button sits right above Facebook's Like button. Pick a quality (the estimated file size is shown) and the Reel is saved to your computer as a single MP4 with sound. Picture and sound are joined inside your browser, nothing is uploaded anywhere. Click the button again to cancel.
 • Fullscreen for Reels: Facebook Reels on desktop have no fullscreen button. Click ⛶ at the bottom right of the video or press F to watch fullscreen in the quality you chose, with its own progress bar (hover it for a preview of that moment), Space to pause, ←/→ to skip 5 seconds and ↑/↓ for the previous or next Reel.
+• Watch history and Watch later: every Reel you actually watch (3 seconds or more, so the ones you scroll past stay out) is kept with its page name, caption, thumbnail and how far you got. Coming back to one shows "Watched 2 days ago · stopped at 0:42" with a Resume button. The 🔖 button under Download, or B, keeps a Reel for later. Click the extension's icon in the toolbar to find any of them again with a search, or open the library to browse by day, delete, clear a period or export.
 • Real qualities only: the menu lists only the resolutions the Reel actually has and your browser can play. No fake upscaling, no made-up numbers.
 • Remembers your choice: the resolution you pick is applied to the next Reels automatically. If a Reel doesn't have it, the closest lower quality is used.
 • Expand landscape clips: many Reels are really a horizontal clip placed inside a vertical frame with black bars and captions. Reel Quality detects the clip and shows it large in the middle of the screen, at the best quality available.
 • See the real resolution: on "Auto", the button shows the exact resolution Facebook is playing (for example "Auto · 540p"), so you notice a quality drop immediately.
 • Auto-hide while watching: the button fades out after a few seconds so it never covers the video, and comes back as soon as you move the mouse. You can turn this off in the menu. The mouse pointer hides with it, so nothing sits on the picture.
-• Handy keyboard shortcuts: press Q to open the menu, Shift + ↑ / Shift + ↓ to raise or lower the quality, A to go back to Auto, E to expand a landscape clip and D to open the download menu. Shortcuts are ignored while you're typing a comment or searching. F turns fullscreen on and off.
+• Handy keyboard shortcuts: press Q to open the menu, Shift + ↑ / Shift + ↓ to raise or lower the quality, A to go back to Auto, E to expand a landscape clip and D to open the download menu. Shortcuts are ignored while you're typing a comment or searching. F turns fullscreen on and off. B adds the Reel to Watch later.
 • Movable button: drag the button anywhere on the video, or pick one of 8 preset positions in the menu. The position is kept when you switch Reels, resize the window or go fullscreen.
 • Smooth playback: sound, controls, looping and seeking are still handled by Facebook's own player. You never get a black screen while the new quality loads.
 • 20 languages, including English, Spanish, Portuguese, Indonesian, Hindi, Arabic and Vietnamese: the interface follows the language of your Facebook account.
-• Lightweight and safe: no popups, no sign-up, no complicated settings page.
+• Lightweight and safe: no ads, no sign-up, no complicated settings page.
 
 ❓ FAQ
 • Is it free? Yes, completely free, with no sign-up and no ads.
 • Is there a watermark? No. The MP4 is Facebook's original picture and sound, joined in your browser.
 • Where are downloads saved? In your browser's usual download folder, with a name like reel-123456789-1080p.mp4.
 • Is anything uploaded? No. The extension only fetches the video from Facebook's own servers.
+• Where is my watch history kept? Only in your browser, in the extension's own storage. It is never uploaded. You can pause it, delete Reels, clear the last hour, day or week, or export it. Uninstalling the extension deletes it.
 
 🔒 PRIVACY & SECURITY
-Reel Quality collects no user data at all. There are no analytics or trackers and no servers of its own. The extension asks for no sensitive permissions, runs only on facebook.com and only loads video from Facebook's own video servers. Your quality choice, button position and display options are stored locally in your browser. Downloaded Reels are put together inside your browser and saved straight to your computer.
+Reel Quality collects no user data at all. There are no analytics or trackers and no servers of its own. The extension asks for no sensitive permissions, runs only on facebook.com and only loads video from Facebook's own video servers. Your quality choice, button position and display options are stored locally in your browser. Downloaded Reels are put together inside your browser and saved straight to your computer. Your watch history and Watch later list stay in the extension's storage on your computer and are never sent anywhere.
 
 💻 OPEN SOURCE
 The full source code is public on GitHub: https://github.com/trieuluan/reel-quality-for-facebook
