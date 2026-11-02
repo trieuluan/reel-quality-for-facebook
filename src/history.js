@@ -38,12 +38,12 @@
 
   // --- what we store about a reel ----------------------------------------------------
 
-  // Only the Reels viewer counts: /reel/<id> (and /reels/<id>) in the address bar.
-  const onReelPage = () => /^\/reels?\/\d+/.test(location.pathname);
-  function reelId(entry) {
-    if (!onReelPage()) return null;
-    const id = entry?.id || /^\/reels?\/(\d+)/.exec(location.pathname)[1];
-    return /^\d{6,}$/.test(id) ? id : null;
+  // Only the Reels viewer counts, and the reel is the one in the address bar: /reel/<id> (or /reels/<id>), which
+  // Facebook updates on every ↑/↓. Not the manifest's id: one response carries several reels, and the id found next
+  // to a manifest can belong to the previous one.
+  function reelId() {
+    const id = /^\/reels?\/(\d+)/.exec(location.pathname)?.[1];
+    return id && /^\d{6,}$/.test(id) ? id : null;
   }
 
   const visibleText = (node) => {
@@ -146,14 +146,21 @@
   }
 
   /**
-   * Call regularly with the reel on screen (or nulls). `info(video)` returns { page, caption } for it.
+   * Call regularly with the video on screen (or null). `info(video)` returns { page, caption, thumb } for it.
    */
-  function tick(video, entry, info) {
+  function tick(video, info) {
     describe = info;
-    const id = video && reelId(entry);
-    if (session && (session.id !== id || session.video !== video)) {
+    const id = video && reelId();
+    if (session && session.id !== id) {
       flush(session);
       session = null;
+      notify();
+    }
+    // Same reel in another <video> (Facebook re-mounted it, or swapped players before updating the address):
+    // carry on with the same session rather than counting the reel again.
+    if (session && session.video !== video) {
+      session.video = video;
+      session.lastTime = video.currentTime;
       notify();
     }
     if (!id) return;

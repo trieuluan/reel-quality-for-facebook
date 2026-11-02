@@ -557,7 +557,7 @@
   }
 
   const fileName = (rep) => {
-    const id = state.entry?.id || /\/reels?\/(\d+)/.exec(location.pathname)?.[1] || Date.now();
+    const id = /\/reels?\/(\d+)/.exec(location.pathname)?.[1] || state.entry?.id || Date.now(); // the address bar names the reel on screen
     return `reel-${id}-${rep.label}.mp4`;
   };
 
@@ -1233,7 +1233,7 @@
     state.downloads = entry ? FBQ.downloadQualities(entry.reps) : [];
     state.avatar = video ? findAvatar(video) : null;
     // The thumbnail comes from our HD layer when it is showing, so it is as sharp as the quality you picked.
-    FBQ.history.tick(video, entry, (v) => ({
+    FBQ.history.tick(video, (v) => ({
       ...FBQ.history.scrape(v, state.avatar, fullscreenBox(v)?.parentElement),
       thumb: FBQ.history.snapshot(viewerSource()),
     }));

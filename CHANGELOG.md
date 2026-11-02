@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.1 (2026-11-02)
+
+- **Every reel goes into the history.** Only the first reel was recorded: after ↑/↓, the next reels were taken for the previous one, because the id found next to a video's data in Facebook's responses (which carry several reels at once) could belong to another reel. The reel is now the one in the address bar (/reel/<id>), and a reel shown in a new player before the address catches up is no longer counted twice.
+- Downloaded files are named after the reel in the address bar too (`reel-<id>-1080p.mp4`), for the same reason.
+
 ## 1.5.0 (2026-11-02)
 
 - **Watch history.** Reels you watch are kept in a history once they have actually played for 3 seconds, so reels you scroll past stay out (paused, buffering or a hidden tab don't count). The menu can switch this to right away or 10 seconds. Each entry has the page name, caption, a sharp thumbnail (taken from the HD layer when you picked a quality), the length and how far you got; a reel that looped counts as watched to the end. Watching it again moves it to the top.
