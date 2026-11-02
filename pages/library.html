@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reel Quality</title>
+  <link rel="icon" href="../icons/icon-32.png">
+  <link rel="stylesheet" href="pages.css">
+  <style>
+    header { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .topbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; max-width: 1240px; margin: 0 auto; padding: 12px 24px; }
+    h1 { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 18px; white-space: nowrap; }
+    h1 img { width: 24px; height: 24px; }
+    .topbar .search { flex: 1 1 220px; max-width: 360px; }
+    .tools { display: flex; flex-wrap: wrap; gap: 6px; margin-inline-start: auto; }
+    .tool { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border: 0; border-radius: 6px; background: var(--surface); font-weight: 600; white-space: nowrap; }
+    .tool:hover { background: var(--hover); }
+    .tool.primary { background: var(--accent); color: var(--accent-text); }
+    .tool.danger { background: var(--danger); color: #fff; }
+    .tool:disabled { opacity: .5; cursor: default; }
+    .clear-menu { position: relative; }
+    .clear-menu .pop { position: absolute; inset-inline-end: 0; top: 40px; z-index: 3; min-width: 200px; padding: 6px; border-radius: 8px; background: var(--bg);
+      box-shadow: 0 8px 24px rgba(0,0,0,.25); border: 1px solid var(--line); }
+    .clear-menu .pop button { display: block; width: 100%; padding: 8px 10px; border: 0; border-radius: 6px; background: none; text-align: start; }
+    .clear-menu .pop button:hover { background: var(--surface); }
+    main { max-width: 1240px; margin: 0 auto; padding: 8px 24px 48px; }
+    .notice { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; }
+    .notice .switch { margin-inline-start: auto; color: var(--muted); }
+    h2 { margin: 24px 0 12px; font-size: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px 14px; }
+    .card { position: relative; display: grid; gap: 6px; min-width: 0; border-radius: 10px; cursor: pointer; }
+    .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .card .thumb { aspect-ratio: 9 / 16; border-radius: 10px; }
+    .card:hover .thumb img { filter: brightness(.92); }
+    .card .dur { position: absolute; inset-inline-end: 6px; bottom: 8px; padding: 1px 5px; border-radius: 4px; background: rgba(0,0,0,.7); color: #fff; font-size: 11px; font-weight: 600; }
+    .card .page { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 600; }
+    .card .caption { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; color: var(--muted); }
+    .card .meta { color: var(--muted); font-size: 12px; }
+    .card .acts { position: absolute; top: 6px; inset-inline-end: 6px; display: flex; gap: 4px; opacity: 0; transition: opacity .15s; }
+    .card:hover .acts, .card:focus-within .acts { opacity: 1; }
+    .card .acts .icon-btn { background: rgba(0,0,0,.6); color: #fff; }
+    .card .acts .icon-btn:hover { background: rgba(0,0,0,.8); }
+    .card .acts .icon-btn.on { color: var(--saved); }
+    .card .pick { position: absolute; top: 8px; inset-inline-start: 8px; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); display: none; }
+    .selecting .card .pick { display: block; }
+    .selecting .card .acts { display: none; }
+    .selecting .card.picked .thumb { outline: 3px solid var(--accent); outline-offset: -3px; }
+    .more { height: 1px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); padding: 10px 16px; border-radius: 8px; background: #323436; color: #fff; font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+    @media (max-width: 600px) {
+      .topbar, main { padding-inline: 16px; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+      .tools { margin-inline-start: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <h1><img src="../icons/icon-48.png" alt=""><span data-t="libraryTitle"></span></h1>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" data-list="history" aria-selected="true"><span data-t="history"></span><span class="n"></span></button>
+        <button class="tab" role="tab" data-list="saved" aria-selected="false"><span data-t="watchLater"></span><span class="n"></span></button>
+      </div>
+      <input class="search" type="search" data-t-placeholder="searchPh" autocomplete="off">
+      <div class="tools normal-tools">
+        <button class="tool select" data-t="select"></button>
+        <div class="clear-menu">
+          <button class="tool clear" data-t="clearHistory" aria-haspopup="menu"></button>
+          <div class="pop" role="menu" hidden>
+            <button role="menuitem" data-since="hour" data-t="clearHour"></button>
+            <button role="menuitem" data-since="day" data-t="clearDay"></button>
+            <button role="menuitem" data-since="week" data-t="clearWeek"></button>
+            <button role="menuitem" data-since="all" data-t="clearAll"></button>
+          </div>
+        </div>
+        <button class="tool export" data-t="exportData"></button>
+        <button class="tool import" data-t="importData"></button>
+        <input class="import-file" type="file" accept="application/json,.json" hidden>
+      </div>
+      <div class="tools select-tools" hidden>
+        <button class="tool danger delete"></button>
+        <button class="tool cancel" data-t="cancel"></button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="notice">
+      <div class="banner" data-t="historyPaused" hidden></div>
+      <label class="switch"><input type="checkbox" class="pause"><span data-t="pauseHistory"></span></label>
+    </div>
+    <div class="groups"></div>
+    <div class="more"></div>
+  </main>
+  <script src="../src/i18n.js"></script>
+  <script src="../src/store.js"></script>
+  <script src="common.js"></script>
+  <script src="library.js"></script>
+</body>
+</html>

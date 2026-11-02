@@ -126,6 +126,16 @@
     .dl svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
       filter: drop-shadow(0 1px 1px rgba(0,0,0,.4)); }
     .dl-menu { top: 0; right: calc(100% + 8px); }
+    .col { display: flex; flex-direction: column; align-items: center; gap: var(--gap, 16px); }
+    .dl.saved svg { fill: currentColor; }
+    .note { display: flex; align-items: center; gap: 8px; height: 30px; padding-block: 0; padding-inline: 10px 6px; border-radius: 15px; box-sizing: border-box;
+      background: rgba(0,0,0,.6); color: #fff; font-size: 12px; font-weight: 600; white-space: nowrap; backdrop-filter: blur(4px); }
+    .note .msg { direction: inherit; unicode-bidi: plaintext; }
+    .note button { height: 22px; padding: 0 9px; border: 0; border-radius: 11px; background: #fff; color: #1c1c1e; font: inherit; cursor: pointer; }
+    .note button:hover { background: #e4e6eb; }
+    .note .x { padding: 0 5px; background: none; color: #fff; opacity: .7; }
+    .note .x:hover { background: none; opacity: 1; }
+    .note.toast { padding-inline-end: 10px; }
     .review-card { width: 260px; padding: 4px; }
     .review-card .review { margin: 0; }
   `;
@@ -275,6 +285,15 @@
     svg.append(path);
     return svg;
   }
+  function bookmarkIcon() {
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', 'M6.5 3.5h11v17L12 16.5l-5.5 4z');
+    svg.append(path);
+    return svg;
+  }
   function gearIcon() {
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
@@ -351,7 +370,11 @@
   const dlBtn = el('button', { className: 'dl' }, [el('span', { className: 'icon' }, [downloadIcon()]), dlLabel]);
   const dlMenu = el('div', { className: 'menu dl-menu' });
   const reviewCard = el('div', { className: 'menu dl-menu review-card' }); // review ask after a successful download
-  dlRoot.append(dlBtn, dlMenu, reviewCard);
+  // 🔖 Watch later, right under Download and above Like.
+  const saveLabel = el('span');
+  const saveBtn = el('button', { className: 'dl', onclick: () => toggleSaved() }, [el('span', { className: 'icon' }, [bookmarkIcon()]), saveLabel]);
+  const dlCol = el('div', { className: 'col' }, [dlBtn, saveBtn]);
+  dlRoot.append(dlCol, dlMenu, reviewCard);
   for (const type of ['click', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'dblclick']) {
     dlHost.addEventListener(type, (e) => e.stopPropagation());
   }
@@ -383,7 +406,8 @@
     if (!menu.classList.contains('open')) return (menuSignature = '');
     const active = current();
     // Rebuild only on change: replacing the buttons mid-click would swallow the click.
-    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, shouldAskReview(), state.autoHide, lang(), ...state.qualities.map((r) => r.url), railShown() ? '' : downloadSignature()].join('|');
+    const s = watching();
+    const signature = [active?.url, fbPlayingLabel(state.video), state.pos.x, state.pos.y, state.donateOpen, !!state.clip, shouldAskReview(), state.autoHide, lang(), ...state.qualities.map((r) => r.url), railShown() ? '' : downloadSignature(), !!s, s?.saved, railShown(), FBQ.history.prefs.delay].join('|');
     if (signature === menuSignature) return;
     menuSignature = signature;
     const item = (label, checked, sub, onPick) =>
@@ -410,6 +434,10 @@
       if (rows.length) rows.push(el('div', { className: 'sep' }));
       rows.push(...downloadRows());
     }
+    if (!railShown() && s) {
+      if (rows.length) rows.push(el('div', { className: 'sep' }));
+      rows.push(item(t('watchLater'), s.saved, 'B', toggleSaved));
+    }
     rows.push(el('div', { className: 'sep' }), el('div', { className: 'title', textContent: t('position') }));
     const cells = PRESETS.map((p) => {
       if (!p) return el('span');
@@ -422,6 +450,7 @@
       writeAutoHide(!state.autoHide);
       renderMenu();
     }));
+    if (s) rows.push(item(t('historyAfter'), false, delayLabel(FBQ.history.prefs.delay), cycleDelay));
     rows.push(el('div', { className: 'hint', textContent: t('shortcuts') }));
     if (shouldAskReview()) rows.push(el('div', { className: 'sep' }), reviewBlock());
     const support = el('button', { className: `support${state.donateOpen ? ' active' : ''}`, textContent: t('support'), onclick: openSupport });
@@ -575,6 +604,127 @@
     refresh();
   }
 
+  // --- watch history and Watch later (see history.js) ---------------------------------
+
+  const NOTE_FOR = 8000; // ms the "Watched …" note stays up on its own when a reel you've seen comes back
+  const TOAST_FOR = 2000; // ms for "Saved to Watch later" and the like
+  const RESUME_MIN = 5; // s: no "Resume" for a reel left in its first or last seconds
+  // The history session for the reel on screen, if this is a reel the history follows.
+  const watching = () => {
+    const s = FBQ.history.session;
+    return s && s.video === state.video ? s : null;
+  };
+
+  function renderSave() {
+    const s = watching();
+    saveBtn.classList.toggle('saved', !!s?.saved);
+    saveLabel.textContent = t(s?.saved ? 'saved' : 'save');
+    saveBtn.title = `${t(s?.saved ? 'unsaveTitle' : 'saveTitle')} (B)`;
+  }
+
+  function toggleSaved() {
+    const saved = FBQ.history.toggleSaved();
+    if (saved === null) return;
+    // The 🔖 button shows the new state; when it isn't on screen (fullscreen, no Like column), say so.
+    if (!railShown()) toast(t(saved ? 'savedToast' : 'unsavedToast'));
+    renderMenu();
+  }
+
+  const delayLabel = (d) => (d ? t('delaySec').replace('{n}', d) : t('delayNow'));
+  function cycleDelay() {
+    const list = [0, 3, 10];
+    const d = FBQ.history.prefs.delay;
+    FBQ.history.setDelay(list[(list.indexOf(d) + 1) % list.length]);
+    renderMenu();
+  }
+
+  // A small note under the ⚙ button: "Watched 2 days ago · stopped at 0:42 [Resume] ✕" on a reel that is in the
+  // history already, or a short message after B.
+  const noteHost = el('div');
+  const noteRoot = noteHost.attachShadow({ mode: 'closed' });
+  noteRoot.adoptedStyleSheets = [sheet];
+  const note = el('div', { className: 'note' });
+  noteRoot.append(note);
+  for (const type of ['click', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'dblclick']) {
+    noteHost.addEventListener(type, (e) => e.stopPropagation());
+  }
+  noteHost.addEventListener('pointerenter', () => (state.hovering = true));
+  noteHost.addEventListener('pointerleave', () => {
+    state.hovering = false;
+    reveal();
+  });
+  let toastMsg = null; // { text, until }
+  function toast(text) {
+    toastMsg = { text, until: Date.now() + TOAST_FOR };
+    reveal();
+  }
+
+  let noteSignature = '';
+  function renderNote() {
+    const s = watching();
+    let content = null;
+    if (toastMsg && Date.now() < toastMsg.until) {
+      content = ['toast', toastMsg.text];
+    } else if (s?.before && !s.noteClosed) {
+      const b = s.before;
+      const duration = b.duration || state.video.duration;
+      const canResume = !s.resumed && !b.done && b.pos > RESUME_MIN && Number.isFinite(duration) && b.pos < duration - RESUME_MIN;
+      let text = t('watchedAgo').replace('{ago}', FBQ.fmt.ago(b.watchedAt, lang()));
+      if (canResume) text += ` · ${t('stoppedAt').replace('{time}', clock(b.pos, duration >= 3600))}`;
+      content = ['seen', text, canResume];
+    }
+    const signature = JSON.stringify([content, lang()]);
+    if (signature === noteSignature) return !!content;
+    noteSignature = signature;
+    if (!content) return false;
+    const [kind, text, canResume] = content;
+    note.className = `note${kind === 'toast' ? ' toast' : ''}`;
+    note.dir = rtl() ? 'rtl' : 'ltr';
+    const rows = [el('span', { className: 'msg', textContent: text })];
+    if (canResume) {
+      rows.push(el('button', { textContent: t('resume'), onclick: () => {
+        const sv = watching();
+        if (sv) {
+          sv.resumed = true;
+          state.video.currentTime = sv.before.pos;
+          state.video.play().catch(() => {});
+        }
+      } }));
+    }
+    if (kind === 'seen') rows.push(el('button', { className: 'x', textContent: '✕', title: t('close'), onclick: () => watching() && (watching().noteClosed = true) }));
+    note.replaceChildren(...rows);
+    return true;
+  }
+
+  function positionNote() {
+    const shown = !!state.video && renderNote() && !menu.classList.contains('open') && !reviewCardOpen();
+    noteHost.style.display = shown ? 'block' : 'none';
+    if (!shown) return;
+    const container = document.fullscreenElement || document.body;
+    if (noteHost.parentNode !== container) container.append(noteHost);
+    const s = watching();
+    const fresh = toastMsg && Date.now() < toastMsg.until;
+    const visible = fresh || controlsVisible() || (s && Date.now() - s.startedAt < NOTE_FOR);
+    noteHost.style.opacity = visible ? '1' : '0';
+    noteHost.style.pointerEvents = visible ? '' : 'none';
+    // Under the ⚙ button (above it when the button sits low), lined up the same way its menu is.
+    const r = pictureBox(state.video);
+    const w = noteHost.offsetWidth;
+    const h = noteHost.offsetHeight;
+    const { x, y } = state.pos;
+    const anchor = host.style.display !== 'none' ? host.getBoundingClientRect() : null;
+    let left = x < 0.34 ? r.left + MARGIN : x > 0.66 ? r.right - MARGIN - w : r.left + (r.width - w) / 2;
+    if (anchor) left = x < 0.34 ? anchor.left : x > 0.66 ? anchor.right - w : anchor.left + anchor.width / 2 - w / 2;
+    const top = y < 0.5 ? (anchor ? anchor.bottom + 6 : r.top + MARGIN) : (anchor ? anchor.top - 6 - h : r.bottom - MARGIN - h);
+    noteHost.style.left = `${Math.min(innerWidth - w - 4, Math.max(4, left))}px`;
+    noteHost.style.top = `${Math.min(innerHeight - h - 4, Math.max(4, top))}px`;
+  }
+
+  FBQ.history.onChange(() => {
+    renderSave();
+    renderMenu();
+  });
+
   // Facebook's reel actions (Like, Comment, Share, ...) form an evenly spaced column of labelled buttons
   // just right of the video. Class names are obfuscated and labels are translated, so go by layout only.
   function findRail(video) {
@@ -611,15 +761,19 @@
 
   function positionDownload() {
     const rail = state.rail;
-    const show = !!(rail?.like.isConnected && state.downloads.length && railShown());
+    const canSave = !!watching();
+    const show = !!(rail?.like.isConnected && (state.downloads.length || canSave) && railShown());
     dlHost.style.display = show ? 'block' : 'none';
     if (!show) return;
     const container = document.fullscreenElement || document.body;
     if (dlHost.parentNode !== container) container.append(dlHost);
-    // Leave the same empty space above Like as Facebook leaves between the Like count and Comment,
-    // with the icon centred on the column's axis.
+    dlBtn.style.display = state.downloads.length ? '' : 'none';
+    saveBtn.style.display = canSave ? '' : 'none';
+    // Leave the same empty space above Like (and between our two buttons) as Facebook leaves between the
+    // Like count and Comment, with the icons centred on the column's axis.
     const r = rail.like.getBoundingClientRect();
     const space = Math.min(32, Math.max(8, rail.next.getBoundingClientRect().top - rail.item.getBoundingClientRect().bottom));
+    dlCol.style.setProperty('--gap', `${space}px`);
     const left = r.left + r.width / 2 - dlHost.offsetWidth / 2;
     const top = r.top - space - dlHost.offsetHeight;
     dlHost.style.left = `${Math.min(innerWidth - dlHost.offsetWidth - 4, Math.max(4, left))}px`;
@@ -652,6 +806,9 @@
   }
 
   const inOurFullscreen = () => !!document.fullscreenElement?.hasAttribute('data-fbq-fs');
+  // Fullscreen (⛶, F) and the hidden pointer are for the Reels viewer only: videos in the feed, groups or Watch
+  // have Facebook's own player controls.
+  const inReelViewer = () => /^\/reels?\/\d+/.test(location.pathname) || inOurFullscreen();
 
   // ⛶ at the video's bottom right, level with the page name: where players put it, and it comes along into
   // fullscreen so the same button leaves again (the Like column doesn't).
@@ -709,8 +866,9 @@
   }
 
   function positionFullscreenButton(visible) {
-    fsHost.style.display = state.video ? 'block' : 'none';
-    if (!state.video) return;
+    const show = !!state.video && inReelViewer();
+    fsHost.style.display = show ? 'block' : 'none';
+    if (!show) return;
     const container = document.fullscreenElement || document.body;
     if (fsHost.parentNode !== container) container.append(fsHost);
     renderFullscreenButton();
@@ -904,11 +1062,7 @@
   barHit.addEventListener('pointercancel', endSeek);
 
   // m:ss, or h:mm:ss once the video is an hour or longer (both sides then use hours, like 0:05:12 / 1:12:24).
-  const clock = (t, hours) => {
-    const s = Math.max(0, Math.floor(t));
-    const pad = (n) => String(n).padStart(2, '0');
-    return hours ? `${Math.floor(s / 3600)}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}` : `${Math.floor(s / 60)}:${pad(s % 60)}`;
-  };
+  const clock = (t, hours) => FBQ.fmt.clock(t, hours);
   const barShown = () => !!state.video && inOurFullscreen() && Number.isFinite(state.video.duration) && state.video.duration > 0;
 
   // The line shared by the progress bar and the ⛶ button in fullscreen. Facebook's author row and description come
@@ -1077,17 +1231,23 @@
     state.entry = entry;
     state.qualities = entry ? FBQ.playableQualities(entry.reps) : [];
     state.downloads = entry ? FBQ.downloadQualities(entry.reps) : [];
-    state.rail = video && state.downloads.length ? findRail(video) : null;
     state.avatar = video ? findAvatar(video) : null;
+    // The thumbnail comes from our HD layer when it is showing, so it is as sharp as the quality you picked.
+    FBQ.history.tick(video, entry, (v) => ({
+      ...FBQ.history.scrape(v, state.avatar, fullscreenBox(v)?.parentElement),
+      thumb: FBQ.history.snapshot(viewerSource()),
+    }));
+    state.rail = video && (state.downloads.length || watching()) ? findRail(video) : null;
     resumeFullscreenAfterSwitch(video);
     detectClip();
-    const visible = state.qualities.length >= 2 || !!state.clip || (!railShown() && state.downloads.length > 0) || inOurFullscreen();
+    const visible = state.qualities.length >= 2 || !!state.clip || (!railShown() && (state.downloads.length > 0 || !!watching())) || inOurFullscreen();
     host.style.display = visible ? 'block' : 'none';
     if (state.qualities.length >= 2) applyPref();
     else stopPlayer();
     renderButton();
     renderMenu();
     renderDownload();
+    renderSave();
     noteHdPlayback();
   }
 
@@ -1125,8 +1285,9 @@
     positionDownload();
     const visible = !!state.video && controlsVisible();
     positionFullscreenButton(visible);
-    updateCursor(visible);
+    updateCursor(visible || !inReelViewer());
     positionBar(visible);
+    positionNote();
     if (!state.video || host.style.display === 'none') return;
     const container = document.fullscreenElement || document.body;
     if (host.parentNode !== container) container.append(host);
@@ -1174,7 +1335,7 @@
     donate.style.top = `${y - box.top}px`;
   }
 
-  FBQ.ui = { state, menu, choose, openViewer, startDownload, openSupport, toggleFullscreen }; // for debugging from the console
+  FBQ.ui = { state, menu, choose, openViewer, startDownload, openSupport, toggleFullscreen, toggleSaved }; // for debugging from the console
 
   // --- auto-hide and keyboard shortcuts ------------------------------------------
 
@@ -1225,10 +1386,16 @@
         e.stopPropagation();
         return reveal();
       }
-      if (e.code === 'KeyF' && !e.shiftKey) {
+      if (e.code === 'KeyF' && !e.shiftKey && inReelViewer()) {
         e.preventDefault();
         e.stopPropagation();
         return toggleFullscreen();
+      }
+      if (e.code === 'KeyB' && !e.shiftKey && watching()) {
+        e.preventDefault();
+        e.stopPropagation();
+        reveal();
+        return toggleSaved();
       }
       if (host.style.display === 'none') return;
       let handled = true;
@@ -1267,7 +1434,7 @@
   );
 
   function boot() {
-    document.body.append(host, dlHost, fsHost, barHost);
+    document.body.append(host, dlHost, fsHost, barHost, noteHost);
     setInterval(update, 400);
     requestAnimationFrame(position);
   }

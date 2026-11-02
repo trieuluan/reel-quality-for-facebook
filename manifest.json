@@ -15,10 +15,50 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.facebook.com/*", "https://web.facebook.com/*"],
-      "js": ["src/mpd.js", "src/hooks.js", "src/player.js", "src/mux.js", "src/download.js", "src/expand.js", "src/i18n.js", "src/ui.js"],
+      "matches": [
+        "https://www.facebook.com/*",
+        "https://web.facebook.com/*"
+      ],
+      "js": [
+        "src/store.js",
+        "src/bridge.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.facebook.com/*",
+        "https://web.facebook.com/*"
+      ],
+      "js": [
+        "src/mpd.js",
+        "src/hooks.js",
+        "src/player.js",
+        "src/mux.js",
+        "src/download.js",
+        "src/expand.js",
+        "src/i18n.js",
+        "src/history.js",
+        "src/ui.js"
+      ],
       "run_at": "document_start",
       "world": "MAIN"
     }
-  ]
+  ],
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "pages/popup.html",
+    "default_title": "__MSG_extShortName__",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "options_page": "pages/library.html"
 }

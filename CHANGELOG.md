@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- **Watch history.** Reels you watch are kept in a history once they have actually played for 3 seconds, so reels you scroll past stay out (paused, buffering or a hidden tab don't count). The menu can switch this to right away or 10 seconds. Each entry has the page name, caption, a small thumbnail, the length and how far you got; a reel that looped counts as watched to the end. Watching it again moves it to the top.
+- **Watched before.** A reel already in the history shows "Watched 2 days ago · stopped at 0:42" under the ⚙ button, with **Resume** to jump back to where you left off.
+- **Watch later.** A **🔖** button under Download, or `B`, adds the reel to Watch later (or takes it out). In fullscreen, or when the Like column isn't found, it's in the quality menu and `B` shows a short confirmation.
+- **Toolbar popup.** Clicking the extension's icon shows the latest 50 watched or saved reels with a search over page names and captions. Click one to open it in the current Facebook tab (Ctrl/⌘ or middle click: a background tab); hover for 🔖 and ✕. It also has a switch to pause the history.
+- **Library page.** **Open library** shows everything grouped by day, with search, multi-select delete, clearing the last hour / 24 hours / 7 days / all of the history (Watch later stays), and export / import as a JSON file.
+- Stored with `chrome.storage.local` on your device only; new permissions `storage`, `unlimitedStorage` and `activeTab`, none of which shows an install warning.
+
 ## 1.4.0 (2026-11-01)
 
 - **Fullscreen for Reels.** Facebook Reels on desktop have no fullscreen button and `F` does nothing. Click the **⛶** button at the video's bottom right, level with the page name (it moves up with it when the description is expanded, so it never covers the text), or press `F`, to watch the reel fullscreen, letterboxed, with the chosen HD quality. The same button, `F` or Esc leaves. It fades out with the ⚙ button while you watch. Since Facebook's own keys and progress bar don't reach a fullscreen reel, fullscreen has its own: a progress bar with the time just above the page name and description, sharing its line with the ⛶ button (both move up when the description is expanded; click or drag the bar to seek, and hover it for a thumbnail of that moment with its time, taken from the reel's lowest quality so it loads fast), Space or `K` to play/pause, ←/→ to skip 5 seconds, and ↑/↓ for the previous/next reel, which comes back fullscreen. While fullscreen, the download options move into the quality menu.

@@ -24,11 +24,12 @@ Facebook Reels has no quality setting. It picks a resolution for you and often s
 - **Download reels with sound.** A **Download** button sits right above Facebook's Like button. Pick a quality from its menu (each shows an estimated file size) and the reel is saved as a single MP4 with sound. Facebook serves picture and sound as separate streams; the extension joins them inside your browser, so nothing is uploaded anywhere. The button shows the progress; click it again to cancel. If the Like column can't be found, the download options appear in the quality menu instead.
 - **See what you're getting.** On Auto, the button shows the resolution Facebook is actually playing, like `Auto · 540p`. The button fades out while you watch and comes back when you move the mouse (can be turned off).
 - **Fullscreen.** Reels on desktop have no fullscreen button; click the **⛶** button at the video's bottom right or press `F` to watch the reel fullscreen in the quality you chose. Fullscreen has its own progress bar (click or drag to seek) and keys: Space or `K` play/pause, ←/→ skip 5 s, ↑/↓ previous/next reel.
-- **Keyboard shortcuts.** `Q` opens the menu, `Shift+↑` / `Shift+↓` step the quality, `A` goes back to Auto, `E` expands a landscape clip, `D` opens the download menu, `F` toggles fullscreen.
+- **Watch history and Watch later.** Reels you watch are kept in a history once they have actually played for 3 seconds (or right away, or after 10 seconds: pick in the menu), with the page name, caption, a small thumbnail and how far you got. A reel you've seen before shows "Watched 2 days ago · stopped at 0:42" with a **Resume** button. The **🔖** button under Download (or `B`) adds a reel to Watch later. Click the extension's toolbar icon for a compact list with search; **Open library** shows everything grouped by day, with multi-select delete, clearing the last hour / day / week / all, and export / import. Recording can be paused at any time. All of it stays in your browser.
+- **Keyboard shortcuts.** `Q` opens the menu, `Shift+↑` / `Shift+↓` step the quality, `A` goes back to Auto, `E` expands a landscape clip, `D` opens the download menu, `F` toggles fullscreen, `B` adds or removes the reel from Watch later.
 - **Movable button.** Drag the button anywhere on the video, or pick one of 8 preset positions from the menu. The position is saved relative to the video, so it stays in place across reels, window sizes and fullscreen.
 - **Seamless.** Facebook's player keeps handling sound, controls, looping and seeking. Until the chosen quality is ready, Facebook's own picture keeps showing, so you never see a black frame.
 - **20 languages.** English, Vietnamese, Spanish, Portuguese, French, German, Italian, Polish, Russian, Turkish, Arabic, Hindi, Indonesian, Malay, Filipino, Thai, Japanese, Korean and Chinese (Simplified and Traditional). The menu follows Facebook's language setting.
-- **Private.** No data collection, no network requests other than the video files Facebook already serves, and no extra permissions. Downloads are put together in your browser and saved straight to your computer. See [PRIVACY.md](PRIVACY.md).
+- **Private.** No data collection and no network requests other than the video files Facebook already serves. Downloads are put together in your browser and saved straight to your computer; the watch history stays in the extension's own storage on your device. See [PRIVACY.md](PRIVACY.md).
 
 ## Install
 
@@ -60,10 +61,14 @@ The full story, with code walkthroughs, is on dev.to: [I couldn't change the qua
 | `src/player.js` | A small video-only DASH player. It reads the `sidx` index, plays the chosen quality through Media Source Extensions in a `<video>` laid over Facebook's, and follows Facebook's clock for play, pause, seek and loop. |
 | `src/expand.js` | Finds a landscape clip inside a vertical reel by watching a few frames (bars stay black, the clip moves), snaps it to common aspect ratios and draws it large in a viewer. |
 | `src/ui.js` | The button and menu, inside a closed Shadow DOM so Facebook's styles can't affect it. Also handles dragging, preset positions and localization. |
+| `src/history.js` | Follows the reel on screen, decides when it counts as watched, reads the page name and caption, takes a small thumbnail and tracks how far you got. |
+| `src/bridge.js`, `src/store.js` | The page-side code runs in Facebook's page and has no extension storage, so `bridge.js` (in the extension's isolated world) passes its per-reel calls to `store.js`, which keeps the history and Watch later in `chrome.storage.local`. |
+| `pages/` | The toolbar popup and the library page. |
 
 ## Limitations
 
 - While a fixed quality is selected, Facebook still streams its own copy underneath, so bandwidth use is higher.
+- The page name and caption in the watch history are read from Facebook's layout and may come out empty if Facebook changes it; the link and thumbnail still work.
 - Facebook changes its internal data often, which can break the extension. If the button doesn't appear, open DevTools on the Facebook tab and run `__FBQ.manifests` to see which manifests were captured, then [open an issue](https://github.com/trieuluan/reel-quality-for-facebook/issues).
 - Only MP4 streams indexed with `SegmentBase`/`sidx` are supported. This is the format Facebook currently uses for Reels.
 

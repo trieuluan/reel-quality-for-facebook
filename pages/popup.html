@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Reel Quality</title>
+  <link rel="stylesheet" href="pages.css">
+  <style>
+    body { width: 360px; }
+    header { display: grid; gap: 8px; padding: 10px 12px 8px; border-bottom: 1px solid var(--line); }
+    .banner { margin: 8px 12px 0; }
+    .list { max-height: 400px; min-height: 120px; overflow-y: auto; padding: 4px 0; }
+    .row { display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 12px; cursor: pointer; }
+    .row:hover, .row:focus-visible { background: var(--surface); outline: none; }
+    .row .thumb { flex: none; width: 42px; height: 56px; border-radius: 6px; }
+    .row .text { flex: 1; min-width: 0; }
+    .row .page, .row .caption, .row .meta { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .row .page { font-weight: 600; }
+    .row .caption { color: var(--muted); }
+    .row .meta { color: var(--muted); font-size: 12px; }
+    .row .acts { display: flex; opacity: 0; }
+    .row:hover .acts, .row:focus-within .acts { opacity: 1; }
+    .row .acts .icon-btn.on { opacity: 1; }
+    footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; border-top: 1px solid var(--line); }
+    .open-lib { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 0; border-radius: 6px; background: var(--surface); font-weight: 600; }
+    .open-lib:hover { background: var(--hover); }
+    .open-lib svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    [dir="rtl"] .open-lib svg { transform: scaleX(-1); }
+    .switch { color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-list="history" aria-selected="true"><span data-t="history"></span><span class="n"></span></button>
+      <button class="tab" role="tab" data-list="saved" aria-selected="false"><span data-t="watchLater"></span><span class="n"></span></button>
+    </div>
+    <input class="search" type="search" data-t-placeholder="searchPh" autocomplete="off">
+  </header>
+  <div class="banner" data-t="historyPaused" hidden></div>
+  <div class="list" role="list"></div>
+  <footer>
+    <button class="open-lib"><span data-t="openLibrary"></span></button>
+    <label class="switch"><input type="checkbox" class="pause"><span data-t="pauseHistory"></span></label>
+  </footer>
+  <script src="../src/i18n.js"></script>
+  <script src="../src/store.js"></script>
+  <script src="common.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
